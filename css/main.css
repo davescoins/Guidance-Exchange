@@ -1,1 +1,65 @@
-/* This is the CSS file */
+/* :root {
+  --bs-emphasis-color-rgb: #f5f5f5;
+} */
+
+/* Navbar */
+
+header {
+  padding: 0;
+}
+
+nav {
+  background-color: #243665;
+}
+
+nav i {
+  color: #f5f5f5;
+}
+
+.navbar-brand {
+  --bs-navbar-brand-padding-y: 0px;
+}
+
+.navbar-nav .highlight-link:hover {
+  background-color: #8bd8bd;
+}
+
+.navbar {
+  --bs-navbar-padding-y: 0;
+}
+
+.navbar-collapse {
+  flex-shrink: 0;
+}
+
+.nav-link {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f5f5f5;
+}
+
+.active {
+  background-color: #e14658;
+}
+
+.navbar-nav .nav-link.active {
+  color: #f5f5f5;
+}
+
+/* Body */
+
+body {
+  background-color: #f5f5f5;
+}
+
+/* Footer */
+
+footer i {
+  color: #f5f5f5;
+}
+
+.footer-text {
+  color: #f5f5f5;
+}
