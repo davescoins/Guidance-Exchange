@@ -1,7 +1,3 @@
-/* :root {
-  --bs-emphasis-color-rgb: #f5f5f5;
-} */
-
 /* Navbar */
 
 header {
@@ -14,6 +10,10 @@ nav {
 
 nav i {
   color: #f5f5f5;
+}
+
+nav i:hover {
+  color: #8bd8bd;
 }
 
 .navbar-brand {
@@ -40,12 +40,21 @@ nav i {
   color: #f5f5f5;
 }
 
+.nav-text {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
 .active {
   background-color: #e14658;
 }
 
 .navbar-nav .nav-link.active {
   color: #f5f5f5;
+}
+
+.navbar-nav .nav-link.active:hover {
+  color: #000;
 }
 
 /* Body */
@@ -58,6 +67,10 @@ body {
 
 footer i {
   color: #f5f5f5;
+}
+
+nav i:hover {
+  color: #8bd8bd;
 }
 
 .footer-text {

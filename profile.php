@@ -21,24 +21,24 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link highlight-link active" href="#">Profile</a>
+            <a class="nav-link highlight-link nav-text px-4 active" href="#">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link highlight-link" href="#">Communities</a>
+            <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link highlight-link" href="#">Mentoring</a>
+            <a class="nav-link highlight-link nav-text px-4" href="#">Mentoring</a>
           </li>
         </ul>
         <ul class="navbar-nav d-flex flex-row me-1">
-          <li class="nav-item me-3 me-lg-0">
-            <a class="nav-link" href="#"><i class="fa-solid fa-magnifying-glass"></i></i></i></a>
+          <li class="nav-item me-3 me-lg-0 px-2">
+            <a class="nav-link" href="#"><i class="fa-solid fa-magnifying-glass fa-xl"></i></i></i></a>
           </li>
-          <li class="nav-item me-3 me-lg-0">
-            <a class="nav-link" href="#"><i class="fa-solid fa-inbox"></i></i></a>
+          <li class="nav-item me-3 me-lg-0 px-2">
+            <a class="nav-link" href="#"><i class="fa-solid fa-inbox fa-xl"></i></i></a>
           </li>
-          <li class="nav-item me-3 me-lg-0">
-            <a class="nav-link" href="#"><i class="fa-solid fa-user-group"></i></i></a>
+          <li class="nav-item me-3 me-lg-0 px-2">
+            <a class="nav-link" href="#"><i class="fa-solid fa-user-group fa-xl"></i></i></a>
           </li>
         </ul>
       </div>
