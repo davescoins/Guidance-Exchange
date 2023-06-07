@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profile Template</title>
+  <title>Navbar Template</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
   <link rel="stylesheet" href="css/main.css" />
@@ -21,7 +21,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4 active" href="#">Profile</a>
+            <a class="nav-link highlight-link nav-text px-4" href="#">Profile</a>
           </li>
           <li class="nav-item">
             <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
@@ -47,31 +47,6 @@
 </header>
 
 <body>
-  <!-- Photo Section -->
-  <section class="photo-section pt-5 pb-3" style="background-image: url('img/circuit_gray_transparent.png'); background-attachment: fixed; background-size: cover;">
-    <div class="container-fluid flex-column">
-      <img class="profile-photo mb-3" src="upload/sophia-lee.png" alt="Sophia Lee Profile Photo">
-      <p class="profile-name mb-2">Sophia Lee</p>
-      <div class="flex-row">
-        <i class="fa-solid fa-star filled"></i>
-        <i class="fa-solid fa-star filled"></i>
-        <i class="fa-solid fa-star filled"></i>
-        <i class="fa-solid fa-star filled"></i>
-        <i class="fa-solid fa-star unfilled"></i>
-      </div>
-      <p class="city-name mt-2 mb-3">Washington, D.C.</p>
-      <div class="mb-0">
-        <a href="https://www.facebook.com/" class="mx-3"><i class="fa fa-facebook"></i></a>
-        <a href="https://www.instagram.com/" class="mx-3"><i class="fa fa-instagram"></i></a>
-        <a href="https://www.twitter.com/" class="mx-3"><i class="fa fa-twitter"></i></a>
-        <a href="https://www.linkedin.com" class="mx-3"><i class="fa fa-linkedin"></i></a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Button Section -->
-  <section></section>
-
   <!-- Content Section -->
   <section>Content Here!</section>
 

@@ -63,52 +63,6 @@ body {
   background-color: #f5f5f5;
 }
 
-/* Photo Section */
-
-.photo-section {
-  background-color: #243665;
-}
-
-.photo-section .container-fluid {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.photo-section .profile-photo {
-  width: 13rem;
-  border: 5px solid #fa7811;
-  border-radius: 100%;
-}
-
-.photo-section .profile-name {
-  font-size: 2rem;
-  font-weight: 600;
-  color: #f5f5f5;
-}
-
-.photo-section .city-name {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #f5f5f5;
-}
-
-.photo-section .fa-star.filled {
-  color: #ffa500;
-}
-
-.photo-section .fa-star.unfilled {
-  color: #b0b0b0;
-}
-
-.photo-section i {
-  color: #f5f5f5;
-}
-
-.photo-section i:hover {
-  color: #8bd8bd;
-}
-
 /* Footer */
 
 footer i {
