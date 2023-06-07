@@ -15,7 +15,7 @@
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="home.php"><img src="img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>
-      <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars"></i>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -47,7 +47,33 @@
 </header>
 
 <body>
-  Add stuff here
+  <!-- Photo Section -->
+  <section class="photo-section pt-5 pb-3" style="background-image: url('img/circuit_gray_transparent.png'); background-attachment: fixed; background-size: cover;">
+    <div class="container-fluid flex-column">
+      <img class="profile-photo mb-3" src="upload/sophia-lee.png" alt="Sophia Lee Profile Photo">
+      <p class="profile-name mb-2">Sophia Lee</p>
+      <div class="flex-row">
+        <i class="fa-solid fa-star filled"></i>
+        <i class="fa-solid fa-star filled"></i>
+        <i class="fa-solid fa-star filled"></i>
+        <i class="fa-solid fa-star filled"></i>
+        <i class="fa-solid fa-star unfilled"></i>
+      </div>
+      <p class="city-name mt-2 mb-3">Washington, D.C.</p>
+      <div class="mb-0">
+        <a href="https://www.facebook.com/" class="mx-3"><i class="fa fa-facebook"></i></a>
+        <a href="https://www.instagram.com/" class="mx-3"><i class="fa fa-instagram"></i></a>
+        <a href="https://www.twitter.com/" class="mx-3"><i class="fa fa-twitter"></i></a>
+        <a href="https://www.linkedin.com" class="mx-3"><i class="fa fa-linkedin"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Button Section -->
+  <section></section>
+
+  <!-- Content Section -->
+  <section>Content Here!</section>
 
 
 
@@ -58,7 +84,7 @@
 <footer>
   <nav class="navbar">
     <div class="mx-auto">
-      <div class="social-icon my-3">
+      <div class="my-3">
         <a href="https://www.facebook.com/" class="mx-3"><i class="fa fa-facebook"></i></a>
         <a href="https://www.instagram.com/" class="mx-3"><i class="fa fa-instagram"></i></a>
         <a href="https://www.twitter.com/" class="mx-3"><i class="fa fa-twitter"></i></a>
