@@ -1,3 +1,4 @@
+// This function is used to expand the profile sections to allow for additional content
 $(document).ready(function () {
   $('.expand-btn').click(function () {
     var section = $(this).closest('.profile-section');
@@ -38,3 +39,9 @@ $(document).ready(function () {
     }
   });
 });
+
+// This function is used to open the time selection modals on the mentor profile page
+function openModal(modalId) {
+  const projectsModal = new bootstrap.Modal(document.getElementById(modalId));
+  projectsModal.show();
+}

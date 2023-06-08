@@ -128,6 +128,9 @@ body {
 .profile-section {
   background-color: #ffffff;
   border-radius: 25px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), 0 2px 2px rgba(0, 0, 0, 0.2),
+    0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.1),
+    0 16px 16px rgba(0, 0, 0, 0.05);
 }
 
 .profile-wrap {
@@ -181,11 +184,80 @@ p.profile-date {
 
 .profile-skill:hover {
   background-color: #8bd8bd;
+  color: #000;
+  --bs-btn-active-bg: #64bba1;
+  --bs-btn-active-border-color: #64bba1;
 }
 
 .association-photo {
   width: 60px;
   height: auto;
+}
+
+/* Time Selection Modal */
+
+.modal-header {
+  border: none;
+  color: #fff;
+}
+
+.modal-header-gradient {
+  background: linear-gradient(
+    to bottom right,
+    rgb(36, 54, 101),
+    rgb(56, 84, 131)
+  );
+}
+
+.modal-body {
+  color: #000;
+  --bs-modal-padding: 0;
+}
+
+.modal-body img {
+  max-width: 100%;
+  max-height: 80vh;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), 0 2px 2px rgba(0, 0, 0, 0.2),
+    0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.1),
+    0 16px 16px rgba(0, 0, 0, 0.05);
+}
+
+.modal-body p {
+  padding: 1rem 2rem 0 2rem;
+}
+
+.modal-footer {
+  border: top;
+}
+
+.time-button {
+  box-shadow: 0px 10px 20px -6px rgba(0, 0, 0, 0.5);
+  background-color: #e14658;
+  color: #f5f5f5;
+  width: 100px;
+}
+
+.time-button:hover {
+  background-color: #8bd8bd;
+  color: #000;
+  --bs-btn-active-bg: #64bba1;
+  --bs-btn-active-border-color: #64bba1;
+}
+
+input[type='radio'] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+input[type='radio']:active ~ label {
+  opacity: 1;
+}
+
+input[type='radio']:checked ~ label {
+  opacity: 1;
+  background-color: #8bd8bd;
+  color: #000;
 }
 
 /* Footer */

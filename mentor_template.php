@@ -98,7 +98,7 @@
         <div class="col-11 profile-wrap">
           <h3>Schedule an Appointment</h3>
           <div>
-            <a class="btn profile-skill" href="#" role="button">July 1</a>
+            <a class="btn profile-skill" href="#" role="button" onclick="openModal('timeSelection')">July 1</a>
             <a class="btn profile-skill" href="#" role="button">July 2</a>
             <a class="btn profile-skill" href="#" role="button">July 8</a>
             <a class="btn profile-skill" href="#" role="button">July 9</a>
@@ -108,6 +108,49 @@
             <a class="btn profile-skill" href="#" role="button">July 23</a>
             <a class="btn profile-skill" href="#" role="button">July 29</a>
             <a class="btn profile-skill" href="#" role="button">July 30</a>
+          </div>
+          <div class="modal fade" id="timeSelection" tabindex="-1" aria-labelledby="timeLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header modal-header-gradient">
+                  <h1 class="modal-title fs-5" id="timeLabel">July 1, 2023</h1>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form>
+                  <div class="modal-body justify-content-center">
+                    <fieldset class="row align-items-start py-3 mx-2">
+                      <div class="form-check form-check-inline me-0 ps-1 pb-2 col-3 d-flex align-items-center justify-content-center">
+                        <input type="radio" name="match" id="match_1" value="10:00" />
+                        <label class="btn time-button" for="match_1">10:00 AM</label>
+                      </div>
+                      <div class="form-check form-check-inline me-0 ps-1 pb-2 col-3 d-flex align-items-center justify-content-center">
+                        <input type="radio" name="match" id="match_2" value="11:00" />
+                        <label class="btn time-button" for="match_2">11:00 AM</label>
+                      </div>
+                      <div class="form-check form-check-inline me-0 ps-1 pb-2 col-3 d-flex align-items-center justify-content-center">
+                        <input type="radio" name="match" id="match_3" value="12:00" />
+                        <label class="btn time-button" for="match_3">12:00 PM</label>
+                      </div>
+                      <div class="form-check form-check-inline me-0 ps-1 pb-2 col-3 d-flex align-items-center justify-content-center">
+                        <input type="radio" name="match" id="match_4" value="13:00" />
+                        <label class="btn time-button" for="match_4">1:00 PM</label>
+                      </div>
+                      <div class="form-check form-check-inline me-0 ps-1 pb-2 col-3 d-flex align-items-center justify-content-center">
+                        <input type="radio" name="match" id="match_5" value="14:00" />
+                        <label class="btn time-button" for="match_5">2:00 PM</label>
+                      </div>
+                      <div class="form-check form-check-inline me-0 ps-1 pb-2 col-3 d-flex align-items-center justify-content-center">
+                        <input type="radio" name="match" id="match_6" value="15:00" />
+                        <label class="btn time-button" for="match_6">3:00 PM</label>
+                      </div>
+                    </fieldset>
+                  </div>
+                  <div class="modal-footer justify-content-center">
+                    <button class="btn time-button" type="submit">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-12 text-end">
