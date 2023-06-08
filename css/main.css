@@ -77,7 +77,7 @@ body {
 
 .photo-section .profile-photo {
   width: 13rem;
-  border: 5px solid #fa7811;
+  border: 5px solid;
   border-radius: 100%;
 }
 
@@ -107,6 +107,85 @@ body {
 
 .photo-section i:hover {
   color: #8bd8bd;
+}
+
+.mentor-tag {
+  background-color: #e14658;
+  color: #f5f5f5;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+/* Content Section */
+
+.content-section .container-fluid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-section {
+  background-color: #ffffff;
+  border-radius: 25px;
+}
+
+.profile-wrap {
+  height: 110px;
+  width: 50rem;
+  overflow: hidden;
+}
+
+.profile-wrap h3 {
+  color: #333;
+}
+
+.profile-wrap p {
+  color: #5e5e5e;
+  font-size: 1rem;
+}
+
+.profile-icon {
+  height: 110px;
+  border-right: #b0b0b0 1px solid;
+  color: #e14658;
+  font-size: 2.5rem;
+}
+
+.open-link {
+  display: block;
+  color: #b0b0b0;
+  font-size: 1.5rem;
+}
+
+.expand-btn {
+  cursor: pointer;
+}
+
+.expand-btn:hover {
+  color: #8bd8bd;
+}
+
+p.profile-date {
+  font-size: 0.85rem;
+  color: #b2b9ba;
+}
+
+.profile-skill {
+  background-color: #e2e2e2;
+  border-radius: 50px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-bottom: 3px;
+}
+
+.profile-skill:hover {
+  background-color: #8bd8bd;
+}
+
+.association-photo {
+  width: 60px;
+  height: auto;
 }
 
 /* Footer */
