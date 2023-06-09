@@ -129,6 +129,15 @@ body {
   font-size: 68px;
 }
 
+.moderator__community-request-profile img {
+  height: 80px;
+  width: auto;
+}
+
+.moderator__community-request-profile h6 {
+  font-size: 30px;
+}
+
 /* Moderator Content Section */
 
 .content-section .container-fluid {
@@ -137,23 +146,30 @@ body {
   justify-content: center;
 }
 
-.open-link {
-  display: block;
-  color: #b0b0b0;
-  font-size: 1.5rem;
+.accordion-item {
+  padding: 0;
 }
 
-.expand-btn {
-  cursor: pointer;
+.moderator__mentor-request-photo img {
+  height: 40px;
+  width: auto;
+  border-right: #b0b0b0 1px solid;
 }
 
-.expand-btn:hover {
-  color: #8bd8bd;
+.moderator__request-header {
+  font-size: 20px;
 }
 
-.association-photo {
-  width: 60px;
-  height: auto;
+.accordion {
+  --bs-accordion-btn-focus-box-shadow: none;
+}
+
+.moderator__icons {
+  font-size: 30px;
+  height: 30px;
+  width: auto;
+  padding-right: 30px;
+  color: #243665;
 }
 
 /* Footer */
