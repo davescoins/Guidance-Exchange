@@ -203,7 +203,7 @@
           <h3>Education</h3>
           <p class="mb-0"><strong>Ph.D. in Chemistry, Massachussetts Institute of Technology</strong></p>
           <p class="profile-date mb-0">(2015 - 2018)</p>
-          <p>Sophia pursued her undergraduate studies in Computer Science, gaining a solid foundation in programming, algorithms, data structures, and software development. She actively participated in various coding competitions, clubs, and workshops, further refining her technical skills and fostering a passion for innovation.</p>
+          <p>David pursued his doctoral studies in Chemistry, specializing in a specific field such as organic chemistry, inorganic chemistry, or physical chemistry. He conducted in-depth research, published scientific papers, and presented his findings at conferences. His Ph.D. research focused on advancing knowledge in a specific area of chemistry, demonstrating his expertise and dedication to the field.</p>
         </div>
         <div class="col-12 text-end">
           <div class="open-link">
