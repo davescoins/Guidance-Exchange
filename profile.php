@@ -51,8 +51,10 @@
   include('includes/connect.inc.php');
 
   // *** TESTING USERID INSERTED - CHANGE TO SESSION FOR PRODUCTION!!! ***
-  $sql = "SELECT * FROM UserData_t where `UserID` = 1";
+  $sql = "SELECT * FROM `UserData_t` WHERE `UserID` = 1";
+  $sqlAvailableAppointments = "SELECT `AppointmentTime` FROM `Appointments_t` WHERE `MentorID` = 1 AND `SchedulerID` IS NULL";
   $result = mysqli_query($con, $sql);
+  $resultAvailableAppointments = mysqli_query($con, $sqlAvailableAppointments);
 
   while ($profile = mysqli_fetch_assoc($result)) {
     $firstName = $profile['FirstName'];
@@ -71,31 +73,71 @@
     $mentoring = $profile['Mentoring'];
     $aboutMe = $profile['AboutMe'];
     $workLocation = $profile['WorkLocation'];
-    $workLocationArray = explode(";", $workLocation);
+    $workLocationArray = explode(";", $workLocation ?? '');
     $workStartDate = $profile['WorkStartDate'];
-    $workStartDateArray = explode(";", $workStartDate);
+    $workStartDateArray = explode(";", $workStartDate ?? '');
     $workEndDate = $profile['WorkEndDate'];
-    $workEndDateArray = explode(";", $workEndDate);
+    $workEndDateArray = explode(";", $workEndDate ?? '');
     $workDescription = $profile['WorkDescription'];
-    $workDescriptionArray = explode(";", $workDescription);
+    $workDescriptionArray = explode(";", $workDescription ?? '');
     $educationLocation = $profile['EducationLocation'];
-    $educationLocationArray = explode(";", $educationLocation);
+    $educationLocationArray = explode(";", $educationLocation ?? '');
     $educationStartDate = $profile['EducationStartDate'];
-    $educationStartDateArray = explode(";", $educationStartDate);
+    $educationStartDateArray = explode(";", $educationStartDate ?? '');
     $educationEndDate = $profile['EducationEndDate'];
-    $educationEndDateArray = explode(";", $educationEndDate);
+    $educationEndDateArray = explode(";", $educationEndDate ?? '');
     $educationDescription = $profile['EducationDescription'];
-    $educationDescriptionArray = explode(";", $educationDescription);
+    $educationDescriptionArray = explode(";", $educationDescription ?? '');
     $skills = $profile['Skills'];
-    $skillsArray = explode(";", $skills);
+    $skillsArray = explode(";", $skills ?? '');
     $associations = $profile['Associations'];
-    $associationsArray = explode(";", $associations);
+    $associationsArray = explode(";", $associations ?? '');
   }
 
-  mysqli_close($con);
-  ?>
+  $availableAppointmentsArray = [];
+  while ($availableAppointments = mysqli_fetch_assoc($resultAvailableAppointments)) {
+    $availableAppointmentsArray[] = $availableAppointments['AppointmentTime'];
+  }
+  print_r($availableAppointmentsArray);
+  echo '<br><br>';
 
-  <?php
+  $associativeArray = array();
+
+  foreach ($availableAppointmentsArray as $item) {
+    $date = date('Y-m-d', strtotime($item));
+    $time = date('H:i:s', strtotime($item));
+
+    if (!isset($associativeArray[$date])) {
+      $associativeArray[$date] = array();
+    }
+
+    $associativeArray[$date][] = $time;
+  }
+
+  print_r($associativeArray);
+  echo '<br><br>';
+
+  $keys = array_keys($associativeArray);
+  $secondKey = $keys[1];
+  $formattedDate = date('F j, Y', strtotime($secondKey));
+  echo $formattedDate;
+  echo '<br><br>';
+
+  print_r($associativeArray[$keys[1]]);
+
+  if (isset($associativeArray[$keys[1]])) {
+    $times = $associativeArray[$keys[1]];
+    foreach ($times as $time) {
+      $formattedTime = date('H:i:s', strtotime($time));
+      $formattedTimes[] = $formattedTime;
+    }
+  }
+
+  print_r($formattedTimes);
+
+
+  mysqli_close($con);
+
   // *** Photo Section ***
 
   echo '<section class="photo-section pt-5 pb-3" style="background-image: url(&#39;img/' . $profilePictureBackground . '&#39;); background-attachment: fixed; background-size: cover;">';
@@ -169,7 +211,6 @@
   }
   ?>
 
-
   <div class="container-fluid pb-4">
     <div class="row align-items-start profile-section pt-2">
       <div class="col-1 d-flex align-items-center justify-content-center profile-icon">
@@ -240,7 +281,6 @@
       </div>
     </div>
   </div>
-
 
   <?php
   if ($aboutMe != null) {
@@ -336,6 +376,9 @@
     echo '<div class="col-11 profile-wrap">';
     echo '<h3>My Associations</h3>';
     echo '<div class="row pt-1">';
+
+    // *** Fix this so it doesn't have to make calls to the database again ***
+
     include('includes/connect.inc.php');
     foreach ($associationsArray as $value) {
       $associationSql = "SELECT `FirstName`,`LastName`,`ProfilePicture` FROM `userdata_t` WHERE `UserID`=$value";
