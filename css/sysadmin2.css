@@ -20,6 +20,7 @@ body {
     width: 100%;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: #f5f5f5;
@@ -161,41 +162,95 @@ nav {
   .navbar-nav .nav-link.active:hover {
     color: #000;
   }
-  
-  .admin-pic {
+    .admin-pic {
     padding: 8% 5%;
     background-color: #243665;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    background-image: url(../img/abstract-lines-pattern_trans.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
   }
-
   .davesysadmin{
     width: 25%;
+    border-radius: 10px;
+  }
+
+  .jobtitle{
+    margin-top: 3%;
+    background: #E14658;
+    padding: 1% 2%;
+    border-radius: 60px;
+    color: #f5f5f5;
+
+  }
+  .greeting{
+    color: #f5f5f5;
+    font-size: 2rem;
+    font-weight: 600;
   }
   
   #moderatorpics {
-   display:flex;
-   align-items: center;
-   justify-content: space-around;
-   flex-direction: column;
-}
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 80%;
+    margin: 5% 0;
+  }
+
+  .admin-pic h2 {
+    color: #f5f5f5;
+  }
 
 h2 {
-    font-size: 1rem;
+    font-size: 1.5rem;
     color: #212529;
 }
 
 .moderator {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 60%;
-    margin-bottom: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 60%;
+  margin-bottom: 2%;
+  
+}
+
+.firstimg {
+  margin-right: 10%;
+}
+
+.secondimg {
+  margin-right: 15%;
+}
+
+.thirdimg {
+  margin-right: 13%;
+}
+
+.fourthimg {
+  margin-right: 15%;
+}
+
+
+    em {
+      margin-right: 10%;
     }
   
-  
+  #pencil{
+    color: grey;
+    margin-right: 4%;
+    transition: all .5s;
+  }
+
+  #pencil:hover {
+    color: #212529;
+  }
   /* Footer */
   
   footer {
