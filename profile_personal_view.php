@@ -50,7 +50,8 @@
   <?php
   include('includes/connect.inc.php');
 
-  // *** TESTING USERID INSERTED - CHANGE TO SESSION FOR PRODUCTION!!! ***
+  // *** TESTING USERID INSERTED - CHANGE TO SESSION VARIABLE FOR PRODUCTION!!! ***
+  $userID = 1;
   $sql = "SELECT * FROM `UserData_t` WHERE `UserID` = 1";
   $result = mysqli_query($con, $sql);
 
@@ -93,12 +94,42 @@
     $associationsArray = explode(";", $associations ?? '');
   }
 
-  // If user is a mentor, get appointment information
-  if ($mentorStatus == true) {
+  if ($userID == 1 && $mentorStatus == true) {
+    // *** This section will run on the user's page ***
+
+    // If user is a mentor, get appointment information
+    $sqlScheduledAppointments = "SELECT `AppointmentTime`,`SchedulerID` FROM `Appointments_t` WHERE `MentorID` = 1 AND `SchedulerID` IS NOT NULL";
+    $resultScheduledAppointments = mysqli_query($con, $sqlScheduledAppointments);
+
+    // Fetch all appointments that have been booked for the user and assign them to an array then sort them in ascending order
+    $scheduledAppointmentsArray = array();
+    while ($scheduledAppointments = mysqli_fetch_assoc($resultScheduledAppointments)) {
+      $scheduledAppointmentsArray[] = array($scheduledAppointments['AppointmentTime'], $scheduledAppointments['SchedulerID']);
+    }
+    sort($scheduledAppointmentsArray);
+    print_r($scheduledAppointmentsArray);
+
+    // Create an associative array with the date as the key and each date key has an array of the times available for that date
+    $scheduledAppointmentsAssoc = array();
+    foreach ($scheduledAppointmentsArray as $item) {
+      $date = date('Y-m-d', strtotime($item));
+      $time = date('H:i:s', strtotime($item));
+      if (!isset($scheduledAppointmentsAssoc[$date])) {
+        $scheduledAppointmentsAssoc[$date] = array();
+      }
+      $scheduledAppointmentsAssoc[$date][] = $time;
+    }
+
+    // Assign the available dates to an array so that they can be retrieved later and used to retrieve times from the $availableAppointmentsAssoc array
+    $scheduledDates = array_keys($scheduledAppointmentsAssoc);
+  } elseif ($mentorStatus == true) {
+    // *** This section will run on other user's pages ***
+
+    // If user is a mentor, get appointment information
     $sqlAvailableAppointments = "SELECT `AppointmentTime` FROM `Appointments_t` WHERE `MentorID` = 1 AND `SchedulerID` IS NULL";
     $resultAvailableAppointments = mysqli_query($con, $sqlAvailableAppointments);
 
-    // Fetch all appointments that haven't been booked already for the user and assign them to an array then sort them in ascending order
+    // Fetch all appointments that have NOT been booked for the user and assign them to an array then sort them in ascending order
     $availableAppointmentsArray = [];
     while ($availableAppointments = mysqli_fetch_assoc($resultAvailableAppointments)) {
       $availableAppointmentsArray[] = $availableAppointments['AppointmentTime'];
@@ -175,6 +206,26 @@
   echo '</div>';
   echo '</section>';
 
+  // *** Buttons Secion ***
+
+  // This section should only appear when the user is logged in and on their own profile. Change this once user accounts and session variables are implemented.
+
+  if ($userID == 1) {
+    echo '<section class="profile__buttons-section d-flex justify-content-center">';
+    echo '<div class="container text-center row profile__buttons_links">';
+    echo '<div class="col">';
+    echo '<a href="#"><i class="fa-solid fa-pencil"></i><br>Profile</a>';
+    echo '</div>';
+    echo '<div class="col">';
+    echo '<a href="#"><i class="fa-solid fa-share-nodes"></i><br>Share</a>';
+    echo '</div>';
+    echo '<div class="col">';
+    echo '<a href="#"><i class="fa-solid fa-gear"></i><br>Settings</a>';
+    echo '</div>';
+    echo '</div>';
+    echo '</section>';
+  }
+
   // *** Content Section ***
 
   echo '<section class="content-section pt-4">';
@@ -193,65 +244,67 @@
     echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
     echo '</div></div></div></div>';
   }
-
-  if ($availableAppointmentsArray != null) {
-    echo '<div class="container-fluid pb-4">';
-    echo '<div class="row align-items-start profile-section pt-2">';
-    echo '<div class="col-1 d-flex align-items-center justify-content-center profile-icon">';
-    echo '<i class="fa-regular fa-calendar-check"></i>';
-    echo '</div>';
-    echo '<div class="col-11 profile-wrap">';
-    echo '<h3>Schedule an Appointment</h3>';
-    echo '<div>';
-    $ts = 0;
-    foreach ($availableDates as $date) {
-      echo '<a class="btn profile-skill me-1" href="#" role="button" onclick="openModal(&#39;timeSelection' . $ts . '&#39;)">' . date('F j', strtotime($date)) . '</a>';
-      $ts++;
-    }
-    echo '</div>';
-  }
-
-  // Modal section
-  $ts2 = 0;
-  foreach ($availableDates as $date) {
-    echo '<div class="modal fade" id="timeSelection' . $ts2 . '" tabindex="-1" aria-labelledby="timeLabel' . $ts2 . '" aria-hidden="true">';
-    echo '<div class="modal-dialog modal-dialog-centered">';
-    echo '<div class="modal-content">';
-    echo '<div class="modal-header modal-header-gradient">';
-    echo '<h1 class="modal-title fs-5" id="timeLabel' . $ts2 . '">' . date('F j, Y', strtotime($availableDates[$ts2])) . '</h1>';
-    echo '<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>';
-    echo '</div>';
-    echo '<form>';
-    echo '<div class="modal-body justify-content-center">';
-    echo '<fieldset class="row align-items-start py-3 mx-2">';
-    $times = $availableAppointmentsAssoc[$availableDates[$ts2]];
-    $at = 0;
-    foreach ($times as $availableTime) {
-      $formattedTime = date('g:i A', strtotime($availableTime));
-      echo '<div class="form-check form-check-inline me-0 ps-1 pb-2 col-3 d-flex align-items-center justify-content-center">';
-      echo '<input type="radio" name="time" id="time' . $ts2 . $at . '" value="' . $availableDates[$ts2] . ' ' . $availableTime . '" />';
-      echo '<label class="btn time-button" for="time' . $ts2 . $at . '">' . $formattedTime . '</label>';
+  if ($userID == 1) {
+  } else {
+    if ($availableAppointmentsArray != null) {
+      echo '<div class="container-fluid pb-4">';
+      echo '<div class="row align-items-start profile-section pt-2">';
+      echo '<div class="col-1 d-flex align-items-center justify-content-center profile-icon">';
+      echo '<i class="fa-regular fa-calendar-check"></i>';
       echo '</div>';
-      $at++;
+      echo '<div class="col-11 profile-wrap">';
+      echo '<h3>Schedule an Appointment</h3>';
+      echo '<div>';
+      $ts = 0;
+      foreach ($availableDates as $date) {
+        echo '<a class="btn profile-skill me-1" href="#" role="button" onclick="openModal(&#39;timeSelection' . $ts . '&#39;)">' . date('F j', strtotime($date)) . '</a>';
+        $ts++;
+      }
+      echo '</div>';
     }
-    echo '</fieldset>';
-    echo '</div>';
-    echo '<div class="modal-footer justify-content-center">';
-    echo '<button class="btn time-button" type="submit">Submit</button>';
-    echo '</div>';
-    echo '</form>';
-    echo '</div>';
-    echo '</div>';
-    echo '</div>';
-    $ts2++;
-  }
-  // End modal section
 
-  echo '</div>';
-  echo '<div class="col-12 text-end">';
-  echo '<div class="open-link">';
-  echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
-  echo '</div></div></div></div>';
+    // Modal section
+    $ts2 = 0;
+    foreach ($availableDates as $date) {
+      echo '<div class="modal fade" id="timeSelection' . $ts2 . '" tabindex="-1" aria-labelledby="timeLabel' . $ts2 . '" aria-hidden="true">';
+      echo '<div class="modal-dialog modal-dialog-centered">';
+      echo '<div class="modal-content">';
+      echo '<div class="modal-header modal-header-gradient">';
+      echo '<h1 class="modal-title fs-5" id="timeLabel' . $ts2 . '">' . date('F j, Y', strtotime($availableDates[$ts2])) . '</h1>';
+      echo '<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>';
+      echo '</div>';
+      echo '<form>';
+      echo '<div class="modal-body justify-content-center">';
+      echo '<fieldset class="row align-items-start py-3 mx-2">';
+      $times = $availableAppointmentsAssoc[$availableDates[$ts2]];
+      $at = 0;
+      foreach ($times as $availableTime) {
+        $formattedTime = date('g:i A', strtotime($availableTime));
+        echo '<div class="form-check form-check-inline me-0 ps-1 pb-2 col-3 d-flex align-items-center justify-content-center">';
+        echo '<input type="radio" name="time" id="time' . $ts2 . $at . '" value="' . $availableDates[$ts2] . ' ' . $availableTime . '" />';
+        echo '<label class="btn time-button" for="time' . $ts2 . $at . '">' . $formattedTime . '</label>';
+        echo '</div>';
+        $at++;
+      }
+      echo '</fieldset>';
+      echo '</div>';
+      echo '<div class="modal-footer justify-content-center">';
+      echo '<button class="btn time-button" type="submit">Submit</button>';
+      echo '</div>';
+      echo '</form>';
+      echo '</div>';
+      echo '</div>';
+      echo '</div>';
+      $ts2++;
+    }
+    // End modal section
+
+    echo '</div>';
+    echo '<div class="col-12 text-end">';
+    echo '<div class="open-link">';
+    echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
+    echo '</div></div></div></div>';
+  }
 
   if ($aboutMe != null) {
     echo '<div class="container-fluid pb-4">';
@@ -376,7 +429,6 @@
   }
   echo '</section>';
   ?>
-
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>

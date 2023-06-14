@@ -117,6 +117,32 @@ body {
   font-size: 1.25rem;
 }
 
+/* Profile Buttons Section */
+
+.profile__buttons-section {
+  background-color: #ffffff;
+  border-bottom: #b0b0b0 1px solid;
+  font-size: 2rem;
+}
+
+.profile__buttons-section .container {
+  width: 50%;
+}
+
+.profile__buttons_links a {
+  text-decoration: none;
+}
+
+.profile__buttons_links a:link,
+.profile__buttons_links a:visited,
+.profile__buttons_links a:active {
+  color: #243665;
+}
+
+.profile__buttons_links a:hover {
+  color: #8bd8bd;
+}
+
 /* Content Section */
 
 .content-section .container-fluid {
