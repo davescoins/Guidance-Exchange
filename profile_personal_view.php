@@ -104,24 +104,55 @@
     // Fetch all appointments that have been booked for the user and assign them to an array then sort them in ascending order
     $scheduledAppointmentsArray = array();
     while ($scheduledAppointments = mysqli_fetch_assoc($resultScheduledAppointments)) {
-      $scheduledAppointmentsArray[] = array($scheduledAppointments['AppointmentTime'], $scheduledAppointments['SchedulerID']);
+      $appointmentDateTime = $scheduledAppointments['AppointmentTime'];
+      $appointmentDate = explode(" ", $appointmentDateTime)[0];
+      $appointmentTime = explode(" ", $appointmentDateTime)[1];
+      $scheduledAppointmentsArray[] = array($appointmentDate, $appointmentTime, $scheduledAppointments['SchedulerID']);
     }
     sort($scheduledAppointmentsArray);
-    print_r($scheduledAppointmentsArray);
 
-    // Create an associative array with the date as the key and each date key has an array of the times available for that date
+    // Create an associative array with each unique date as a key and each unique date key having an array of the times and their associated scheduler ID
     $scheduledAppointmentsAssoc = array();
-    foreach ($scheduledAppointmentsArray as $item) {
-      $date = date('Y-m-d', strtotime($item));
-      $time = date('H:i:s', strtotime($item));
+    foreach ($scheduledAppointmentsArray as $appointment) {
+      $date = $appointment[0];
+      $time = $appointment[1];
+      $schedulerID = $appointment[2];
       if (!isset($scheduledAppointmentsAssoc[$date])) {
         $scheduledAppointmentsAssoc[$date] = array();
       }
-      $scheduledAppointmentsAssoc[$date][] = $time;
+      $scheduledAppointmentsAssoc[$date][] = array('time' => $time, 'schedulerID' => $schedulerID);
     }
 
     // Assign the available dates to an array so that they can be retrieved later and used to retrieve times from the $availableAppointmentsAssoc array
     $scheduledDates = array_keys($scheduledAppointmentsAssoc);
+
+    // Add unique schedulers to an array to use for querying the database for their information
+    $uniqueSchedulerIDs = array();
+    foreach ($scheduledAppointmentsAssoc as $date => $appointments) {
+      foreach ($appointments as $appointment) {
+        $schedulerID = $appointment['schedulerID'];
+        if (!in_array($schedulerID, $uniqueSchedulerIDs)) {
+          $uniqueSchedulerIDs[] = $schedulerID;
+        }
+      }
+    }
+
+    $schedulerData = array();
+    foreach ($uniqueSchedulerIDs as $id) {
+      $sqlSchedulers = "SELECT `FirstName`,`LastName`,`ProfilePicture` FROM `userdata_t` WHERE `UserID`=$id";
+      $schedulerResult = mysqli_query($con, $sqlSchedulers);
+      while ($schedulerProfile = mysqli_fetch_assoc($schedulerResult)) {
+        $schedulerFirstName = $schedulerProfile['FirstName'];
+        $schedulerLastName = $schedulerProfile['LastName'];
+        $schedulerProfilePicture = $schedulerProfile['ProfilePicture'];
+        $schedulerDetails = array(
+          'FirstName' => $schedulerFirstName,
+          'LastName' => $schedulerLastName,
+          'ProfilePicture' => $schedulerProfilePicture
+        );
+        $schedulerData[$id] = $schedulerDetails;
+      }
+    }
   } elseif ($mentorStatus == true) {
     // *** This section will run on other user's pages ***
 
@@ -244,24 +275,79 @@
     echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
     echo '</div></div></div></div>';
   }
-  if ($userID == 1) {
-  } else {
-    if ($availableAppointmentsArray != null) {
-      echo '<div class="container-fluid pb-4">';
-      echo '<div class="row align-items-start profile-section pt-2">';
-      echo '<div class="col-1 d-flex align-items-center justify-content-center profile-icon">';
-      echo '<i class="fa-regular fa-calendar-check"></i>';
-      echo '</div>';
-      echo '<div class="col-11 profile-wrap">';
-      echo '<h3>Schedule an Appointment</h3>';
-      echo '<div>';
-      $ts = 0;
-      foreach ($availableDates as $date) {
-        echo '<a class="btn profile-skill me-1" href="#" role="button" onclick="openModal(&#39;timeSelection' . $ts . '&#39;)">' . date('F j', strtotime($date)) . '</a>';
-        $ts++;
-      }
-      echo '</div>';
+
+  if ($userID == 1 && $scheduledAppointmentsArray != null) {
+    echo '<div class="container-fluid pb-4">';
+    echo '<div class="row align-items-start profile-section pt-2">';
+    echo '<div class="col-1 d-flex align-items-center justify-content-center profile-icon">';
+    echo '<i class="fa-regular fa-calendar-check"></i>';
+    echo '</div>';
+    echo '<div class="col-11 profile-wrap">';
+    echo '<h3>Scheduled Appointments</h3>';
+    echo '<div>';
+    $ts = 0;
+    foreach ($scheduledDates as $date) {
+      echo '<a class="btn profile-skill me-1" href="#" role="button" onclick="openModal(&#39;timeSelection' . $ts . '&#39;)">' . date('F j', strtotime($date)) . '</a>';
+      $ts++;
     }
+    echo '</div>';
+
+    // Modal section
+    // $ts2 = 0;
+    // foreach ($availableDates as $date) {
+    //   echo '<div class="modal fade" id="timeSelection' . $ts2 . '" tabindex="-1" aria-labelledby="timeLabel' . $ts2 . '" aria-hidden="true">';
+    //   echo '<div class="modal-dialog modal-dialog-centered">';
+    //   echo '<div class="modal-content">';
+    //   echo '<div class="modal-header modal-header-gradient">';
+    //   echo '<h1 class="modal-title fs-5" id="timeLabel' . $ts2 . '">' . date('F j, Y', strtotime($availableDates[$ts2])) . '</h1>';
+    //   echo '<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>';
+    //   echo '</div>';
+    //   echo '<form>';
+    //   echo '<div class="modal-body justify-content-center">';
+    //   echo '<fieldset class="row align-items-start py-3 mx-2">';
+    //   $times = $availableAppointmentsAssoc[$availableDates[$ts2]];
+    //   $at = 0;
+    //   foreach ($times as $availableTime) {
+    //     $formattedTime = date('g:i A', strtotime($availableTime));
+    //     echo '<div class="form-check form-check-inline me-0 ps-1 pb-2 col-3 d-flex align-items-center justify-content-center">';
+    //     echo '<input type="radio" name="time" id="time' . $ts2 . $at . '" value="' . $availableDates[$ts2] . ' ' . $availableTime . '" />';
+    //     echo '<label class="btn time-button" for="time' . $ts2 . $at . '">' . $formattedTime . '</label>';
+    //     echo '</div>';
+    //     $at++;
+    //   }
+    //   echo '</fieldset>';
+    //   echo '</div>';
+    //   echo '<div class="modal-footer justify-content-center">';
+    //   echo '<button class="btn time-button" type="submit">Submit</button>';
+    //   echo '</div>';
+    //   echo '</form>';
+    //   echo '</div>';
+    //   echo '</div>';
+    //   echo '</div>';
+    //   $ts2++;
+    // }
+    // End modal section
+
+    echo '</div>';
+    echo '<div class="col-12 text-end">';
+    echo '<div class="open-link">';
+    echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
+    echo '</div></div></div></div>';
+  } elseif ($availableAppointmentsArray != null) {
+    echo '<div class="container-fluid pb-4">';
+    echo '<div class="row align-items-start profile-section pt-2">';
+    echo '<div class="col-1 d-flex align-items-center justify-content-center profile-icon">';
+    echo '<i class="fa-regular fa-calendar-check"></i>';
+    echo '</div>';
+    echo '<div class="col-11 profile-wrap">';
+    echo '<h3>Schedule an Appointment</h3>';
+    echo '<div>';
+    $ts = 0;
+    foreach ($availableDates as $date) {
+      echo '<a class="btn profile-skill me-1" href="#" role="button" onclick="openModal(&#39;timeSelection' . $ts . '&#39;)">' . date('F j', strtotime($date)) . '</a>';
+      $ts++;
+    }
+    echo '</div>';
 
     // Modal section
     $ts2 = 0;
