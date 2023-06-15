@@ -137,6 +137,7 @@
       }
     }
 
+    // Save data for all people that scheduled appointments with the user to an array that can be accessed later
     $schedulerData = array();
     foreach ($uniqueSchedulerIDs as $id) {
       $sqlSchedulers = "SELECT `FirstName`,`LastName`,`ProfilePicture` FROM `userdata_t` WHERE `UserID`=$id";
@@ -293,39 +294,35 @@
     echo '</div>';
 
     // Modal section
-    // $ts2 = 0;
-    // foreach ($availableDates as $date) {
-    //   echo '<div class="modal fade" id="timeSelection' . $ts2 . '" tabindex="-1" aria-labelledby="timeLabel' . $ts2 . '" aria-hidden="true">';
-    //   echo '<div class="modal-dialog modal-dialog-centered">';
-    //   echo '<div class="modal-content">';
-    //   echo '<div class="modal-header modal-header-gradient">';
-    //   echo '<h1 class="modal-title fs-5" id="timeLabel' . $ts2 . '">' . date('F j, Y', strtotime($availableDates[$ts2])) . '</h1>';
-    //   echo '<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>';
-    //   echo '</div>';
-    //   echo '<form>';
-    //   echo '<div class="modal-body justify-content-center">';
-    //   echo '<fieldset class="row align-items-start py-3 mx-2">';
-    //   $times = $availableAppointmentsAssoc[$availableDates[$ts2]];
-    //   $at = 0;
-    //   foreach ($times as $availableTime) {
-    //     $formattedTime = date('g:i A', strtotime($availableTime));
-    //     echo '<div class="form-check form-check-inline me-0 ps-1 pb-2 col-3 d-flex align-items-center justify-content-center">';
-    //     echo '<input type="radio" name="time" id="time' . $ts2 . $at . '" value="' . $availableDates[$ts2] . ' ' . $availableTime . '" />';
-    //     echo '<label class="btn time-button" for="time' . $ts2 . $at . '">' . $formattedTime . '</label>';
-    //     echo '</div>';
-    //     $at++;
-    //   }
-    //   echo '</fieldset>';
-    //   echo '</div>';
-    //   echo '<div class="modal-footer justify-content-center">';
-    //   echo '<button class="btn time-button" type="submit">Submit</button>';
-    //   echo '</div>';
-    //   echo '</form>';
-    //   echo '</div>';
-    //   echo '</div>';
-    //   echo '</div>';
-    //   $ts2++;
-    // }
+    $ts2 = 0;
+    foreach ($scheduledAppointmentsAssoc as $date => $appointments) {
+      echo '<div class="modal fade" id="timeSelection' . $ts2 . '" tabindex="-1" aria-labelledby="timeLabel' . $ts2 . '" aria-hidden="true">';
+      echo '<div class="modal-dialog modal-dialog-centered">';
+      echo '<div class="modal-content">';
+      echo '<div class="modal-header modal-header-gradient">';
+      echo '<h1 class="modal-title fs-5" id="timeLabel' . $ts2 . '">' . date('F j, Y', strtotime($date)) . '</h1>';
+      echo '<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>';
+      echo '</div>';
+      echo '<div class="modal-body justify-content-center align-items-center pt-4">';
+      foreach ($appointments as $appointment) {
+        $time = $appointment['time'];
+        $schedulerID = $appointment['schedulerID'];
+        $schedulerInfo = $schedulerData[$schedulerID];
+        $schedulerFirstName = $schedulerInfo['FirstName'];
+        $schedulerLastName = $schedulerInfo['LastName'];
+        $schedulerProfilePicture = $schedulerInfo['ProfilePicture'];
+        echo '<div class="container d-flex align-items-center row schedule-container mx-0 mb-3 py-1">';
+        echo '<h2 class="col-5 m-0 scheduler-time">' . date('g:i A', strtotime($time)) . '</h2>';
+        echo '<a href="#" class="col-2 p-0"><img class="schedule-photo" src="upload/' . $schedulerProfilePicture . '" alt="' . $schedulerFirstName . ' ' . $schedulerLastName . ' Profile Picture"></a>';
+        echo '<h3 class="col-5 ps-2 m-0 scheduler-name">' . $schedulerFirstName . ' ' . $schedulerLastName . '</h3>';
+        echo '</div>';
+      }
+      echo '</div>';
+      echo '</div>';
+      echo '</div>';
+      echo '</div>';
+      $ts2++;
+    }
     // End modal section
 
     echo '</div>';
@@ -487,7 +484,7 @@
     echo '<i class="fa-solid fa-user-group"></i>';
     echo '</div>';
     echo '<div class="col-11 profile-wrap">';
-    echo '<h3>' . $firstName . '&#39;s Associations</h3>';
+    echo '<h3>My Associations</h3>';
     echo '<div class="row pt-1">';
 
     // *** Fix this so it doesn't have to make calls to the database again ***
