@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Navbar Template</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
-  <link rel="stylesheet" href="css/sysadmin2.css" />
+  <link rel="stylesheet" href= "css/community.css"/>
 </head>
 <body>
 <header>
@@ -44,7 +44,16 @@
   </nav>
 </header>
   <!-- Content Section -->
-
+<div class="communitiespics">
+    <div class="communitypics-grid">
+        <a href=""><img src="img/IT_pic.jpeg" alt="IT picture" class="communitypic"></a>
+        <a href=""><img src="img/stocks_pic.jpeg" alt="stock picture" class="communitypic"></a>
+        <a href=""><img src="img/marketing_pics.jpeg" alt="marketing picture" class="communitypic"></a>
+        <a href=""><img src="img/coins_pic.jpeg" alt="coins picture" class="communitypic"></a>
+        <a href=""><img src="img/personaldevelop_pic.jpeg" alt="development picture" class="communitypic"></a>
+        <a href=""><img src="img/gambling_pic.jpeg" alt="gambling picture" class="communitypic"></a>
+    </div>
+</div>
 
 
   <footer>
