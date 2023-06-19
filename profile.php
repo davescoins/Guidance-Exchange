@@ -5,8 +5,11 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profile Template</title>
-
+  <title>Profile</title>
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+  <link rel="icon" type="image/png" sizes="180x180" href="/favicon-180.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="/favicon-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
   <link rel="stylesheet" href="css/profile.css" />
   <link rel="stylesheet" href="css/main.css" />
@@ -53,7 +56,7 @@
 
   // *** TESTING USERID INSERTED - CHANGE TO SESSION VARIABLE FOR PRODUCTION!!! ***
   $userID = 1;
-  $sql = "SELECT * FROM `UserData_t` WHERE `UserID` = 1";
+  $sql = "SELECT * FROM `UserData_t` WHERE `UserID` = $userID";
   $result = mysqli_query($con, $sql);
 
   // Fetch all of the entries from the UserData table and assign them to variables that can be used later
@@ -73,14 +76,18 @@
     $linkedIn = $profile['LinkedIn'];
     $mentoring = $profile['Mentoring'];
     $aboutMe = $profile['AboutMe'];
+    $workTitle = $profile['WorkTitle'];
+    $workTitleArray = explode(";", $workTitle ?? '');
     $workLocation = $profile['WorkLocation'];
-    $workLocationArray = explode(";", $workLocation ?? '');
+    $workLocationArray = explode(";", $workTitle ?? '');
     $workStartDate = $profile['WorkStartDate'];
     $workStartDateArray = explode(";", $workStartDate ?? '');
     $workEndDate = $profile['WorkEndDate'];
     $workEndDateArray = explode(";", $workEndDate ?? '');
     $workDescription = $profile['WorkDescription'];
     $workDescriptionArray = explode(";", $workDescription ?? '');
+    $educationDegree = $profile['EducationDegree'];
+    $educationDegreeArray = explode(";", $educationDegree ?? '');
     $educationLocation = $profile['EducationLocation'];
     $educationLocationArray = explode(";", $educationLocation ?? '');
     $educationStartDate = $profile['EducationStartDate'];
@@ -247,7 +254,7 @@
     echo '<section class="profile__buttons-section d-flex justify-content-center">';
     echo '<div class="container text-center row profile__buttons_links">';
     echo '<div class="col">';
-    echo '<a href="#"><i class="fa-solid fa-pencil"></i><br>Profile</a>';
+    echo '<a href="/edit-profile.php"><i class="fa-solid fa-pencil"></i><br>Edit Profile</a>';
     echo '</div>';
     echo '<div class="col">';
     echo '<a href="#"><i class="fa-solid fa-share-nodes"></i><br>Share</a>';
@@ -414,9 +421,9 @@
     echo '</div>';
     echo '<div class="col-11 profile-wrap">';
     echo '<h3>Work</h3>';
-    foreach ($workLocationArray as $value) {
+    foreach ($workLocationArray as $location) {
       $wl = 0;
-      echo '<p class="mb-0"><strong>' . $value . '</strong></p>';
+      echo '<p class="mb-0"><strong>' . $workTitleArray[$wl] . ' at ' . $location . '</strong></p>';
       if ($workEndDateArray[$wl] != null) {
         echo '<p class="profile-date mb-0">(' . date_format(date_create($workStartDateArray[$wl]), "Y") . ' - ' . date_format(date_create($workEndDateArray[$wl]), "Y") . ')</p>';
       } else {
@@ -440,9 +447,9 @@
     echo '</div>';
     echo '<div class="col-11 profile-wrap">';
     echo '<h3>Education</h3>';
-    foreach ($educationLocationArray as $value) {
+    foreach ($educationLocationArray as $location) {
       $el = 0;
-      echo '<p class="mb-0"><strong>' . $value . '</strong></p>';
+      echo '<p class="mb-0"><strong>' . $educationDegreeArray[$el] . ', ' . $location . '</strong></p>';
       if ($educationEndDateArray[$el] != null) {
         echo '<p class="profile-date mb-0">(' . date_format(date_create($educationStartDateArray[$el]), "Y") . ' - ' . date_format(date_create($educationEndDateArray[$el]), "Y") . ')</p>';
       } else {
