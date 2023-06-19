@@ -1,10 +1,10 @@
 CREATE TABLE UserData_t (
-  UserID INT(9) NOT NULL Auto_Increment,
+  UserID INT(9) NOT NULL,
   FirstName VARCHAR(255) NOT NULL,
   LastName VARCHAR(255) NOT NULL,
   ProfilePicture VARCHAR(255),
-  ProfilePictureBorder VARCHAR(255) NOT NULL,
-  ProfilePictureBackground VARCHAR(255) NOT NULL,
+  ProfilePictureBorder VARCHAR(255),
+  ProfilePictureBackground VARCHAR(255),
   MentorStatus BOOL NOT NULL,
   Rating INT(1),
   LocationCity VARCHAR(255),
@@ -15,15 +15,18 @@ CREATE TABLE UserData_t (
   LinkedIn VARCHAR(255),
   Mentoring LONGTEXT,
   AboutMe LONGTEXT,
+  WorkTitle VARCHAR(255),
   WorkLocation VARCHAR(255),
   WorkStartDate DATE,
   WorkEndDate DATE,
   WorkDescription LONGTEXT,
+  EducationDegree VARCHAR(255),
   EducationLocation VARCHAR(255),
   EducationStartDate DATE,
   EducationEndDate DATE,
   EducationDescription LONGTEXT,
   Skills VARCHAR(255),
   Associations VARCHAR(255),
-  CONSTRAINT UserData_PK PRIMARY KEY (UserID)
+  CONSTRAINT UserData_PK PRIMARY KEY (UserID),
+  CONSTRAINT UserData_FK1 FOREIGN KEY (UserID) REFERENCES auth_t(UserID)
 ) Auto_Increment = 1;
