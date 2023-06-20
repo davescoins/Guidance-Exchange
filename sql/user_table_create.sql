@@ -25,8 +25,7 @@ CREATE TABLE UserData_t (
   EducationStartDate DATE,
   EducationEndDate DATE,
   EducationDescription LONGTEXT,
-  Skills VARCHAR(255),
   Associations VARCHAR(255),
-  CONSTRAINT UserData_PK PRIMARY KEY (UserID),
-  CONSTRAINT UserData_FK1 FOREIGN KEY (UserID) REFERENCES auth_t(UserID)
+  CONSTRAINT UserData_t_PK PRIMARY KEY (UserID),
+  CONSTRAINT UserData_t_FK1 FOREIGN KEY (UserID) REFERENCES Auth_t(UserID)
 ) Auto_Increment = 1;

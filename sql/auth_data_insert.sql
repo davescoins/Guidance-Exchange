@@ -1,5 +1,5 @@
 INSERT INTO
-  auth_t (
+  Auth_t (
     `username`,
     `password`,
     `email`,
