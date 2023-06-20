@@ -201,20 +201,6 @@ p.profile-date {
   font-size: 1.5rem;
 }
 
-.time-button {
-  box-shadow: 0px 10px 20px -6px rgba(0, 0, 0, 0.5);
-  background-color: #e14658;
-  color: #f5f5f5;
-  width: 100px;
-}
-
-.time-button:hover {
-  background-color: #8bd8bd;
-  color: #000;
-  --bs-btn-active-bg: #64bba1;
-  --bs-btn-active-border-color: #64bba1;
-}
-
 input[type='radio'] {
   opacity: 0;
   width: 0;
@@ -234,7 +220,13 @@ input[type='radio']:checked ~ label {
 /* Edit Profile Section */
 
 .edit__section-heading {
+  color: #333;
   border-bottom: #333 solid 2px;
+}
+
+.edit__section-subHeading {
+  color: #333;
+  font-size: 1.5rem;
 }
 
 .input-group {

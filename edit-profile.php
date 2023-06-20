@@ -58,6 +58,8 @@
   $userID = 1;
   $sql = "SELECT * FROM `UserData_t` WHERE `UserID` = $userID";
   $result = mysqli_query($con, $sql);
+  $sqlEmail = "SELECT `email` FROM `Auth_t` WHERE `UserID` = $userID";
+  $emailResult = mysqli_query($con, $sqlEmail);
 
   // Fetch all of the entries from the UserData table and assign them to variables that can be used later
   while ($profile = mysqli_fetch_assoc($result)) {
@@ -76,14 +78,18 @@
     $linkedIn = $profile['LinkedIn'];
     $mentoring = $profile['Mentoring'];
     $aboutMe = $profile['AboutMe'];
+    $workTitle = $profile['WorkTitle'];
+    $workTitleArray = explode(";", $workTitle ?? '');
     $workLocation = $profile['WorkLocation'];
-    $workLocationArray = explode(";", $workLocation ?? '');
+    $workLocationArray = explode(";", $workTitle ?? '');
     $workStartDate = $profile['WorkStartDate'];
     $workStartDateArray = explode(";", $workStartDate ?? '');
     $workEndDate = $profile['WorkEndDate'];
     $workEndDateArray = explode(";", $workEndDate ?? '');
     $workDescription = $profile['WorkDescription'];
     $workDescriptionArray = explode(";", $workDescription ?? '');
+    $educationDegree = $profile['EducationDegree'];
+    $educationDegreeArray = explode(";", $educationDegree ?? '');
     $educationLocation = $profile['EducationLocation'];
     $educationLocationArray = explode(";", $educationLocation ?? '');
     $educationStartDate = $profile['EducationStartDate'];
@@ -97,6 +103,12 @@
     $associations = $profile['Associations'];
     $associationsArray = explode(";", $associations ?? '');
   }
+
+  while ($fetchEmail = mysqli_fetch_assoc($emailResult)) {
+    $email = $fetchEmail['email'];
+  }
+
+  mysqli_close($con);
 
   // Create an array for all US States and D.C.
   $us_states = array(
@@ -125,13 +137,13 @@
     $years[] = $i;
   }
 
-  mysqli_close($con);
+  $overlayArray = array('BioTech' => 'biotech-pattern.png', 'Circuits' => 'circuit_gray_transparent.png');
 
   // *** Photo Section ***
 
   echo '<section class="photo-section pt-5 pb-3">';
   echo '<div class="container-fluid flex-column">';
-  echo '<img class="profile-photo mb-3" style="border-color: #' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+  echo '<img class="profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
   echo '</div>';
   echo '</section>';
 
@@ -139,7 +151,7 @@
 
   echo '<section class="content-section pt-4">';
   ?>
-  <form action="edit.php" method="POST" class="container w-50">
+  <form action="edit.php" method="POST" class="container w-50" id="editProfile">
     <h1 class="w-100 edit__section-heading p-1 mb-3">Personal Details</h1>
     <div class="w-75 container">
       <div class="row mb-3 align-items-center">
@@ -186,7 +198,6 @@
         </div>
       </div>
       <div class="row mb-3 align-items-center">
-        <!-- Set up a pull from the user accounts table for this -->
         <label for="email" class="col-sm-2 form-label m-0">Email</label>
         <div class="col-sm-10">
           <input type="email" class="form-control" name="email" id="email" value="<?php echo $email; ?>">
@@ -228,172 +239,21 @@
 
     <h1 class="w-100 edit__section-heading p-1 mb-3">Experience</h1>
     <div class="w-75 container">
-      <h2>About Me</h2>
+      <h2 class="edit__section-subHeading mb-3 mt-4">About Me</h2>
       <div class="mb-3 text-left">
         <textarea class="form-control" name="aboutMe" id="aboutMe" rows="3"><?php echo $aboutMe; ?></textarea>
       </div>
-      <h2>Work</h2>
+      <h2 class="edit__section-subHeading mb-3 mt-4">Work</h2>
       <div class="row mb-3 align-items-center">
         <label for="jobTitle" class="col-sm-2 form-label m-0">Job Title</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="jobTitle" id="jobTitle" value="<?php echo $workLocation; ?>">
+          <input type="text" class="form-control" name="jobTitle" id="jobTitle" value="<?php echo $workTitle; ?>">
         </div>
       </div>
       <div class="row mb-3 align-items-center">
-        <label class="col-sm-2 form-label m-0">Start Date</label>
-        <div class="col-auto">
-          <select class="form-select" name="workStartMonth">
-            <?php
-            $workStartMonth = date("F", strtotime($workStartDate));
-            if ($workStartDate == null) {
-              echo '<option value="null" selected>Month</option>';
-              foreach ($months as $month) {
-                echo '<option value="' . $month . '">' . $month . '</option>';
-              }
-            } else {
-              echo '<option value="null">Month</option>';
-              foreach ($months as $month) {
-                if ($month == $workStartMonth) {
-                  echo '<option value="' . $month . '" selected="selected">' . $month;
-                } else {
-                  echo '<option value="' . $month . '">' . $month;
-                }
-                echo '</option>';
-              }
-            }
-            ?>
-          </select>
-        </div>
-        <div class="col-auto">
-          <select class="form-select" name="workStartDay">
-            <?php
-            $workStartDay = date("j", strtotime($workStartDate));
-            if ($workStartDate == null) {
-              echo '<option value="null" selected>Day</option>';
-              foreach ($days as $day) {
-                echo '<option value="' . $day . '">' . $day . '</option>';
-              }
-            } else {
-              echo '<option value="null">Day</option>';
-              foreach ($days as $day) {
-                if ($day == $workStartDay) {
-                  echo '<option value="' . $day . '" selected="selected">' . $day;
-                } else {
-                  echo '<option value="' . $day . '">' . $day;
-                }
-                echo '</option>';
-              }
-            }
-            ?>
-          </select>
-        </div>
-        <div class="col-auto">
-          <select class="form-select" name="workStartYear">
-            <?php
-            $workStartYear = date("Y", strtotime($workStartDate));
-            if ($workStartDate == null) {
-              echo '<option value="null" selected>Year</option>';
-              foreach ($years as $year) {
-                echo '<option value="' . $year . '">' . $year . '</option>';
-              }
-            } else {
-              echo '<option value="null">Year</option>';
-              foreach ($years as $year) {
-                if ($year == $workStartYear) {
-                  echo '<option value="' . $year . '" selected="selected">' . $year;
-                } else {
-                  echo '<option value="' . $year . '">' . $year;
-                }
-                echo '</option>';
-              }
-            }
-            ?>
-          </select>
-        </div>
-      </div>
-      <div class="row mb-3 align-items-center">
-        <label class="col-sm-2 form-label m-0">End Date</label>
-        <div class="col-auto">
-          <select class="form-select" name="workEndMonth">
-            <?php
-            $workEndMonth = date("F", strtotime($workEndDate));
-            if ($workEndDate == null) {
-              echo '<option value="null" selected>Month</option>';
-              foreach ($months as $month) {
-                echo '<option value="' . $month . '">' . $month . '</option>';
-              }
-            } else {
-              echo '<option value="null">Month</option>';
-              foreach ($months as $month) {
-                if ($month == $workEndMonth) {
-                  echo '<option value="' . $month . '" selected="selected">' . $month;
-                } else {
-                  echo '<option value="' . $month . '">' . $month;
-                }
-                echo '</option>';
-              }
-            }
-            ?>
-          </select>
-        </div>
-        <div class="col-auto">
-          <select class="form-select" name="workEndDay">
-            <?php
-            $workEndDay = date("j", strtotime($workEndDate));
-            if ($workEndDate == null) {
-              echo '<option value="null" selected>Day</option>';
-              foreach ($days as $day) {
-                echo '<option value="' . $day . '">' . $day . '</option>';
-              }
-            } else {
-              echo '<option value="null">Day</option>';
-              foreach ($days as $day) {
-                if ($day == $workEndDay) {
-                  echo '<option value="' . $day . '" selected="selected">' . $day;
-                } else {
-                  echo '<option value="' . $day . '">' . $day;
-                }
-                echo '</option>';
-              }
-            }
-            ?>
-          </select>
-        </div>
-        <div class="col-auto">
-          <select class="form-select" name="workEndYear">
-            <?php
-            $workEndYear = date("Y", strtotime($workEndDate));
-            if ($workEndDate == null) {
-              echo '<option value="null" selected>Year</option>';
-              foreach ($years as $year) {
-                echo '<option value="' . $year . '">' . $year . '</option>';
-              }
-            } else {
-              echo '<option value="null">Year</option>';
-              foreach ($years as $year) {
-                if ($year == $workEndYear) {
-                  echo '<option value="' . $year . '" selected="selected">' . $year;
-                } else {
-                  echo '<option value="' . $year . '">' . $year;
-                }
-                echo '</option>';
-              }
-            }
-            ?>
-          </select>
-        </div>
-      </div>
-      <p>Accomplishments</p>
-      <div class="mb-3 text-left">
-        <textarea class="form-control" name="workDescription" id="workDescription" rows="3"><?php echo $workDescription; ?></textarea>
-      </div>
-
-
-      <h2>Education</h2>
-      <div class="row mb-3 align-items-center">
-        <label for="jobTitle" class="col-sm-2 form-label m-0">Degree Title</label>
+        <label for="workLocation" class="col-sm-2 form-label m-0">Company</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="jobTitle" id="jobTitle" value="<?php echo $workLocation; ?>">
+          <input type="text" class="form-control" name="workLocation" id="workLocation" value="<?php echo $workLocation; ?>">
         </div>
       </div>
       <div class="row mb-3 align-items-center">
@@ -544,13 +404,265 @@
       <div class="mb-3 text-left">
         <textarea class="form-control" name="workDescription" id="workDescription" rows="3"><?php echo $workDescription; ?></textarea>
       </div>
+      <h2 class="edit__section-subHeading mb-3 mt-4">Education</h2>
+      <div class="row mb-3 align-items-center">
+        <label for="degreeTitle" class="col-sm-2 form-label m-0">Degree</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="degreeTitle" id="degreeTitle" value="<?php echo $educationDegree; ?>">
+        </div>
+      </div>
+      <div class="row mb-3 align-items-center">
+        <label for="educationLocation" class="col-sm-2 form-label m-0">School</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="educationLocation" id="educationLocation" value="<?php echo $educationLocation; ?>">
+        </div>
+      </div>
+      <div class="row mb-3 align-items-center">
+        <label class="col-sm-2 form-label m-0">Start Date</label>
+        <div class="col-auto">
+          <select class="form-select" name="educationStartMonth">
+            <?php
+            $educationStartMonth = date("F", strtotime($educationStartDate));
+            if ($educationStartDate == null) {
+              echo '<option value="null" selected>Month</option>';
+              foreach ($months as $month) {
+                echo '<option value="' . $month . '">' . $month . '</option>';
+              }
+            } else {
+              echo '<option value="null">Month</option>';
+              foreach ($months as $month) {
+                if ($month == $educationStartMonth) {
+                  echo '<option value="' . $month . '" selected="selected">' . $month;
+                } else {
+                  echo '<option value="' . $month . '">' . $month;
+                }
+                echo '</option>';
+              }
+            }
+            ?>
+          </select>
+        </div>
+        <div class="col-auto">
+          <select class="form-select" name="educationStartDay">
+            <?php
+            $educationStartDay = date("j", strtotime($educationStartDate));
+            if ($educationStartDate == null) {
+              echo '<option value="null" selected>Day</option>';
+              foreach ($days as $day) {
+                echo '<option value="' . $day . '">' . $day . '</option>';
+              }
+            } else {
+              echo '<option value="null">Day</option>';
+              foreach ($days as $day) {
+                if ($day == $educationStartDay) {
+                  echo '<option value="' . $day . '" selected="selected">' . $day;
+                } else {
+                  echo '<option value="' . $day . '">' . $day;
+                }
+                echo '</option>';
+              }
+            }
+            ?>
+          </select>
+        </div>
+        <div class="col-auto">
+          <select class="form-select" name="educationStartYear">
+            <?php
+            $educationStartYear = date("Y", strtotime($educationStartDate));
+            if ($educationStartDate == null) {
+              echo '<option value="null" selected>Year</option>';
+              foreach ($years as $year) {
+                echo '<option value="' . $year . '">' . $year . '</option>';
+              }
+            } else {
+              echo '<option value="null">Year</option>';
+              foreach ($years as $year) {
+                if ($year == $educationStartYear) {
+                  echo '<option value="' . $year . '" selected="selected">' . $year;
+                } else {
+                  echo '<option value="' . $year . '">' . $year;
+                }
+                echo '</option>';
+              }
+            }
+            ?>
+          </select>
+        </div>
+      </div>
+      <div class="row mb-3 align-items-center">
+        <label class="col-sm-2 form-label m-0">End Date</label>
+        <div class="col-auto">
+          <select class="form-select" name="educationEndMonth">
+            <?php
+            $educationEndMonth = date("F", strtotime($educationEndDate));
+            if ($educationEndDate == null) {
+              echo '<option value="null" selected>Month</option>';
+              foreach ($months as $month) {
+                echo '<option value="' . $month . '">' . $month . '</option>';
+              }
+            } else {
+              echo '<option value="null">Month</option>';
+              foreach ($months as $month) {
+                if ($month == $educationEndMonth) {
+                  echo '<option value="' . $month . '" selected="selected">' . $month;
+                } else {
+                  echo '<option value="' . $month . '">' . $month;
+                }
+                echo '</option>';
+              }
+            }
+            ?>
+          </select>
+        </div>
+        <div class="col-auto">
+          <select class="form-select" name="educationEndDay">
+            <?php
+            $educationEndDay = date("j", strtotime($educationEndDate));
+            if ($educationEndDate == null) {
+              echo '<option value="null" selected>Day</option>';
+              foreach ($days as $day) {
+                echo '<option value="' . $day . '">' . $day . '</option>';
+              }
+            } else {
+              echo '<option value="null">Day</option>';
+              foreach ($days as $day) {
+                if ($day == $educationEndDay) {
+                  echo '<option value="' . $day . '" selected="selected">' . $day;
+                } else {
+                  echo '<option value="' . $day . '">' . $day;
+                }
+                echo '</option>';
+              }
+            }
+            ?>
+          </select>
+        </div>
+        <div class="col-auto">
+          <select class="form-select" name="educationEndYear">
+            <?php
+            $educationEndYear = date("Y", strtotime($educationEndDate));
+            if ($educationEndDate == null) {
+              echo '<option value="null" selected>Year</option>';
+              foreach ($years as $year) {
+                echo '<option value="' . $year . '">' . $year . '</option>';
+              }
+            } else {
+              echo '<option value="null">Year</option>';
+              foreach ($years as $year) {
+                if ($year == $educationEndYear) {
+                  echo '<option value="' . $year . '" selected="selected">' . $year;
+                } else {
+                  echo '<option value="' . $year . '">' . $year;
+                }
+                echo '</option>';
+              }
+            }
+            ?>
+          </select>
+        </div>
+      </div>
+      <p>Accomplishments</p>
+      <div class="mb-3 text-left">
+        <textarea class="form-control" name="educationDescription" id="educationDescription" rows="3"><?php echo $educationDescription; ?></textarea>
+      </div>
+      <h2 class="edit__section-subHeading mb-3 mt-4">Skills</h2>
+      <div class="row mb-3 align-items-center">
+        <!-- <div class="col-sm-10">
+          <input type="text" class="form-control" name="skill" id="skillInput" placeholder="Enter skill or expertise">
+        </div>
+        <button type="button" class="col-sm-2 btn main-button" onclick="addSkill()">Add</button> -->
 
+        <div class="row py-2">
+          <div class="col-12 col-lg-6">
+            <label class="text-signup-label" for="Skills">Select Skills:</label>
+            <br>
+            <div id="selectedSkills" class="my-2"></div>
+            <select id="Skills" name="Skills" multiple onchange="updateSkills()">
+              <optgroup label="Web development">
+                <option>HTML</option>
+                <option>css</option>
+                <option>JavaScript</option>
+              </optgroup>
+              <optgroup label="Entrepreneurial skills">
+                <option>Leadership</option>
+                <option>Decision-Making</option>
+                <option>Finance</option>
+              </optgroup>
+
+              <optgroup label="Option group 1">
+                <option>Sub option 1</option>
+                <option>Sub option 2</option>
+                <option>Sub option 3</option>
+              </optgroup>
+            </select>
+
+          </div>
+        </div>
+
+      </div>
     </div>
 
+    <h1 class="w-100 edit__section-heading p-1 mb-3">Page Design</h1>
+    <div class="w-75 container">
+      <div class="row mb-3 align-items-center">
+        <label for="overlay" class="col-sm-2 form-label m-0">Overlay</label>
+        <div class="col-sm-10">
+          <select class="form-select" name="overlay" id="overlay">
+            <?php
+            if ($profilePictureBackground == null) {
+              echo '<option value="null" selected>Choose...</option>';
+              foreach ($overlayArray as $overlayName => $overlayPath) {
+                echo '<option value="' . $overlayPath . '">' . $overlayName . '</option>';
+              }
+            } else {
+              echo '<option value="null">Choose...</option>';
+              foreach ($overlayArray as $overlayName => $overlayPath) {
+                if ($profilePictureBackground == $overlayPath) {
+                  echo '<option value="' . $overlayPath . '" selected="selected">' . $overlayName;
+                } else {
+                  echo '<option value="' . $overlayPath . '">' . $overlayName;
+                }
+                echo '</option>';
+              }
+            }
+            ?>
+          </select>
+        </div>
+      </div>
+      <div class="row mb-3 align-items-center">
+        <label for="profilePictureBorder" class="col-sm-4 form-label m-0">Profile Picture Border</label>
+        <div class="col-sm-8">
+          <input type="color" class="form-control form-control-color" id="profilePictureBorder" value="<?php echo $profilePictureBorder; ?>" title="Choose your color">
+        </div>
+      </div>
+      <div class="d-flex justify-content-center my-5">
+        <button type="submit" class="btn main-button me-3">Save</button>
+        <button type="button" class="btn cancel-button ms-3" data-bs-toggle="modal" data-bs-target="#cancelModal">
+          Cancel
+        </button>
 
+        <!-- Cancel Modal -->
+        <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header modal-header-gradient">
+                <h1 class="modal-title fs-5" id="cancelModalLabel">Cancel?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to discard your changes?
+              </div>
+              <div class="modal-footer justify-content-center">
+                <button type="button" class="btn main-button btn-long" id="confirm">Discard Changes</button>
+                <button type="button" class="btn cancel-button btn-long" data-bs-dismiss="modal">Go back to edit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Cancel Modal -->
 
-
-    <!-- <button type="submit" class="btn time-button">Save</button> -->
+      </div>
+    </div>
   </form>
   <?php
   echo '</section>';

@@ -57,6 +57,50 @@ nav i:hover {
   color: #000;
 }
 
+/* Other Styling */
+
+.main-button {
+  box-shadow: 0px 10px 20px -6px rgba(0, 0, 0, 0.5);
+  background-color: #e14658;
+  color: #f5f5f5;
+  width: 100px;
+}
+
+.main-button:hover {
+  background-color: #8bd8bd;
+  color: #000;
+  --bs-btn-active-bg: #64bba1;
+  --bs-btn-active-border-color: #64bba1;
+}
+
+.cancel-button {
+  box-shadow: 0px 10px 20px -6px rgba(0, 0, 0, 0.5);
+  background-color: #b2b9ba;
+  color: #f5f5f5;
+  width: 100px;
+}
+
+.cancel-button:hover {
+  background-color: #9aa1a2;
+  color: #000;
+  --bs-btn-active-bg: #777f7f;
+  --bs-btn-active-border-color: #64bba1;
+}
+
+.cancel-button a {
+  text-decoration: none;
+}
+
+.cancel-button a:link,
+.cancel-button a:visited,
+.cancel-button a:active {
+  color: #000;
+}
+
+.btn-long {
+  width: 160px;
+}
+
 /* Body */
 
 body {

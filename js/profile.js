@@ -45,3 +45,34 @@ function openModal(modalId) {
   const projectsModal = new bootstrap.Modal(document.getElementById(modalId));
   projectsModal.show();
 }
+
+// This function discards the changes made on the profile edit page
+document.getElementById('confirm').addEventListener('click', function () {
+  window.location.href = 'profile.php';
+});
+
+function updateSkills() {
+  const userSkills = document.getElementById('Skills');
+  const selectedSkillsContainer = document.getElementById('selectedSkills');
+  selectedSkillsContainer.innerHTML = '';
+  for (var option of userSkills.options) {
+    if (option.selected) {
+      // Create a chip for it
+      selectedSkillsContainer.innerHTML += `
+              <button class="btn btn-secondary rounded-pill skillSelection" onclick="removeSkill('${option.value}')">${option.text} x</button>
+          `;
+    }
+  }
+}
+
+function removeSkill(currentSkill) {
+  const userSkills = document.getElementById('Skills');
+  console.log(currentSkill);
+  for (var option of userSkills.options) {
+    if (option.value == currentSkill) {
+      // De-select the skill
+      option.selected = false;
+    }
+  }
+  updateSkills();
+}

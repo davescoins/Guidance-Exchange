@@ -193,11 +193,27 @@
 
   mysqli_close($con);
 
+  $state_abbreviations = array(
+    'AL' => 'Alabama', 'AK' => 'Alaska', 'AZ' => 'Arizona', 'AR' => 'Arkansas', 'CA' => 'California', 'CO' => 'Colorado',
+    'CT' => 'Connecticut', 'DE' => 'Delaware', 'FL' => 'Florida', 'GA' => 'Georgia', 'HI' => 'Hawaii', 'ID' => 'Idaho',
+    'IL' => 'Illinois', 'IN' => 'Indiana', 'IA' => 'Iowa', 'KS' => 'Kansas', 'KY' => 'Kentucky', 'LA' => 'Louisiana',
+    'ME' => 'Maine', 'MD' => 'Maryland', 'MA' => 'Massachusetts', 'MI' => 'Michigan', 'MN' => 'Minnesota', 'MS' => 'Mississippi',
+    'MO' => 'Missouri', 'MT' => 'Montana', 'NE' => 'Nebraska', 'NV' => 'Nevada', 'NH' => 'New Hampshire', 'NJ' => 'New Jersey',
+    'NM' => 'New Mexico', 'NY' => 'New York', 'NC' => 'North Carolina', 'ND' => 'North Dakota', 'OH' => 'Ohio', 'OK' => 'Oklahoma',
+    'OR' => 'Oregon', 'PA' => 'Pennsylvania', 'RI' => 'Rhode Island', 'SC' => 'South Carolina', 'SD' => 'South Dakota', 'TN' => 'Tennessee',
+    'TX' => 'Texas', 'UT' => 'Utah', 'VT' => 'Vermont', 'VA' => 'Virginia', 'WA' => 'Washington', 'WV' => 'West Virginia',
+    'WI' => 'Wisconsin', 'WY' => 'Wyoming', 'DC' => 'Washington, D.C.'
+  );
+
   // *** Photo Section ***
 
   echo '<section class="photo-section pt-5 pb-3" style="background-image: url(&#39;img/' . $profilePictureBackground . '&#39;); background-attachment: fixed; background-size: cover;">';
   echo '<div class="container-fluid flex-column">';
-  echo '<img class="profile-photo mb-3" style="border-color: #' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+  if ($profilePictureBorder == null) {
+    echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+  } else {
+    echo '<img class="profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+  }
   if ($mentorStatus == true) {
     echo '<div class="mentor-tag mb-2">';
     echo '<p class="py-1 px-3 m-0">Mentor</p>';
@@ -220,7 +236,8 @@
   if ($city != null) {
     echo '<h2 class="city-name mt-2 mb-3">' . $city;
     if ($state != null) {
-      echo ', ' . $state . '</h2>';
+      $abbreviation = array_search($state, $state_abbreviations);
+      echo ', ' . $abbreviation . '</h2>';
     } else {
       echo '</h2>';
     }
@@ -239,7 +256,7 @@
       echo '<a href="https://www.twitter.com/' . $twitter . '" class="mx-3"><i class="fa fa-twitter"></i></a>';
     }
     if ($linkedIn != null) {
-      echo '<a href="https://www.linkedin.com' . $linkedIn . '" class="mx-3"><i class="fa fa-linkedin"></i></a>';
+      echo '<a href="https://www.linkedin.com/in/' . $linkedIn . '" class="mx-3"><i class="fa fa-linkedin"></i></a>';
     }
     echo '</div>';
   }
@@ -373,14 +390,14 @@
         $formattedTime = date('g:i A', strtotime($availableTime));
         echo '<div class="form-check form-check-inline me-0 ps-1 pb-2 col-3 d-flex align-items-center justify-content-center">';
         echo '<input type="radio" name="time" id="time' . $ts2 . $at . '" value="' . $availableDates[$ts2] . ' ' . $availableTime . '" />';
-        echo '<label class="btn time-button" for="time' . $ts2 . $at . '">' . $formattedTime . '</label>';
+        echo '<label class="btn main-button" for="time' . $ts2 . $at . '">' . $formattedTime . '</label>';
         echo '</div>';
         $at++;
       }
       echo '</fieldset>';
       echo '</div>';
       echo '<div class="modal-footer justify-content-center">';
-      echo '<button class="btn time-button" type="submit">Submit</button>';
+      echo '<button class="btn main-button" type="submit">Submit</button>';
       echo '</div>';
       echo '</form>';
       echo '</div>';
