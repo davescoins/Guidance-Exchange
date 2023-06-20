@@ -26,7 +26,6 @@ INSERT INTO
     `EducationStartDate`,
     `EducationEndDate`,
     `EducationDescription`,
-    `Skills`,
     `Associations`
   )
 VALUES
@@ -57,8 +56,7 @@ VALUES
     '2015-08-24',
     '2018-05-10',
     'David pursued his doctoral studies in Chemistry, specializing in a specific field such as organic chemistry, inorganic chemistry, or physical chemistry. He conducted in-depth research, published scientific papers, and presented his findings at conferences. His Ph.D. research focused on advancing knowledge in a specific area of chemistry, demonstrating his expertise and dedication to the field.',
-    'Chemical Analysis;Organic Synthesis;Spectroscopy;Chromatography;Lab Techniques;Data Analysis;Research Methodology',
-    '2;3;4;5'
+    'Chemical Analysis;Organic Synthesis;Spectroscopy;Chromatography;Lab Techniques;Data Analysis;Research Methodology'
   ),
   (
     2,
@@ -68,7 +66,6 @@ VALUES
     '#008a0e',
     'biotech-pattern.png',
     0,
-    null,
     null,
     null,
     null,
@@ -117,7 +114,6 @@ VALUES
     null,
     null,
     null,
-    null,
     null
   ),
   (
@@ -147,7 +143,6 @@ VALUES
     null,
     null,
     null,
-    null,
     null
   ),
   (
@@ -158,7 +153,6 @@ VALUES
     '#008a0e',
     'biotech-pattern.png',
     0,
-    null,
     null,
     null,
     null,

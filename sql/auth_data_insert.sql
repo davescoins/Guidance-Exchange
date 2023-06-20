@@ -35,4 +35,4 @@ VALUES
     '12345',
     'mia.wilson@gmail.com',
     '(123) 456-7890'
-  )
+  );

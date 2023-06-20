@@ -15,19 +15,19 @@ VALUES
   ('Finance', 'Entrepreneurial Skills'),
   (
     'Chemical Analysis',
-    'Laborator Science'
+    'Laboratory Science'
   ),
   (
     'Organic Synthesis',
-    'Laborator Science'
+    'Laboratory Science'
   ),
-  ('Spectroscopy', 'Laborator Science'),
+  ('Spectroscopy', 'Laboratory Science'),
   (
     'Chromatography',
-    'Laborator Science'
+    'Laboratory Science'
   ),
   (
     'Lab Techniques',
-    'Laborator Science'
+    'Laboratory Science'
   ),
-  ('Data Analysis', 'Laborator Science'),
+  ('Data Analysis', 'Laboratory Science');
