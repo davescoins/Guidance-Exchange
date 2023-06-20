@@ -170,7 +170,7 @@ nav {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background-image: url(../img/abstract-lines-pattern_trans.png);
+    background-image: url(/img/abstract-lines-pattern_trans.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -183,8 +183,41 @@ nav {
     gap: 2%;
   }
 
+  .communitypics-grid a {
+    height: 150px;
+    object-fit: cover;
+    overflow: hidden;
+    margin-bottom: 2%;
+  }
+
+
  .communitypic {
     width: 100%;
+ }
+
+ .careers {
+  width: 100%;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 4% 0;
+ }
+
+ .career {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #E0DADA;
+  width: 80%;
+  padding: 3%;
+  margin: 4% 0;
+ }
+
+ h3 {
+  font-size: 3rem;
+  width: 90%;
  }
  
   .greeting{

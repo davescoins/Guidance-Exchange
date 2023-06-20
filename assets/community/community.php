@@ -6,13 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Navbar Template</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
-  <link rel="stylesheet" href= "/community/community.css">
+  <link rel="stylesheet" href= "/assets/community/community.css">
 </head>
 <body>
 <header>
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="home.php"><img src="img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>
+      <a class="navbar-brand" href="home.php"><img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars"></i>
       </button>
@@ -46,29 +46,56 @@
   <!-- Content Section -->
 <div class="communitiespics">
     <div class="communitypics-grid">
-        <a href=""><img src="img/IT_pic.jpeg" alt="IT picture" class="communitypic"></a>
-        <a href=""><img src="img/stocks_pic.jpeg" alt="stock picture" class="communitypic"></a>
-        <a href=""><img src="img/marketing_pics.jpeg" alt="marketing picture" class="communitypic"></a>
-        <a href=""><img src="img/coins_pic.jpeg" alt="coins picture" class="communitypic"></a>
-        <a href=""><img src="img/personaldevelop_pic.jpeg" alt="development picture" class="communitypic"></a>
-        <a href=""><img src="img/gambling_pic.jpeg" alt="gambling picture" class="communitypic"></a>
+        <a href=""><img src="/img/IT_pic.jpeg" alt="IT picture" class="communitypic"></a>
+        <a href=""><img src="/img/stocks_pic.jpeg" alt="stock picture" class="communitypic"></a>
+        <a href=""><img src="/img/marketing_pics.jpeg" alt="marketing picture" class="communitypic"></a>
+        <a href=""><img src="/img/coins_pic.jpeg" alt="coins picture" class="communitypic"></a>
+        <a href=""><img src="/img/personaldevelop_pic.jpeg" alt="development picture" class="communitypic"></a>
+        <a href=""><img src="/img/gambling_pic.jpeg" alt="gambling picture" class="communitypic"></a>
     </div>
+</div>
+<div class="careers">
+  <div class="career">
+  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
+  <h3>GE/IT</h3>
+  </div>
+  <div class="career">
+  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
+  <h3>GE/Stocks</h3>
+  </div>
+  <div class="career">
+  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
+  <h3>GE/Marketing</h3>
+  </div>
+  <div class="career">
+  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
+  <h3>GE/Coins</h3>
+  </div>
+  <div class="career">
+  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
+  <h3>GE/Personal development</h3>
+  </div>
+  <div class="career">
+  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
+  <h3>GE/Gambling</h3>
+  </div>
 </div>
 
 
-  <footer>
-  <nav class="navbar">
-    <div class="mx-auto">
-      <div class="my-3">
-        <a href="https://www.facebook.com/" class="mx-3"><i class="fa fa-facebook"></i></a>
-        <a href="https://www.instagram.com/" class="mx-3"><i class="fa fa-instagram"></i></a>
-        <a href="https://www.twitter.com/" class="mx-3"><i class="fa fa-twitter"></i></a>
-        <a href="https://www.linkedin.com" class="mx-3"><i class="fa fa-linkedin"></i></a>
+<script src="https://kit.fontawesome.com/c5863419fe.js" crossorigin="anonymous"></script>
+<footer>
+    <nav class="navbar">
+      <div class="mx-auto">
+        <div class="my-3">
+          <a href="https://www.facebook.com/" class="mx-3"><i class="fa fa-facebook"></i></a>
+          <a href="https://www.instagram.com/" class="mx-3"><i class="fa fa-instagram"></i></a>
+          <a href="https://www.twitter.com/" class="mx-3"><i class="fa fa-twitter"></i></a>
+          <a href="https://www.linkedin.com" class="mx-3"><i class="fa fa-linkedin"></i></a>
+        </div>
+        <div class="footer-text text-center pb-3">© 2023 Guidance Exchange</div>
       </div>
-      <div class="footer-text text-center pb-3">© 2023 Guidance Exchange</div>
-    </div>
-  </nav>
-</footer>
-</html>
+    </nav>
+  </footer>
+</body>
 
 
