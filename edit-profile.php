@@ -666,7 +666,6 @@
             <div class="modal-content">
               <div class="modal-header modal-header-gradient">
                 <h1 class="modal-title fs-5" id="cancelModalLabel">Cancel?</h1>
-                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
               </div>
               <div class="modal-body">
                 Are you sure you want to discard your changes?
