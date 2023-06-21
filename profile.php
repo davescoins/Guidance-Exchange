@@ -25,7 +25,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4 active" href="#">Profile</a>
+            <a class="nav-link highlight-link nav-text px-4 active" href="profile.php">Profile</a>
           </li>
           <li class="nav-item">
             <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>

@@ -11,6 +11,7 @@
   <link rel="icon" type="image/png" sizes="128x128" href="/favicon-128.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
   <link rel="stylesheet" href="css/profile.css" />
   <link rel="stylesheet" href="css/main.css" />
 </head>
@@ -25,7 +26,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4 active" href="#">Profile</a>
+            <a class="nav-link highlight-link nav-text px-4 active" href="profile.php">Profile</a>
           </li>
           <li class="nav-item">
             <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
@@ -58,8 +59,6 @@
   $userID = 1;
   $sql = "SELECT * FROM `UserData_t` WHERE `UserID` = $userID";
   $result = mysqli_query($con, $sql);
-  $sqlEmail = "SELECT `email` FROM `Auth_t` WHERE `UserID` = $userID";
-  $emailResult = mysqli_query($con, $sqlEmail);
 
   // Fetch all of the entries from the UserData table and assign them to variables that can be used later
   while ($profile = mysqli_fetch_assoc($result)) {
@@ -98,14 +97,36 @@
     $educationEndDateArray = explode(";", $educationEndDate ?? '');
     $educationDescription = $profile['EducationDescription'];
     $educationDescriptionArray = explode(";", $educationDescription ?? '');
-    $skills = $profile['Skills'];
-    $skillsArray = explode(";", $skills ?? '');
     $associations = $profile['Associations'];
     $associationsArray = explode(";", $associations ?? '');
   }
 
+  $sqlEmail = "SELECT `email` FROM `Auth_t` WHERE `UserID` = $userID";
+  $emailResult = mysqli_query($con, $sqlEmail);
+
   while ($fetchEmail = mysqli_fetch_assoc($emailResult)) {
     $email = $fetchEmail['email'];
+  }
+
+  // Create an associative array for all of the skills in the database
+  $sqlSkills = "SELECT * FROM `Skills_t`";
+  $skillsResult = mysqli_query($con, $sqlSkills);
+  $allSkillsArray = array();
+
+  while ($fetchSkills = mysqli_fetch_assoc($skillsResult)) {
+    $skillID = $fetchSkills['SkillID'];
+    $allSkillsArray[$skillID] = array(
+      'SkillName' => $fetchSkills['SkillName'],
+      'SkillGroup' => $fetchSkills['SkillGroup']
+    );
+  }
+
+  // Fetch qualifications data from qualifications table and skills table
+  $qualificationsSql = "SELECT * FROM `Qualifications_t` WHERE `UserID` = $userID";
+  $qualificationsResult = mysqli_query($con, $qualificationsSql);
+  $qualificationsArray = array();
+  while ($qualifications = mysqli_fetch_assoc($qualificationsResult)) {
+    $qualificationsArray[] = $qualifications['SkillID'];
   }
 
   mysqli_close($con);
@@ -122,13 +143,26 @@
 
   // Create an array of months
   $months = array(
-    'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+    '01' => 'January',
+    '02' => 'February',
+    '03' => 'March',
+    '04' => 'April',
+    '05' => 'May',
+    '06' => 'June',
+    '07' => 'July',
+    '08' => 'August',
+    '09' => 'September',
+    '10' => 'October',
+    '11' => 'November',
+    '12' => 'December'
   );
+
 
   // Create an array of days
   $days = array();
   for ($i = 1; $i <= 31; $i++) {
-    $days[] = $i;
+    $day = sprintf("%02d", $i); // Format the number with leading zeros
+    $days[$day] = $i;
   }
 
   // Create an array of years
@@ -151,19 +185,19 @@
 
   echo '<section class="content-section pt-4">';
   ?>
-  <form action="edit.php" method="POST" class="container w-50" id="editProfile">
+  <form action="edit.php" method="POST" class="container w-50">
     <h1 class="w-100 edit__section-heading p-1 mb-3">Personal Details</h1>
     <div class="w-75 container">
       <div class="row mb-3 align-items-center">
         <label for="firstName" class="col-sm-2 form-label m-0">First Name</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="firstName" id="firstName" value="<?php echo $firstName; ?>">
+          <input type="text" class="form-control" name="firstName" id="firstName" value="<?php echo $firstName; ?>" required>
         </div>
       </div>
       <div class="row mb-3 align-items-center">
         <label for="lastName" class="col-sm-2 form-label m-0">Last Name</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="lastName" id="lastName" value="<?php echo $lastName; ?>">
+          <input type="text" class="form-control" name="lastName" id="lastName" value="<?php echo $lastName; ?>" required>
         </div>
       </div>
       <div class="row mb-3 align-items-center">
@@ -264,16 +298,16 @@
             $workStartMonth = date("F", strtotime($workStartDate));
             if ($workStartDate == null) {
               echo '<option value="null" selected>Month</option>';
-              foreach ($months as $month) {
-                echo '<option value="' . $month . '">' . $month . '</option>';
+              foreach ($months as $key => $month) {
+                echo '<option value="' . $key . '">' . $month . '</option>';
               }
             } else {
               echo '<option value="null">Month</option>';
-              foreach ($months as $month) {
+              foreach ($months as $key => $month) {
                 if ($month == $workStartMonth) {
-                  echo '<option value="' . $month . '" selected="selected">' . $month;
+                  echo '<option value="' . $key . '" selected="selected">' . $month;
                 } else {
-                  echo '<option value="' . $month . '">' . $month;
+                  echo '<option value="' . $key . '">' . $month;
                 }
                 echo '</option>';
               }
@@ -287,16 +321,16 @@
             $workStartDay = date("j", strtotime($workStartDate));
             if ($workStartDate == null) {
               echo '<option value="null" selected>Day</option>';
-              foreach ($days as $day) {
-                echo '<option value="' . $day . '">' . $day . '</option>';
+              foreach ($days as $key => $day) {
+                echo '<option value="' . $key . '">' . $day . '</option>';
               }
             } else {
               echo '<option value="null">Day</option>';
-              foreach ($days as $day) {
+              foreach ($days as $key => $day) {
                 if ($day == $workStartDay) {
-                  echo '<option value="' . $day . '" selected="selected">' . $day;
+                  echo '<option value="' . $key . '" selected="selected">' . $day;
                 } else {
-                  echo '<option value="' . $day . '">' . $day;
+                  echo '<option value="' . $key . '">' . $day;
                 }
                 echo '</option>';
               }
@@ -336,16 +370,16 @@
             $workEndMonth = date("F", strtotime($workEndDate));
             if ($workEndDate == null) {
               echo '<option value="null" selected>Month</option>';
-              foreach ($months as $month) {
-                echo '<option value="' . $month . '">' . $month . '</option>';
+              foreach ($months as $key => $month) {
+                echo '<option value="' . $key . '">' . $month . '</option>';
               }
             } else {
               echo '<option value="null">Month</option>';
-              foreach ($months as $month) {
+              foreach ($months as $key => $month) {
                 if ($month == $workEndMonth) {
-                  echo '<option value="' . $month . '" selected="selected">' . $month;
+                  echo '<option value="' . $key . '" selected="selected">' . $month;
                 } else {
-                  echo '<option value="' . $month . '">' . $month;
+                  echo '<option value="' . $key . '">' . $month;
                 }
                 echo '</option>';
               }
@@ -359,16 +393,16 @@
             $workEndDay = date("j", strtotime($workEndDate));
             if ($workEndDate == null) {
               echo '<option value="null" selected>Day</option>';
-              foreach ($days as $day) {
-                echo '<option value="' . $day . '">' . $day . '</option>';
+              foreach ($days as $key => $day) {
+                echo '<option value="' . $key . '">' . $day . '</option>';
               }
             } else {
               echo '<option value="null">Day</option>';
-              foreach ($days as $day) {
+              foreach ($days as $key => $day) {
                 if ($day == $workEndDay) {
-                  echo '<option value="' . $day . '" selected="selected">' . $day;
+                  echo '<option value="' . $key . '" selected="selected">' . $day;
                 } else {
-                  echo '<option value="' . $day . '">' . $day;
+                  echo '<option value="' . $key . '">' . $day;
                 }
                 echo '</option>';
               }
@@ -425,16 +459,16 @@
             $educationStartMonth = date("F", strtotime($educationStartDate));
             if ($educationStartDate == null) {
               echo '<option value="null" selected>Month</option>';
-              foreach ($months as $month) {
-                echo '<option value="' . $month . '">' . $month . '</option>';
+              foreach ($months as $key => $month) {
+                echo '<option value="' . $key . '">' . $month . '</option>';
               }
             } else {
               echo '<option value="null">Month</option>';
-              foreach ($months as $month) {
+              foreach ($months as $key => $month) {
                 if ($month == $educationStartMonth) {
-                  echo '<option value="' . $month . '" selected="selected">' . $month;
+                  echo '<option value="' . $key . '" selected="selected">' . $month;
                 } else {
-                  echo '<option value="' . $month . '">' . $month;
+                  echo '<option value="' . $key . '">' . $month;
                 }
                 echo '</option>';
               }
@@ -448,16 +482,16 @@
             $educationStartDay = date("j", strtotime($educationStartDate));
             if ($educationStartDate == null) {
               echo '<option value="null" selected>Day</option>';
-              foreach ($days as $day) {
-                echo '<option value="' . $day . '">' . $day . '</option>';
+              foreach ($days as $key => $day) {
+                echo '<option value="' . $key . '">' . $day . '</option>';
               }
             } else {
               echo '<option value="null">Day</option>';
-              foreach ($days as $day) {
+              foreach ($days as $key => $day) {
                 if ($day == $educationStartDay) {
-                  echo '<option value="' . $day . '" selected="selected">' . $day;
+                  echo '<option value="' . $key . '" selected="selected">' . $day;
                 } else {
-                  echo '<option value="' . $day . '">' . $day;
+                  echo '<option value="' . $key . '">' . $day;
                 }
                 echo '</option>';
               }
@@ -497,16 +531,16 @@
             $educationEndMonth = date("F", strtotime($educationEndDate));
             if ($educationEndDate == null) {
               echo '<option value="null" selected>Month</option>';
-              foreach ($months as $month) {
-                echo '<option value="' . $month . '">' . $month . '</option>';
+              foreach ($months as $key => $month) {
+                echo '<option value="' . $key . '">' . $month . '</option>';
               }
             } else {
               echo '<option value="null">Month</option>';
-              foreach ($months as $month) {
+              foreach ($months as $key => $month) {
                 if ($month == $educationEndMonth) {
-                  echo '<option value="' . $month . '" selected="selected">' . $month;
+                  echo '<option value="' . $key . '" selected="selected">' . $month;
                 } else {
-                  echo '<option value="' . $month . '">' . $month;
+                  echo '<option value="' . $key . '">' . $month;
                 }
                 echo '</option>';
               }
@@ -520,16 +554,16 @@
             $educationEndDay = date("j", strtotime($educationEndDate));
             if ($educationEndDate == null) {
               echo '<option value="null" selected>Day</option>';
-              foreach ($days as $day) {
-                echo '<option value="' . $day . '">' . $day . '</option>';
+              foreach ($days as $key => $day) {
+                echo '<option value="' . $key . '">' . $day . '</option>';
               }
             } else {
               echo '<option value="null">Day</option>';
-              foreach ($days as $day) {
+              foreach ($days as $key => $day) {
                 if ($day == $educationEndDay) {
-                  echo '<option value="' . $day . '" selected="selected">' . $day;
+                  echo '<option value="' . $key . '" selected="selected">' . $day;
                 } else {
-                  echo '<option value="' . $day . '">' . $day;
+                  echo '<option value="' . $key . '">' . $day;
                 }
                 echo '</option>';
               }
@@ -567,38 +601,23 @@
       </div>
       <h2 class="edit__section-subHeading mb-3 mt-4">Skills</h2>
       <div class="row mb-3 align-items-center">
-        <!-- <div class="col-sm-10">
-          <input type="text" class="form-control" name="skill" id="skillInput" placeholder="Enter skill or expertise">
-        </div>
-        <button type="button" class="col-sm-2 btn main-button" onclick="addSkill()">Add</button> -->
-
-        <div class="row py-2">
-          <div class="col-12 col-lg-6">
-            <label class="text-signup-label" for="Skills">Select Skills:</label>
-            <br>
-            <div id="selectedSkills" class="my-2"></div>
-            <select id="Skills" name="Skills" multiple onchange="updateSkills()">
-              <optgroup label="Web development">
-                <option>HTML</option>
-                <option>css</option>
-                <option>JavaScript</option>
-              </optgroup>
-              <optgroup label="Entrepreneurial skills">
-                <option>Leadership</option>
-                <option>Decision-Making</option>
-                <option>Finance</option>
-              </optgroup>
-
-              <optgroup label="Option group 1">
-                <option>Sub option 1</option>
-                <option>Sub option 2</option>
-                <option>Sub option 3</option>
-              </optgroup>
-            </select>
-
-          </div>
-        </div>
-
+        <select id="choices-multiple-remove-button" name="skills[]" class="form-select mb-3" multiple>
+          <option value="">Select Skills...</option>
+          <?php
+          foreach ($allSkillsArray as $skillID => $skill) {
+            $selected = in_array($skillID, $qualificationsArray) ? 'selected' : '';
+            if (!isset($currentGroup) || $currentGroup !== $skill['SkillGroup']) {
+              if (isset($currentGroup)) {
+                echo '</optgroup>';
+              }
+              $currentGroup = $skill['SkillGroup'];
+              echo '<optgroup label="' . $currentGroup . '">';
+            }
+            echo '<option value="' . $skillID . '" ' . $selected . '>' . $skill['SkillName'] . '</option>';
+          }
+          echo '</optgroup>';
+          ?>
+        </select>
       </div>
     </div>
 
@@ -632,7 +651,7 @@
       <div class="row mb-3 align-items-center">
         <label for="profilePictureBorder" class="col-sm-4 form-label m-0">Profile Picture Border</label>
         <div class="col-sm-8">
-          <input type="color" class="form-control form-control-color" id="profilePictureBorder" value="<?php echo $profilePictureBorder; ?>" title="Choose your color">
+          <input type="color" class="form-control form-control-color" id="profilePictureBorder" name="profilePictureBorder" value="<?php echo $profilePictureBorder; ?>" title="Choose your color">
         </div>
       </div>
       <div class="d-flex justify-content-center my-5">
@@ -642,12 +661,12 @@
         </button>
 
         <!-- Cancel Modal -->
-        <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+        <div class="modal fade" id="cancelModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header modal-header-gradient">
                 <h1 class="modal-title fs-5" id="cancelModalLabel">Cancel?</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
               </div>
               <div class="modal-body">
                 Are you sure you want to discard your changes?
@@ -670,6 +689,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
   <script src="https://kit.fontawesome.com/c5863419fe.js" crossorigin="anonymous"></script>
   <script src="js/profile.js"></script>
 </body>

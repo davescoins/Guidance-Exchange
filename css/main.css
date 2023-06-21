@@ -101,6 +101,10 @@ nav i:hover {
   width: 160px;
 }
 
+.btn-auto {
+  width: auto;
+}
+
 /* Body */
 
 body {
