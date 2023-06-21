@@ -96,10 +96,22 @@
     $educationEndDateArray = explode(";", $educationEndDate ?? '');
     $educationDescription = $profile['EducationDescription'];
     $educationDescriptionArray = explode(";", $educationDescription ?? '');
-    $skills = $profile['Skills'];
-    $skillsArray = explode(";", $skills ?? '');
     $associations = $profile['Associations'];
     $associationsArray = explode(";", $associations ?? '');
+  }
+
+  // Fetch skills data from qualifications table and skills table
+  $skillsSql = "SELECT * FROM `Qualifications_t` WHERE `UserID` = $userID";
+  $skillsResult = mysqli_query($con, $skillsSql);
+  $skillsArray = array();
+  while ($qualifications = mysqli_fetch_assoc($skillsResult)) {
+    $skillsArray[] = $qualifications['SkillID'];
+  }
+  $qualificationsSql = "SELECT `skillName` FROM `skills_t` WHERE `skillID` IN (" . implode(',', $skillsArray) . ")";
+  $qualificationsResult = mysqli_query($con, $qualificationsSql);
+  $skillNames = array();
+  while ($row = mysqli_fetch_assoc($qualificationsResult)) {
+    $skillNames[] = $row['skillName'];
   }
 
   if ($userID == 1 && $mentorStatus == true) {
@@ -482,7 +494,7 @@
     echo '</div></div></div></div>';
   }
 
-  if ($skills != null) {
+  if ($skillNames != null) {
     echo '<div class="container-fluid pb-4">';
     echo '<div class="row align-items-start profile-section pt-2">';
     echo '<div class="col-1 d-flex align-items-center justify-content-center profile-icon">';
@@ -491,7 +503,7 @@
     echo '<div class="col-11 profile-wrap">';
     echo '<h3>Skills</h3>';
     echo '<div>';
-    foreach ($skillsArray as $value) {
+    foreach ($skillNames as $value) {
       echo '<a class="btn profile-skill me-1" href="#" role="button">' . $value . '</a>';
     }
     echo '</div>';
@@ -535,6 +547,7 @@
     echo '</div></div></div></div>';
     mysqli_close($con);
   }
+
   echo '</section>';
   ?>
 
