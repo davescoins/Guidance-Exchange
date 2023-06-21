@@ -56,7 +56,7 @@ VALUES
     '2015-08-24',
     '2018-05-10',
     'David pursued his doctoral studies in Chemistry, specializing in a specific field such as organic chemistry, inorganic chemistry, or physical chemistry. He conducted in-depth research, published scientific papers, and presented his findings at conferences. His Ph.D. research focused on advancing knowledge in a specific area of chemistry, demonstrating his expertise and dedication to the field.',
-    'Chemical Analysis;Organic Synthesis;Spectroscopy;Chromatography;Lab Techniques;Data Analysis;Research Methodology'
+    '2;3;4;5'
   ),
   (
     2,
