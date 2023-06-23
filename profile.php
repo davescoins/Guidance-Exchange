@@ -18,6 +18,7 @@
 <header>
   <?php
   include('includes/session.inc.php');
+  $profileID = $_GET['profileID'];
   ?>
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
@@ -28,7 +29,12 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4 active" href="profile.php?profileID=<?php echo $userID; ?>">Profile</a>
+            <?php if ($profileID == $userID) {
+              echo '<a class="nav-link highlight-link nav-text px-4 active" href="profile.php?profileID=' . $userID . '">Profile</a>';
+            } else {
+              echo '<a class="nav-link highlight-link nav-text px-4" href="profile.php?profileID=' . $userID . '">Profile</a>';
+            }
+            ?>
           </li>
           <li class="nav-item">
             <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
@@ -57,8 +63,6 @@
 
 <body>
   <?php
-
-  $profileID = $_GET['profileID'];
   $sql = "SELECT * FROM `UserData_t` WHERE `UserID` = $profileID";
   $result = mysqli_query($con, $sql);
 
