@@ -1,6 +1,5 @@
 <?php
-$userID = 1;
-include('includes/connect.inc.php');
+include('includes/session.inc.php');
 
 if (isset($_POST['firstName'])) {
   $firstName = mysqli_real_escape_string($con, $_POST['firstName']);
@@ -12,52 +11,52 @@ if (isset($_POST['lastName'])) {
 } else {
   $lastName = null;
 };
-if (isset($_POST['city'])) {
+if (isset($_POST['city']) && $_POST['city'] !== "") {
   $city = mysqli_real_escape_string($con, $_POST['city']);
 } else {
   $city = null;
 }
-if (isset($_POST['state'])) {
+if (isset($_POST['state']) && $_POST['state'] !== "") {
   $state = mysqli_real_escape_string($con, $_POST['state']);
 } else {
   $state = null;
 }
-if (isset($_POST['email'])) {
+if (isset($_POST['email']) && $_POST['email'] !== "") {
   $email = mysqli_real_escape_string($con, $_POST['email']);
 } else {
   $email = null;
 }
-if (isset($_POST['facebook'])) {
+if (isset($_POST['facebook']) && $_POST['facebook'] !== "") {
   $facebook = mysqli_real_escape_string($con, $_POST['facebook']);
 } else {
   $facebook = null;
 }
-if (isset($_POST['twitter'])) {
+if (isset($_POST['twitter']) && $_POST['twitter'] !== "") {
   $twitter = mysqli_real_escape_string($con, $_POST['twitter']);
 } else {
   $twitter = null;
 }
-if (isset($_POST['instagram'])) {
+if (isset($_POST['instagram']) && $_POST['instagram'] !== "") {
   $instagram = mysqli_real_escape_string($con, $_POST['instagram']);
 } else {
   $instagram = null;
 }
-if (isset($_POST['linkedIn'])) {
+if (isset($_POST['linkedIn']) && $_POST['linkedIn'] !== "") {
   $linkedIn = mysqli_real_escape_string($con, $_POST['linkedIn']);
 } else {
   $linkedIn = null;
 }
-if (isset($_POST['aboutMe'])) {
+if (isset($_POST['aboutMe']) && $_POST['aboutMe'] !== "") {
   $aboutMe = mysqli_real_escape_string($con, $_POST['aboutMe']);
 } else {
   $aboutMe = null;
 }
-if (isset($_POST['jobTitle'])) {
+if (isset($_POST['jobTitle']) && $_POST['jobTitle'] !== "") {
   $jobTitle = mysqli_real_escape_string($con, $_POST['jobTitle']);
 } else {
   $jobTitle = null;
 }
-if (isset($_POST['workLocation'])) {
+if (isset($_POST['workLocation']) && $_POST['workLocation'] !== "") {
   $workLocation = mysqli_real_escape_string($con, $_POST['workLocation']);
 } else {
   $workLocation = null;
@@ -92,17 +91,17 @@ if (isset($_POST['workEndYear']) && $_POST['workEndYear'] !== "null") {
 } else {
   $workEndYear = null;
 }
-if (isset($_POST['workDescription'])) {
+if (isset($_POST['workDescription']) && $_POST['workDescription'] !== "") {
   $workDescription = mysqli_real_escape_string($con, $_POST['workDescription']);
 } else {
   $workDescription = null;
 }
-if (isset($_POST['degreeTitle'])) {
+if (isset($_POST['degreeTitle']) && $_POST['degreeTitle'] !== "") {
   $degreeTitle = mysqli_real_escape_string($con, $_POST['degreeTitle']);
 } else {
   $degreeTitle = null;
 }
-if (isset($_POST['educationLocation'])) {
+if (isset($_POST['educationLocation']) && $_POST['educationLocation'] !== "") {
   $educationLocation = mysqli_real_escape_string($con, $_POST['educationLocation']);
 } else {
   $educationLocation = null;
@@ -137,17 +136,17 @@ if (isset($_POST['educationEndYear']) && $_POST['educationEndYear'] !== "null") 
 } else {
   $educationEndYear = null;
 }
-if (isset($_POST['educationDescription'])) {
+if (isset($_POST['educationDescription']) && $_POST['educationDescription'] !== "") {
   $educationDescription = mysqli_real_escape_string($con, $_POST['educationDescription']);
 } else {
   $educationDescription = null;
 }
-if (isset($_POST['overlay'])) {
+if (isset($_POST['overlay']) && $_POST['overlay'] !== "") {
   $overlay = mysqli_real_escape_string($con, $_POST['overlay']);
 } else {
   $overlay = null;
 }
-if (isset($_POST['profilePictureBorder'])) {
+if (isset($_POST['profilePictureBorder']) && $_POST['profilePictureBorder'] !== "") {
   $profilePictureBorder = $_POST['profilePictureBorder'];
 } else {
   $profilePictureBorder = null;
@@ -185,7 +184,57 @@ if ($educationEndYear === null || $educationEndMonth === null || $educationEndDa
   $educationEndDate = $educationEndYear . '-' . $educationEndMonth . '-' . $educationEndDay;
 }
 
-$sqlUserDataUpdate = "UPDATE `UserData_t` SET FirstName='$firstName', LastName='$lastName', ProfilePictureBackground='$overlay', ProfilePictureBorder ='$profilePictureBorder', LocationCity ='$city', LocationState ='$state', Facebook ='$facebook', Twitter ='$twitter', Instagram ='$instagram', LinkedIn ='$linkedIn', AboutMe ='$aboutMe', WorkTitle ='$jobTitle', WorkLocation ='$workLocation', ";
+$sqlUserDataUpdate = "UPDATE `UserData_t` SET FirstName='$firstName', LastName='$lastName', ";
+if ($overlay === null) {
+  $sqlUserDataUpdate .= "ProfilePictureBackground = NULL, ";
+} else {
+  $sqlUserDataUpdate .= "ProfilePictureBackground = '$overlay', ";
+}
+if ($profilePictureBorder === null) {
+  $sqlUserDataUpdate .= "ProfilePictureBorder = NULL, ";
+} else {
+  $sqlUserDataUpdate .= "ProfilePictureBorder = '$profilePictureBorder', ";
+}
+if ($city === null) {
+  $sqlUserDataUpdate .= "LocationCity = NULL, ";
+} else {
+  $sqlUserDataUpdate .= "LocationCity = '$city', ";
+}
+if ($state === null) {
+  $sqlUserDataUpdate .= "LocationState = NULL, ";
+} else {
+  $sqlUserDataUpdate .= "LocationState = '$state', ";
+}
+if ($facebook === null) {
+  $sqlUserDataUpdate .= "Facebook = NULL, ";
+} else {
+  $sqlUserDataUpdate .= "Facebook = '$facebook', ";
+}
+if ($twitter === null) {
+  $sqlUserDataUpdate .= "Twitter = NULL, ";
+} else {
+  $sqlUserDataUpdate .= "Twitter = '$twitter', ";
+}
+if ($linkedIn === null) {
+  $sqlUserDataUpdate .= "LinkedIn = NULL, ";
+} else {
+  $sqlUserDataUpdate .= "LinkedIn = '$linkedIn', ";
+}
+if ($aboutMe === null) {
+  $sqlUserDataUpdate .= "AboutMe = NULL, ";
+} else {
+  $sqlUserDataUpdate .= "AboutMe = '$aboutMe', ";
+}
+if ($jobTitle === null) {
+  $sqlUserDataUpdate .= "WorkTitle = NULL, ";
+} else {
+  $sqlUserDataUpdate .= "WorkTitle = '$jobTitle', ";
+}
+if ($workLocation === null) {
+  $sqlUserDataUpdate .= "WorkLocation = NULL, ";
+} else {
+  $sqlUserDataUpdate .= "WorkLocation = '$workLocation', ";
+}
 if ($workStartDate === null) {
   $sqlUserDataUpdate .= "WorkStartDate = NULL, ";
 } else {
@@ -196,7 +245,21 @@ if ($workEndDate === null) {
 } else {
   $sqlUserDataUpdate .= "WorkEndDate = '$workEndDate', ";
 }
-$sqlUserDataUpdate .= "WorkDescription ='$workDescription', EducationDegree ='$degreeTitle', EducationLocation = '$educationLocation', ";
+if ($workDescription === null) {
+  $sqlUserDataUpdate .= "WorkDescription = NULL, ";
+} else {
+  $sqlUserDataUpdate .= "WorkDescription = '$workDescription', ";
+}
+if ($degreeTitle === null) {
+  $sqlUserDataUpdate .= "EducationDegree = NULL, ";
+} else {
+  $sqlUserDataUpdate .= "EducationDegree = '$degreeTitle', ";
+}
+if ($educationLocation === null) {
+  $sqlUserDataUpdate .= "EducationLocation = NULL, ";
+} else {
+  $sqlUserDataUpdate .= "EducationLocation = '$educationLocation', ";
+}
 if ($educationStartDate === null) {
   $sqlUserDataUpdate .= "educationStartDate = NULL, ";
 } else {
@@ -207,10 +270,14 @@ if ($educationEndDate === null) {
 } else {
   $sqlUserDataUpdate .= "educationEndDate = '$educationEndDate', ";
 }
-$sqlUserDataUpdate .= "EducationDescription ='$educationDescription' WHERE `UserID`=$userID";
+if ($educationDescription === null) {
+  $sqlUserDataUpdate .= "EducationDescription = NULL ";
+} else {
+  $sqlUserDataUpdate .= "EducationDescription = '$educationDescription' ";
+}
+$sqlUserDataUpdate .= "WHERE `UserID`=$userID";
 
 mysqli_query($con, $sqlUserDataUpdate);
-
 
 $qualificationsSql = "SELECT * FROM `Qualifications_t` WHERE `UserID` = $userID";
 $qualificationsResult = mysqli_query($con, $qualificationsSql);
@@ -219,19 +286,28 @@ while ($qualifications = mysqli_fetch_assoc($qualificationsResult)) {
   $qualificationsArray[] = $qualifications['SkillID'];
 }
 
-$skillsToAdd = array_diff($skills, $qualificationsArray);
-$skillsToRemove = array_diff($qualificationsArray, $skills);
-foreach ($skillsToAdd as $skill) {
-  $skillAddQuery = "INSERT INTO `Qualifications_t` (`UserID`, `SkillID`) VALUES ($userID, $skill)";
-  mysqli_query($con, $skillAddQuery);
-}
+if ($skills === null) {
+  foreach ($qualificationsArray as $skill) {
+    $skillRemoveQuery = "DELETE FROM `Qualifications_t` WHERE `UserID` = $userID AND `SkillID` = $skill";
+    mysqli_query($con, $skillRemoveQuery);
+  }
+} else {
 
-foreach ($skillsToRemove as $skill) {
-  $skillRemoveQuery = "DELETE FROM `Qualifications_t` WHERE `UserID` = $userID AND `SkillID` = $skill";
-  mysqli_query($con, $skillRemoveQuery);
+  $skillsToAdd = array_diff($skills, $qualificationsArray);
+  $skillsToRemove = array_diff($qualificationsArray, $skills);
+
+  foreach ($skillsToAdd as $skill) {
+    $skillAddQuery = "INSERT INTO `Qualifications_t` (`UserID`, `SkillID`) VALUES ($userID, $skill)";
+    mysqli_query($con, $skillAddQuery);
+  }
+
+  foreach ($skillsToRemove as $skill) {
+    $skillRemoveQuery = "DELETE FROM `Qualifications_t` WHERE `UserID` = $userID AND `SkillID` = $skill";
+    mysqli_query($con, $skillRemoveQuery);
+  }
 }
 
 mysqli_close($con);
 
-header('Location: profile.php');
+header('Location: profile.php?profileID=' . $userID);
 exit();

@@ -68,9 +68,11 @@ if (isset($_POST['submit'])) {
 
     $_SESSION['uname'] = $uname;
 
-    $_SESSION['userid'] = $user['UserID'];
+    $_SESSION['UserID'] = $user['UserID'];
 
-    header('Location: profile.php');
+    $url = 'profile.php?profileID=' . $_SESSION['UserID'];
+
+    header('Location: ' . $url);
     exit();
   }
 }

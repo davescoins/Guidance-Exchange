@@ -16,6 +16,9 @@
 </head>
 
 <header>
+  <?php
+  include('includes/session.inc.php');
+  ?>
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="home.php"><img src="img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>
@@ -25,24 +28,26 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4 active" href="profile.php">Profile</a>
+            <a class="nav-link highlight-link nav-text px-4 active" href="profile.php?profileID=<?php echo $userID; ?>">Profile</a>
           </li>
           <li class="nav-item">
             <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4" href="#">Mentoring</a>
-          </li>
         </ul>
         <ul class="navbar-nav d-flex flex-row me-1">
           <li class="nav-item me-3 me-lg-0 px-2">
-            <a class="nav-link" href="#"><i class="fa-solid fa-magnifying-glass fa-xl"></i></i></i></a>
+            <a class="nav-link" href="#"><i class="fa-solid fa-magnifying-glass fa-xl"></i></a>
           </li>
           <li class="nav-item me-3 me-lg-0 px-2">
-            <a class="nav-link" href="#"><i class="fa-solid fa-inbox fa-xl"></i></i></a>
+            <a class="nav-link" href="#"><i class="fa-solid fa-inbox fa-xl"></i></a>
           </li>
-          <li class="nav-item me-3 me-lg-0 px-2">
-            <a class="nav-link" href="#"><i class="fa-solid fa-user-group fa-xl"></i></i></a>
+          <li class="nav-item dropdown me-3 me-lg-0 px-2 d-flex justify-content-center">
+            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-user-group fa-xl"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+            </ul>
           </li>
         </ul>
       </div>
@@ -52,11 +57,9 @@
 
 <body>
   <?php
-  include('includes/connect.inc.php');
 
-  // *** TESTING USERID INSERTED - CHANGE TO SESSION VARIABLE FOR PRODUCTION!!! ***
-  $userID = 1;
-  $sql = "SELECT * FROM `UserData_t` WHERE `UserID` = $userID";
+  $profileID = $_GET['profileID'];
+  $sql = "SELECT * FROM `UserData_t` WHERE `UserID` = $profileID";
   $result = mysqli_query($con, $sql);
 
   // Fetch all of the entries from the UserData table and assign them to variables that can be used later
@@ -101,20 +104,23 @@
   }
 
   // Fetch skills data from qualifications table and skills table
-  $skillsSql = "SELECT * FROM `Qualifications_t` WHERE `UserID` = $userID";
+  $skillsSql = "SELECT * FROM `Qualifications_t` WHERE `UserID` = $profileID";
   $skillsResult = mysqli_query($con, $skillsSql);
   $skillsArray = array();
   while ($qualifications = mysqli_fetch_assoc($skillsResult)) {
     $skillsArray[] = $qualifications['SkillID'];
   }
-  $qualificationsSql = "SELECT `skillName` FROM `skills_t` WHERE `skillID` IN (" . implode(',', $skillsArray) . ")";
-  $qualificationsResult = mysqli_query($con, $qualificationsSql);
-  $skillNames = array();
-  while ($row = mysqli_fetch_assoc($qualificationsResult)) {
-    $skillNames[] = $row['skillName'];
+
+  if ($skillsArray != null) {
+    $qualificationsSql = "SELECT `skillName` FROM `skills_t` WHERE `skillID` IN (" . implode(',', $skillsArray) . ")";
+    $qualificationsResult = mysqli_query($con, $qualificationsSql);
+    $skillNames = array();
+    while ($row = mysqli_fetch_assoc($qualificationsResult)) {
+      $skillNames[] = $row['skillName'];
+    }
   }
 
-  if ($userID == 1 && $mentorStatus == true) {
+  if ($userID == $profileID && $mentorStatus == true) {
     // *** This section will run on the user's page ***
 
     // If user is a mentor, get appointment information
@@ -277,9 +283,7 @@
 
   // *** Buttons Secion ***
 
-  // This section should only appear when the user is logged in and on their own profile. Change this once user accounts and session variables are implemented.
-
-  if ($userID == 1) {
+  if ($userID == $profileID) {
     echo '<section class="profile__buttons-section d-flex justify-content-center">';
     echo '<div class="container text-center row profile__buttons_links">';
     echo '<div class="col">';
@@ -314,7 +318,7 @@
     echo '</div></div></div></div>';
   }
 
-  if ($userID == 1 && $scheduledAppointmentsArray != null) {
+  if ($userID == $profileID && $scheduledAppointmentsArray != null) {
     echo '<div class="container-fluid pb-4">';
     echo '<div class="row align-items-start profile-section pt-2">';
     echo '<div class="col-1 d-flex align-items-center justify-content-center profile-icon">';
@@ -536,7 +540,7 @@
         $associationProfilePicture = $profileAssociation['ProfilePicture'];
       }
       echo '<div class="col-2 d-flex align-items center justify-content-center">';
-      echo '<a href="#"><img class="association-photo" src="upload/' . $associationProfilePicture . '" alt="' . $associationFirstName . ' ' . $associationLastName . ' Profile Photo"></a>';
+      echo '<a href="profile.php?profileID=' . $value . '"><img class="association-photo" src="upload/' . $associationProfilePicture . '" alt="' . $associationFirstName . ' ' . $associationLastName . ' Profile Photo"></a>';
       echo '</div>';
     }
     echo '</div>';

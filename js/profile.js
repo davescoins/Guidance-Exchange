@@ -48,7 +48,8 @@ function openModal(modalId) {
 
 // This function discards the changes made on the profile edit page
 document.getElementById('confirm').addEventListener('click', function () {
-  window.location.href = 'profile.php';
+  var userID = this.getAttribute('data-userid');
+  window.location.href = 'profile.php?profileID=' + userID;
 });
 
 $(document).ready(function () {

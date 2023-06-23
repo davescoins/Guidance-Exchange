@@ -17,6 +17,9 @@
 </head>
 
 <header>
+  <?php
+  include('includes/session.inc.php');
+  ?>
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="home.php"><img src="img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>
@@ -26,13 +29,10 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4 active" href="profile.php">Profile</a>
+            <a class="nav-link highlight-link nav-text px-4 active" href="profile.php?profileID=<?php echo $userID; ?>">Profile</a>
           </li>
           <li class="nav-item">
             <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4" href="#">Mentoring</a>
           </li>
         </ul>
         <ul class="navbar-nav d-flex flex-row me-1">
@@ -42,8 +42,13 @@
           <li class="nav-item me-3 me-lg-0 px-2">
             <a class="nav-link" href="#"><i class="fa-solid fa-inbox fa-xl"></i></i></a>
           </li>
-          <li class="nav-item me-3 me-lg-0 px-2">
-            <a class="nav-link" href="#"><i class="fa-solid fa-user-group fa-xl"></i></i></a>
+          <li class="nav-item dropdown me-3 me-lg-0 px-2 d-flex justify-content-center">
+            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-user-group fa-xl"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+            </ul>
           </li>
         </ul>
       </div>
@@ -53,10 +58,7 @@
 
 <body>
   <?php
-  include('includes/connect.inc.php');
 
-  // *** TESTING USERID INSERTED - CHANGE TO SESSION VARIABLE FOR PRODUCTION!!! ***
-  $userID = 1;
   $sql = "SELECT * FROM `UserData_t` WHERE `UserID` = $userID";
   $result = mysqli_query($con, $sql);
 
@@ -212,12 +214,12 @@
           <select class="form-select" name="state" id="state">
             <?php
             if ($state == null) {
-              echo '<option value="null" selected>Choose...</option>';
+              echo '<option value="" selected>Choose...</option>';
               foreach ($us_states as $stateName) {
                 echo '<option value="' . $stateName . '">' . $stateName . '</option>';
               }
             } else {
-              echo '<option value="null">Choose...</option>';
+              echo '<option value="">Choose...</option>';
               foreach ($us_states as $stateName) {
                 if ($stateName == $state) {
                   echo '<option value="' . $stateName . '" selected="selected">' . $stateName;
@@ -671,7 +673,7 @@
                 Are you sure you want to discard your changes?
               </div>
               <div class="modal-footer justify-content-center">
-                <button type="button" class="btn main-button btn-long" id="confirm">Discard Changes</button>
+                <button type="button" class="btn main-button btn-long" id="confirm" data-userid="<?php echo $userID; ?>">Discard Changes</button>
                 <button type="button" class="btn cancel-button btn-long" data-bs-dismiss="modal">Go back to edit</button>
               </div>
             </div>
