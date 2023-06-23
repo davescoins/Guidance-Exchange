@@ -46,7 +46,7 @@
 
 
  <!-- Content Section -->
-
+ <h1>Information Technology Community</h1>
  <div class="careers">
   <div class="career">
   <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
