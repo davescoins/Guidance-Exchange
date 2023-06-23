@@ -10,10 +10,10 @@
   <link rel="icon" type="image/png" sizes="180x180" href="/favicon-180.png">
   <link rel="icon" type="image/png" sizes="128x128" href="/favicon-128.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link href="assets\fontawesome\css\fontawesome.css" rel="stylesheet">
-  <link href="assets\fontawesome\css\brands.css" rel="stylesheet">
-  <link href="assets\fontawesome\css\solid.css" rel="stylesheet">
-  <link href="assets\bootstrap\css\bootstrap.min.css" rel="stylesheet" />
+  <link href="assets/fontawesome/css/fontawesome.css" rel="stylesheet">
+  <link href="assets/fontawesome/css/brands.css" rel="stylesheet">
+  <link href="assets/fontawesome/css/solid.css" rel="stylesheet">
+  <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="css/profile.css" />
   <link rel="stylesheet" href="css/main.css" />
 </head>
@@ -562,8 +562,8 @@
   echo '</section>';
   ?>
 
-  <script src="assets\bootstrap\js\bootstrap.bundle.min.js"></script>
-  <script src="assets\jquery\jquery-3.7.0.min.js"></script>
+  <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/jquery/jquery-3.7.0.min.js"></script>
   <script src="https://kit.fontawesome.com/c5863419fe.js" crossorigin="anonymous"></script>
   <script src="js/profile.js"></script>
 </body>
