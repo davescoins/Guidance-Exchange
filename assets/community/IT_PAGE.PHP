@@ -43,47 +43,33 @@
     </div>
   </nav>
 </header>
-  <!-- Content Section -->
-  <H1>GE COMMUNITES</H1>
-<div class="communitiespics">
-    <div class="communitypics-grid">
-        <a href=""><img src="/img/IT_pic.jpeg" alt="IT picture" class="communitypic"></a>
-        <a href=""><img src="/img/stocks_pic.jpeg" alt="stock picture" class="communitypic"></a>
-        <a href=""><img src="/img/marketing_pics.jpeg" alt="marketing picture" class="communitypic"></a>
-        <a href=""><img src="/img/coins_pic.jpeg" alt="coins picture" class="communitypic"></a>
-        <a href=""><img src="/img/personaldevelop_pic.jpeg" alt="development picture" class="communitypic"></a>
-        <a href=""><img src="/img/gambling_pic.jpeg" alt="gambling picture" class="communitypic"></a>
-    </div>
-</div>
-<div class="careers">
-  <div class="career">
-  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
-  <h3>GE/IT</h3>
-  </div>
-  <div class="career">
-  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
-  <h3>GE/Stocks</h3>
-  </div>
-  <div class="career">
-  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
-  <h3>GE/Marketing</h3>
-  </div>
-  <div class="career">
-  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
-  <h3>GE/Coins</h3>
-  </div>
-  <div class="career">
-  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
-  <h3>GE/Personal development</h3>
-  </div>
-  <div class="career">
-  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
-  <h3>GE/Gambling</h3>
-  </div>
-</div>
 
 
-<script src="https://kit.fontawesome.com/c5863419fe.js" crossorigin="anonymous"></script>
+ <!-- Content Section -->
+
+ <div class="careers">
+  <div class="career">
+  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
+  <h3>GE/Is working for FANG hard?</h3>
+  </div>
+  <div class="career">
+  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
+  <h3>GE/Interview tips for programming in Python</h3>
+  </div>
+  <div class="career">
+  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
+  <h3>GE/Real world examples of recursion in Java</h3>
+  </div>
+  <div class="career">
+  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
+  <h3>GE/Real world examples of recursion in Java</h3>
+  </div>
+  <div class="career">
+  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
+  <h3>GE/Best ML packages in R</h3>
+  </div>
+</div>
+ <script src="https://kit.fontawesome.com/c5863419fe.js" crossorigin="anonymous"></script>
 <footer>
     <nav class="navbar">
       <div class="mx-auto">
@@ -98,5 +84,5 @@
     </nav>
   </footer>
 </body>
-</html>
 
+</html>
