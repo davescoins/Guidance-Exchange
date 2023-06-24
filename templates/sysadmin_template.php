@@ -7,14 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sysadmin Template</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
-  <link rel="stylesheet" href="css/sysadmin2.css" />
+  <link rel="stylesheet" href= "../css/sysadmin2.css">
 </head>
 
 <body>
   <header>
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="home.php"><img src="img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>
+        <a class="navbar-brand" href="home.php"><img src="../img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <i class="fas fa-bars"></i>
         </button>
@@ -49,7 +49,7 @@
   <h1>System Adminstrator</h1>
   <!-- <table id="systemadmin"> -->
   <div class="admin-pic">
-    <img class="davesysadmin" src="img/dave2.jpeg" width="100" alt="davesphoto">
+    <img class="davesysadmin" src="../img/dave2.jpeg" width="100" alt="davesphoto">
     <div class="jobtitle">
       <h2>System Adminstrator</h2>
     </div>
@@ -60,22 +60,22 @@
   <div id="moderatorpics">
     <h2>Moderators</h2>
     <div class="moderator">
-      <img class="firstimg" src="img/adamjawarishpic.jpg" width="50" alt="Adam Jawarish" /><em><b>Adam Jawarish</b></em>
+      <img class="firstimg" src="../img/adamjawarishpic.jpg" width="50" alt="Adam Jawarish" /><em><b>Adam Jawarish</b></em>
       <i class="fa-solid fa-pencil" id="pencil"></i>
       <i class="fa-solid fa-trash-can"></i>
     </div>
     <div class="moderator">
-      <img class="secondimg" src="img/JulieWpic.jpg" width="50" alt="Juile Walizai" /><em><b>Julie Walizai</b></em>
+      <img class="secondimg" src="../img/JulieWpic.jpg" width="50" alt="Juile Walizai" /><em><b>Julie Walizai</b></em>
       <i class="fa-solid fa-pencil" id="pencil"></i>
       <i class="fa-solid fa-trash-can"></i>
     </div>
     <div class="moderator">
-      <img class="thirdimg" src="img/bezaterpic.jpg" width="50" alt="Bezawit Tereri" /><em><b>Bezawit Tereri</b></em>
+      <img class="thirdimg" src="../img/bezaterpic.jpg" width="50" alt="Bezawit Tereri" /><em><b>Bezawit Tereri</b></em>
       <i class="fa-solid fa-pencil" id="pencil"></i>
       <i class="fa-solid fa-trash-can"></i>
     </div>
     <div class="moderator">
-      <img class="fourthimg" src="img/berineyanpic.jpg" width="50" alt="Bernie Yanos" /><em><b>Bernie Yanos</b></em>
+      <img class="fourthimg" src="../img/berineyanpic.jpg" width="50" alt="Bernie Yanos" /><em><b>Bernie Yanos</b></em>
       <i class="fa-solid fa-pencil" id="pencil"></i>
       <i class="fa-solid fa-trash-can"></i>
     </div>

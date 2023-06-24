@@ -44,16 +44,16 @@
   </nav>
 </header>
   <!-- Content Section -->
-  <H1>GE COMMUNITES</H1>
-<div class="communitiespics">
+  <div class="communitiespics">
     <div class="communitypics-grid">
-        <a href=""><img src="/img/IT_pic.jpeg" alt="IT picture" class="communitypic"></a>
-        <a href=""><img src="/img/stocks_pic.jpeg" alt="stock picture" class="communitypic"></a>
-        <a href=""><img src="/img/marketing_pics.jpeg" alt="marketing picture" class="communitypic"></a>
-        <a href=""><img src="/img/coins_pic.jpeg" alt="coins picture" class="communitypic"></a>
-        <a href=""><img src="/img/personaldevelop_pic.jpeg" alt="development picture" class="communitypic"></a>
-        <a href=""><img src="/img/gambling_pic.jpeg" alt="gambling picture" class="communitypic"></a>
+      <a href=""><img src="/img/IT_pic.jpeg" alt="IT picture" class="communitypic"></a>
+      <a href=""><img src="/img/stocks_pic.jpeg" alt="stock picture" class="communitypic"></a>
+      <a href=""><img src="/img/marketing_pics.jpeg" alt="marketing picture" class="communitypic"></a>
+      <a href=""><img src="/img/coins_pic.jpeg" alt="coins picture" class="communitypic"></a>
+      <a href=""><img src="/img/personaldevelop_pic.jpeg" alt="development picture" class="communitypic"></a>
+      <a href=""><img src="/img/gambling_pic.jpeg" alt="gambling picture" class="communitypic"></a>
     </div>
+    <h1 class="communitytitle">Communities</h1>
 </div>
 <div class="careers">
   <div class="career">
