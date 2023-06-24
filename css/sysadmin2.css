@@ -73,7 +73,7 @@ nav i {
 }
 
 nav i:hover {
-  color: #8bd8bd;
+  color: #E14658;
 }
 
 .navbar-brand {
@@ -82,7 +82,7 @@ nav i:hover {
 }
 
 .navbar-nav .highlight-link:hover {
-  background-color: #8bd8bd;
+  background-color: #E14658;
 }
 
 .navbar {
