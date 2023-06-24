@@ -46,28 +46,35 @@
 
 
  <!-- Content Section -->
- <h1>Information Technology Community</h1>
- <div class="careers">
-  <div class="career">
-  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
-  <h3>GE/Is working for FANG hard?</h3>
+ <div class="ITcommpic">
+   <h1>Information Technology Community</h1>
+   <p>The information technology community is where we discuss technical career paths, 
+    navigating the job search, and have technical based discussions.  All coding is disscussed
+  here ranging from C++ to Python to PHP to Java and Javascript.  Also discuss html and css and SQL.
+ </p>
+ <button>Join</button>
   </div>
-  <div class="career">
-  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
-  <h3>GE/Interview tips for programming in Python</h3>
-  </div>
-  <div class="career">
-  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
-  <h3>GE/Real world examples of recursion in Java</h3>
-  </div>
-  <div class="career">
-  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
-  <h3>GE/Real world examples of recursion in Java</h3>
-  </div>
-  <div class="career">
-  <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
-  <h3>GE/Best ML packages in R</h3>
-  </div>
+  <div class="careers">
+   <div class="career">
+   <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
+   <h3>GE/Is working for FANG hard?</h3>
+   </div>
+   <div class="career">
+   <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
+   <h3>GE/Interview tips for programming in Python</h3>
+   </div>
+   <div class="career">
+   <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
+   <h3>GE/Real world examples of recursion in Java</h3>
+   </div>
+   <div class="career">
+   <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
+   <h3>GE/Real world examples of recursion in Java</h3>
+   </div>
+   <div class="career">
+   <img src="/img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" />
+   <h3>GE/Best ML packages in R</h3>
+   </div>
 </div>
  <script src="https://kit.fontawesome.com/c5863419fe.js" crossorigin="anonymous"></script>
 <footer>
