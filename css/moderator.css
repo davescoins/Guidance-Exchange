@@ -1,0 +1,108 @@
+/* Moderator Photo Section */
+
+.moderator__photo-section {
+  background-color: #243665;
+}
+
+.moderator__photo-section .container-fluid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.moderator__photo-section .moderator__profile-photo {
+  width: 13rem;
+  border: 5px solid;
+  border-radius: 100%;
+}
+
+.moderator__photo-section .moderator__profile-name {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #f5f5f5;
+}
+
+.moderator__tag {
+  background-color: #e14658;
+  color: #f5f5f5;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.moderator__profile-wrap {
+  height: 110px;
+  width: 12rem;
+  overflow: hidden;
+}
+
+.moderator__profile-wrap h3 {
+  color: #333;
+}
+
+.moderator__profile-wrap p {
+  color: #5e5e5e;
+  font-size: 1rem;
+}
+
+.moderator__profile-icon {
+  height: 110px;
+  border-right: #b0b0b0 1px solid;
+  color: #e14658;
+  font-size: 2.5rem;
+}
+
+.moderator__profile-section {
+  background-color: #ffffff;
+  border-radius: 25px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), 0 2px 2px rgba(0, 0, 0, 0.2),
+    0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.1),
+    0 16px 16px rgba(0, 0, 0, 0.05);
+}
+
+.moderator__requests-counter {
+  font-size: 68px;
+}
+
+.moderator__community-request-profile img {
+  height: 80px;
+  width: auto;
+}
+
+.moderator__community-request-profile h6 {
+  font-size: 30px;
+}
+
+/* Moderator Content Section */
+
+.content-section .container-fluid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.accordion-item {
+  padding: 0;
+}
+
+.moderator__mentor-request-photo img {
+  height: 40px;
+  width: auto;
+  border-right: #b0b0b0 1px solid;
+}
+
+.moderator__request-header {
+  font-size: 20px;
+}
+
+.accordion {
+  --bs-accordion-btn-focus-box-shadow: none;
+}
+
+.moderator__icons {
+  font-size: 30px;
+  height: 30px;
+  width: auto;
+  padding-right: 30px;
+  color: #243665;
+}
