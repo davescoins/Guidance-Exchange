@@ -35,4 +35,10 @@ VALUES
     '12345',
     'mia.wilson@gmail.com',
     '(123) 456-7890'
+  ),
+  (
+    'sophia.lee',
+    '12345',
+    'sophia.lee@gmail.com',
+    '(123) 456-7890'
   );

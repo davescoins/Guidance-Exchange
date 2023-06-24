@@ -28,4 +28,4 @@ CREATE TABLE UserData_t (
   Associations VARCHAR(255),
   CONSTRAINT UserData_t_PK PRIMARY KEY (UserID),
   CONSTRAINT UserData_t_FK1 FOREIGN KEY (UserID) REFERENCES Auth_t(UserID)
-) Auto_Increment = 1;
+);

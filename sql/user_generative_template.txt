@@ -1,0 +1,20 @@
+Create a person's personal profile based on the below example template using real companies, schools, and realistic dates in the applicable sections.
+First Name: Sophia
+Last Name: Lee
+Favorite Color: #fa7811
+Home City: Boston
+Home State: MA
+About Me: Meet Sophia, a dynamic and talented IT professional with a passion for innovation and problem-solving. With a strong educational background in computer science and a natural curiosity for emerging technologies, she thrives in the fast-paced world of IT. Her dedication, adaptability, and keen eye for detail make her an invaluable asset in developing cutting-edge solutions that propel businesses forward.
+Job Title: Software Engineer
+Company Name: Innovate Inc.
+Start Date: 2020-09-26
+End Date: Currently Employed
+Job Accomplishments: Sophia plays a key role in developing and maintaining scalable software solutions for a diverse range of clients. She collaborates with cross-functional teams to design and implement efficient code, ensuring high-quality deliverables within strict deadlines. Her expertise in programming languages such as Java and Python helps to streamline processes and enhance system performance.
+Job Skills: Java, Python, Problem Solving, UX Design, Database Management, Teamwork, Creativity
+Degree Title: Bachelor of Science in Computer Science
+School Name: The George Washington University
+Start Date: 2016-08-21
+End Date: 2020-05-16
+School Accomplishments: Sophia pursued her undergraduate studies in Computer Science, gaining a solid foundation in programming, algorithms, data structures, and software development. She actively participated in various coding competitions, clubs, and workshops, further refining her technical skills and fostering a passion for innovation.
+
+Using the information from the previous response, create a short paragraph that talks about their willingness to be a mentor and speak about what areas of knowledge they are most qualified to offer assistance in.
