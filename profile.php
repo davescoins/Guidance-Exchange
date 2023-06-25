@@ -191,7 +191,7 @@
     // *** This section will run on other user's pages ***
 
     // If user is a mentor, get appointment information
-    $sqlAvailableAppointments = "SELECT `AppointmentTime` FROM `Appointments_t` WHERE `MentorID` = 1 AND `SchedulerID` IS NULL";
+    $sqlAvailableAppointments = "SELECT `AppointmentTime` FROM `Appointments_t` WHERE `MentorID` = $profileID AND `SchedulerID` IS NULL";
     $resultAvailableAppointments = mysqli_query($con, $sqlAvailableAppointments);
 
     // Fetch all appointments that have NOT been booked for the user and assign them to an array then sort them in ascending order
