@@ -19,10 +19,9 @@
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="home.php"><img src="img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>
-            <button type="button" class="btn btn-hero-section text-white rounded-pill">
+            <a type="button" class="btn btn-hero-section text-white rounded-pill" href="login.php">
                 Login
-            </button>
-
+            </a>
         </div>
     </nav>
 </header>
