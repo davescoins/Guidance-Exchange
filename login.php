@@ -60,7 +60,7 @@ if (isset($_POST['submit'])) {
     }
   }
 
-  // if no errors set globals and redirect to home page
+  // if no errors set globals and redirect to appropriate page
 
   if (empty($errors['uname']) && empty($errors['pwd'])) {
 
@@ -70,7 +70,19 @@ if (isset($_POST['submit'])) {
 
     $_SESSION['UserID'] = $user['UserID'];
 
-    $url = 'profile.php?profileID=' . $_SESSION['UserID'];
+    $_SESSION['MentorStatus'] = $user['MentorStatus'];
+
+    $_SESSION['ModeratorStatus'] = $user['ModeratorStatus'];
+
+    $_SESSION['SystemAdministratorStatus'] = $user['SystemAdministratorStatus'];
+
+    if ($user['ModeratorStatus'] == 1) {
+      $url = 'moderator-dashboard.php?profileID=' . $_SESSION['UserID'];
+    } elseif ($user['SystemAdministratorStatus'] == 1) {
+      $url = 'administrator-dashboard.php?profileID=' . $_SESSION['UserID'];
+    } else {
+      $url = 'profile.php?profileID=' . $_SESSION['UserID'];
+    }
 
     header('Location: ' . $url);
     exit();

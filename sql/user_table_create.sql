@@ -5,7 +5,6 @@ CREATE TABLE UserData_t (
   ProfilePicture VARCHAR(255),
   ProfilePictureBorder VARCHAR(255),
   ProfilePictureBackground VARCHAR(255),
-  MentorStatus BOOL NOT NULL,
   Rating INT(1),
   LocationCity VARCHAR(255),
   LocationState VARCHAR(255),

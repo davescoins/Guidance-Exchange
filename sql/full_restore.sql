@@ -4,6 +4,9 @@ CREATE TABLE Auth_t (
   password VARCHAR(100),
   email VARCHAR(255),
   phone_number VARCHAR(255),
+  MentorStatus BOOL NOT NULL,
+  ModeratorStatus BOOL NOT NULL,
+  SystemAdministratorStatus BOOL NOT NULL,
   CONSTRAINT Auth_t_PK PRIMARY KEY (UserID)
 ) Auto_Increment = 1;
 
@@ -14,7 +17,6 @@ CREATE TABLE UserData_t (
   ProfilePicture VARCHAR(255),
   ProfilePictureBorder VARCHAR(255),
   ProfilePictureBackground VARCHAR(255),
-  MentorStatus BOOL NOT NULL,
   Rating INT(1),
   LocationCity VARCHAR(255),
   LocationState VARCHAR(255),
@@ -68,44 +70,83 @@ INSERT INTO
     `username`,
     `password`,
     `email`,
-    `phone_number`
+    `phone_number`,
+    `MentorStatus`,
+    `ModeratorStatus`,
+    `SystemAdministratorStatus`
   )
 VALUES
   (
     'david.anderson',
     '12345',
     'david.anderson@gmail.com',
-    '(123) 456-7890'
+    '(123) 456-7890',
+    1,
+    0,
+    0
   ),
   (
     'benjamin.park',
     '12345',
     'benjamin.park@gmail.com',
-    '(123) 456-7890'
+    '(123) 456-7890',
+    0,
+    0,
+    0
   ),
   (
     'harper.brown',
     '12345',
     'harper.brown@gmail.com',
-    '(123) 456-7890'
+    '(123) 456-7890',
+    0,
+    0,
+    0
   ),
   (
     'lucas.khan',
     '12345',
     'lucas.khan@gmail.com',
-    '(123) 456-7890'
+    '(123) 456-7890',
+    0,
+    0,
+    0
   ),
   (
     'mia.wilson',
     '12345',
     'mia.wilson@gmail.com',
-    '(123) 456-7890'
+    '(123) 456-7890',
+    0,
+    0,
+    0
   ),
   (
     'sophia.lee',
     '12345',
     'sophia.lee@gmail.com',
-    '(123) 456-7890'
+    '(123) 456-7890',
+    0,
+    0,
+    0
+  ),
+  (
+    'isabella.martinez',
+    '12345',
+    'isabella.martinez@guidanceexchange.com',
+    '(123) 456-7890',
+    0,
+    1,
+    0
+  ),
+  (
+    'system.admin',
+    '12345',
+    'system.admin@guidanceexchange.com',
+    '(123) 456-7890',
+    0,
+    0,
+    1
   );
 
 INSERT INTO
@@ -116,7 +157,6 @@ INSERT INTO
     `ProfilePicture`,
     `ProfilePictureBorder`,
     `ProfilePictureBackground`,
-    `MentorStatus`,
     `Rating`,
     `LocationCity`,
     `LocationState`,
@@ -146,7 +186,6 @@ VALUES
     'david-anderson.png',
     '#008a0e',
     'biotech-pattern.png',
-    1,
     4,
     'Boston',
     'Massachusetts',
@@ -175,7 +214,6 @@ VALUES
     'benjamin-park.png',
     '#800000',
     'biotech-pattern.png',
-    1,
     5,
     'Los Angeles',
     'CA',
@@ -204,7 +242,6 @@ VALUES
     'harper-brown.png',
     '#2565c7',
     'biotech-pattern.png',
-    0,
     null,
     'Seattle',
     'WA',
@@ -233,7 +270,6 @@ VALUES
     'lucas-khan.png',
     '#9900cc',
     'biotech-pattern.png',
-    0,
     null,
     'Chicago',
     'IL',
@@ -262,7 +298,6 @@ VALUES
     'mia-wilson.png',
     '#33cc33',
     'biotech-pattern.png',
-    0,
     null,
     'New York City',
     'NY',
@@ -291,8 +326,7 @@ VALUES
     'sophia-lee.png',
     '#fa7811',
     'circuits-pattern.png',
-    0,
-    4,
+    null,
     null,
     'DC',
     'sophia.lee',
@@ -312,6 +346,62 @@ VALUES
     '2020-05-16',
     'Sophia pursued her undergraduate studies in Computer Science, gaining a solid foundation in programming, algorithms, data structures, and software development. She actively participated in various coding competitions, clubs, and workshops, further refining her technical skills and fostering a passion for innovation.',
     '2;4;5'
+  ),
+  (
+    7,
+    'Isabella',
+    'Martinez',
+    'isabella-martinez.png',
+    '#ef5f9e',
+    'abstract-lines-pattern_trans.png',
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ),
+  (
+    8,
+    'System',
+    'Administrator',
+    null,
+    null,
+    'abstract-lines-pattern_trans.png',
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
   );
 
 INSERT INTO

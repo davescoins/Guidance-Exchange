@@ -4,5 +4,8 @@ CREATE TABLE Auth_t (
   password VARCHAR(100),
   email VARCHAR(255),
   phone_number VARCHAR(255),
+  MentorStatus BOOL NOT NULL,
+  ModeratorStatus BOOL NOT NULL,
+  SystemAdministratorStatus BOOL NOT NULL,
   CONSTRAINT Auth_t_PK PRIMARY KEY (UserID)
 ) Auto_Increment = 1;

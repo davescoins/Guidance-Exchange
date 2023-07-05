@@ -22,6 +22,7 @@
   <?php
   include('includes/session.inc.php');
   $profileID = $_GET['profileID'];
+  $mentorStatus = $_SESSION['MentorStatus'];
   ?>
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
@@ -76,7 +77,6 @@
     $profilePicture = $profile['ProfilePicture'];
     $profilePictureBorder = $profile['ProfilePictureBorder'];
     $profilePictureBackground = $profile['ProfilePictureBackground'];
-    $mentorStatus = $profile['MentorStatus'];
     $rating = $profile['Rating'];
     $city = $profile['LocationCity'];
     $state = $profile['LocationState'];
