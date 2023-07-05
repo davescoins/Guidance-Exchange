@@ -23,6 +23,8 @@
   include('includes/session.inc.php');
   $profileID = $_GET['profileID'];
   $mentorStatus = $_SESSION['MentorStatus'];
+  $moderatorStatus = $_SESSION['ModeratorStatus'];
+  $systemAdministratorStatus = $_SESSION['SystemAdministratorStatus'];
   ?>
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
@@ -32,6 +34,18 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <?php
+          if ($moderatorStatus == true) {
+            echo '<li class="nav-item">';
+            echo ' <a class="nav-link highlight-link nav-text px-4" href="moderator-dashboard.php?profileID=' . $userID . '">Moderator Dashboard</a>';
+            echo '</li>';
+          }
+          if ($systemAdministratorStatus == true) {
+            echo '<li class="nav-item">';
+            echo ' <a class="nav-link highlight-link nav-text px-4" href="admin-dashboard.php?profileID=' . $userID . '">Administrator Dashboard</a>';
+            echo '</li>';
+          }
+          ?>
           <li class="nav-item">
             <?php if ($profileID == $userID) {
               echo '<a class="nav-link highlight-link nav-text px-4 active" href="profile.php?profileID=' . $userID . '">Profile</a>';
@@ -242,6 +256,16 @@
   if ($mentorStatus == true) {
     echo '<div class="mentor-tag mb-2">';
     echo '<p class="py-1 px-3 m-0">Mentor</p>';
+    echo '</div>';
+  }
+  if ($moderatorStatus == true) {
+    echo '<div class="mentor-tag mb-2">';
+    echo '<p class="py-1 px-3 m-0">Moderator</p>';
+    echo '</div>';
+  }
+  if ($systemAdministratorStatus == true) {
+    echo '<div class="mentor-tag mb-2">';
+    echo '<p class="py-1 px-3 m-0">System Administrator</p>';
     echo '</div>';
   }
   echo '<h1 class="profile-name mb-2">' . $firstName . ' ' . $lastName . '</h1>';

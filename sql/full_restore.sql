@@ -65,6 +65,25 @@ CREATE TABLE Qualifications_t (
   CONSTRAINT Qualifications_t_FK2 FOREIGN KEY (SkillID) REFERENCES Skills_t(SkillID)
 );
 
+CREATE TABLE MentorRequests_t (
+  MentorRequestID INT(9) NOT NULL Auto_Increment,
+  UserID INT(9) NOT NULL,
+  ResumeLocation VARCHAR(255),
+  MentorStatement LONGTEXT,
+  CONSTRAINT MentorRequests_t_PK PRIMARY KEY (MentorRequestID),
+  CONSTRAINT MentorRequests_t_FK FOREIGN KEY (UserID) REFERENCES Auth_t(UserID)
+) Auto_Increment = 1;
+
+CREATE TABLE CommunityRequests_t (
+  CommunityRequestID INT(9) NOT NULL Auto_Increment,
+  UserID INT(9) NOT NULL,
+  CommunityName VARCHAR(255),
+  CommunityDescription LONGTEXT,
+  CommunityPicture VARCHAR(255),
+  CONSTRAINT CommunityRequests_t_PK PRIMARY KEY (CommunityRequestID),
+  CONSTRAINT CommunityRequests_t_FK FOREIGN KEY (UserID) REFERENCES Auth_t(UserID)
+) Auto_Increment = 1;
+
 INSERT INTO
   Auth_t (
     `username`,
@@ -551,3 +570,44 @@ VALUES
   (1, 25),
   (1, 26),
   (1, 27);
+
+INSERT INTO
+  MentorRequests_t (
+    `UserID`,
+    `ResumeLocation`,
+    `MentorStatement`
+  )
+VALUES
+  (
+    5,
+    'mia-wilson-resume.pdf',
+    'I am a seasoned stock broker with a wealth of experience in managing stock portfolios, and am dedicated to helping aspiring stock traders navigate the dynamic world of investments. With my deep understanding of market trends, risk management strategies, and financial analysis, I aim to offer invaluable mentoring and advice to those looking to enter the exciting realm of stock trading. Drawing from my years of experience in executing trades, analyzing market data, and building successful portfolios, I can provide personalized guidance tailored to individual goals and risk tolerance. My passion for empowering others, coupled with my extensive expertise, makes me an ideal mentor for aspiring stock traders seeking to achieve financial success in the stock market.'
+  ),
+  (6, null, 'This is a test.');
+
+INSERT INTO
+  CommunityRequests_t (
+    `UserID`,
+    `CommunityName`,
+    `CommunityDescription`,
+    `CommunityPicture`
+  )
+VALUES
+  (
+    6,
+    'Java Programming',
+    'I\'m thrilled to propose the creation of a fantastic forum community for Java programming enthusiasts. I\'m looking for a place where passionate programmers can come together to discuss, learn, and share knowledge about Java. Imagine a space brimming with like-minded individuals who are just as eager as you are to delve into the intricacies of Java programming. I want a Java community where you can initiate and participate in stimulating conversations, exchange valuable code snippets, seek advice on troubleshooting, and connect with seasoned professionals ready to mentor. Whether you\'re a beginner seeking guidance or a seasoned expert eager to contribute, the Java community would be a supportive environment where growth and collaboration thrive. Thank you for considering creating this exciting space for Java enthusiasts, and let\'s unlock endless possibilities for learning and networking within the Java community.',
+    'java_icon.png'
+  ),
+  (
+    5,
+    'Stock Trading',
+    'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi omnis, quod odio praesentium rem cupiditate soluta laborum aspernatur, explicabo temporibus veritatis a cumque quas dolor libero corrupti vero dolorum consequatur! Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae voluptatem ipsam libero iure fugit facere omnis, consequuntur dolor? In aperiam pariatur ex aut vel vitae reprehenderit sunt vero modi deleniti. ',
+    'stocks_circle.png'
+  ),
+  (
+    4,
+    'Coin Collecting',
+    'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi omnis, quod odio praesentium rem cupiditate soluta laborum aspernatur, explicabo temporibus veritatis a cumque quas dolor libero corrupti vero dolorum consequatur! Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae voluptatem ipsam libero iure fugit facere omnis, consequuntur dolor? In aperiam pariatur ex aut vel vitae reprehenderit sunt vero modi deleniti. ',
+    'coins_circle.png'
+  );
