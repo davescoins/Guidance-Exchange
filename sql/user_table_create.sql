@@ -2,6 +2,7 @@ CREATE TABLE UserData_t (
   UserID INT(9) NOT NULL,
   FirstName VARCHAR(255) NOT NULL,
   LastName VARCHAR(255) NOT NULL,
+  FullName VARCHAR(255) NOT NULL,
   ProfilePicture VARCHAR(255),
   ProfilePictureBorder VARCHAR(255),
   ProfilePictureBackground VARCHAR(255),

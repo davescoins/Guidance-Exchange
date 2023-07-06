@@ -21,7 +21,6 @@
 <header>
   <?php
   include('includes/session.inc.php');
-  $profileID = $_GET['profileID'];
   $mentorStatus = $_SESSION['MentorStatus'];
   $moderatorStatus = $_SESSION['ModeratorStatus'];
   $systemAdministratorStatus = $_SESSION['SystemAdministratorStatus'];
@@ -55,8 +54,8 @@
         </ul>
         <ul class="navbar-nav d-flex flex-row me-1">
           <li class="nav-item me-3 me-lg-0 px-2 d-flex align-items-center">
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <form class="d-flex" role="search" action="search.php" method="GET">
+              <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search">
               <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
             </form>
           </li>
@@ -87,22 +86,59 @@
 
   <!-- Content Section -->
   <section class="content-section pt-4">
-    <div class="container-fluid pb-4">
-      <div class="row align-items-start results-section py-2">
-        <div class="col-auto d-flex align-items-center justify-content-center result-picture">
-          <img class="px-2" src="/upload/benjamin-park.png" alt="Benjamin Park Profile Photo">
-        </div>
-        <div class="col-6 d-flex align-items-center result-wrap">
-          <h3>Benjamin Park</h3>
-        </div>
-        <div class="col-auto d-flex align-items-center justify-content-center result-icons me-3">
-          <a href="profile.php?profileID=2"><i class="fa-solid fa-user fa-xl px-4"></i></a>
-          <a href="#"><i class="fa-solid fa-envelope fa-xl px-4"></i></a>
-          <a href="#"><i class="fa-solid fa-plus fa-xl px-4"></i></a>
-        </div>
-      </div>
-    </div>
-    </div>
+
+    <!-- User Search Results -->
+    <?php
+    // Check for query
+    if (isset($_GET['query'])) {
+      $query = $_GET['query'];
+
+      // Select the users that match the query string
+      $userSql = "SELECT `UserID`, `FirstName`, `LastName`, `ProfilePicture` FROM `UserData_t` WHERE `FullName` LIKE '%$query%'";
+      $userQueryResult = mysqli_query($con, $userSql);
+
+      echo '<div class="d-flex justify-content-center">';
+      echo '<h1 class="w-50 search__section-heading p-1 mb-3">User Results</h1>';
+      echo '</div>';
+
+      // Display search results
+      if (mysqli_num_rows($userQueryResult) > 0) {
+        while ($foundUser = mysqli_fetch_assoc($userQueryResult)) {
+          echo '<div class="container-fluid pb-4">';
+          echo '<div class="row align-items-start results-section py-2">';
+          echo '<div class="col-auto d-flex align-items-center justify-content-center result-picture">';
+
+          if ($foundUser['ProfilePicture'] == null) {
+            echo '<img class="px-2" src="/img/blank-profile-image.png" alt="' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . ' Profile Photo">';
+          } else {
+            echo '<img class="px-2" src="/upload/' . $foundUser['ProfilePicture'] . '" alt="' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . ' Profile Photo">';
+          }
+
+          echo '</div>';
+          echo '<div class="col d-flex align-items-center result-wrap">';
+          echo '<h3>' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . '</h3>';
+          echo '</div>';
+          echo '<div class="col-auto d-flex align-items-center justify-content-center result-icons me-3">';
+
+          if ($userID != $foundUser['UserID']) {
+            echo '<a href="profile.php?profileID=' . $foundUser['UserID'] . '"><i class="fa-solid fa-user fa-xl px-4"></i></a>';
+            echo '<a href="#"><i class="fa-solid fa-envelope fa-xl px-4"></i></a>';
+            echo '<a href="#"><i class="fa-solid fa-plus fa-xl px-4"></i></a>';
+          } else {
+            echo '<a href="profile.php?profileID=' . $foundUser['UserID'] . '"><i class="fa-solid fa-user fa-xl px-4"></i></a>';
+          }
+          echo '</div></div></div>';
+        }
+      } else {
+        echo '<div class="container-fluid pb-4 d-flex align-items-center">';
+        echo '<h3>No users found.</h3>';
+        echo '</div>';
+      }
+
+      mysqli_close($con);
+    }
+    ?>
+
   </section>
 
   <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>

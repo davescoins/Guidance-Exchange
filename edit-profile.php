@@ -695,7 +695,7 @@
   <script src="assets/jquery/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
   <script src="https://kit.fontawesome.com/c5863419fe.js" crossorigin="anonymous"></script>
-  <script src="js/profile.js"></script>
+  <script src="js/edit.js"></script>
 </body>
 
 <footer>
