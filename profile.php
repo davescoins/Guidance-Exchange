@@ -22,9 +22,9 @@
   <?php
   include('includes/session.inc.php');
   $profileID = $_GET['profileID'];
-  $mentorStatus = $_SESSION['MentorStatus'];
-  $moderatorStatus = $_SESSION['ModeratorStatus'];
-  $systemAdministratorStatus = $_SESSION['SystemAdministratorStatus'];
+  $userMentorStatus = $_SESSION['MentorStatus'];
+  $userModeratorStatus = $_SESSION['ModeratorStatus'];
+  $userSystemAdministratorStatus = $_SESSION['SystemAdministratorStatus'];
   ?>
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
@@ -35,12 +35,12 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <?php
-          if ($moderatorStatus == true) {
+          if ($userModeratorStatus == true) {
             echo '<li class="nav-item">';
             echo ' <a class="nav-link highlight-link nav-text px-4" href="moderator-dashboard.php?profileID=' . $userID . '">Moderator Dashboard</a>';
             echo '</li>';
           }
-          if ($systemAdministratorStatus == true) {
+          if ($userSystemAdministratorStatus == true) {
             echo '<li class="nav-item">';
             echo ' <a class="nav-link highlight-link nav-text px-4" href="admin-dashboard.php?profileID=' . $userID . '">Administrator Dashboard</a>';
             echo '</li>';
@@ -84,6 +84,15 @@
 
 <body>
   <?php
+  $sqlAuth = "SELECT * FROM `Auth_t` WHERE `UserID` = $profileID";
+  $resultAuth = mysqli_query($con, $sqlAuth);
+
+  while ($auth = mysqli_fetch_assoc($resultAuth)) {
+    $mentorStatus = $auth['MentorStatus'];
+    $moderatorStatus = $auth['ModeratorStatus'];
+    $systemAdministratorStatus = $auth['SystemAdministratorStatus'];
+  }
+
   $sql = "SELECT * FROM `UserData_t` WHERE `UserID` = $profileID";
   $result = mysqli_query($con, $sql);
 
@@ -252,9 +261,17 @@
   echo '<section class="photo-section pt-5 pb-3" style="background-image: url(&#39;img/' . $profilePictureBackground . '&#39;); background-attachment: fixed; background-size: cover;">';
   echo '<div class="container-fluid flex-column">';
   if ($profilePictureBorder == null) {
-    echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+    if ($profilePicture == null) {
+      echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-picture.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+    } else {
+      echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+    }
   } else {
-    echo '<img class="profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+    if ($profilePicture == null) {
+      echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-picture.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+    } else {
+      echo '<img class="profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+    }
   }
   if ($mentorStatus == true) {
     echo '<div class="mentor-tag mb-2">';
