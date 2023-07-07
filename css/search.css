@@ -76,6 +76,18 @@
   color: #64bba1;
 }
 
+.result-icons .btn {
+  color: #e14658;
+}
+
+.result-icons .btn:hover {
+  color: #8bd8bd;
+}
+
+.result-icons .btn:active {
+  color: #64bba1;
+}
+
 .search__section-heading {
   color: #333;
   border-bottom: #333 solid 2px;

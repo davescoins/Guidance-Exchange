@@ -21,9 +21,6 @@
 <header>
   <?php
   include('includes/session.inc.php');
-  $mentorStatus = $_SESSION['MentorStatus'];
-  $moderatorStatus = $_SESSION['ModeratorStatus'];
-  $systemAdministratorStatus = $_SESSION['SystemAdministratorStatus'];
   ?>
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
@@ -34,12 +31,12 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <?php
-          if ($moderatorStatus == true) {
+          if ($userModeratorStatus == true) {
             echo '<li class="nav-item">';
             echo ' <a class="nav-link highlight-link nav-text px-4" href="moderator-dashboard.php?profileID=' . $userID . '">Moderator Dashboard</a>';
             echo '</li>';
           }
-          if ($systemAdministratorStatus == true) {
+          if ($userSystemAdministratorStatus == true) {
             echo '<li class="nav-item">';
             echo ' <a class="nav-link highlight-link nav-text px-4" href="admin-dashboard.php?profileID=' . $userID . '">Administrator Dashboard</a>';
             echo '</li>';
@@ -94,7 +91,7 @@
       $query = $_GET['query'];
 
       // Select the users that match the query string
-      $userSql = "SELECT `UserID`, `FirstName`, `LastName`, `ProfilePicture` FROM `UserData_t` WHERE `FullName` LIKE '%$query%'";
+      $userSql = "SELECT `UserID`, `FirstName`, `LastName`, `ProfilePicture` FROM `UserData_t` WHERE `FullName` LIKE '%$query%' ORDER BY `LastName`";
       $userQueryResult = mysqli_query($con, $userSql);
 
       echo '<div class="d-flex justify-content-center">';
@@ -123,7 +120,17 @@
           if ($userID != $foundUser['UserID']) {
             echo '<a href="profile.php?profileID=' . $foundUser['UserID'] . '"><i class="fa-solid fa-user fa-xl px-4"></i></a>';
             echo '<a href="#"><i class="fa-solid fa-envelope fa-xl px-4"></i></a>';
-            echo '<a href="#"><i class="fa-solid fa-plus fa-xl px-4"></i></a>';
+            if (in_array($foundUser['UserID'], $associationsArray)) {
+              echo '<form action="associations.php" method="POST">';
+              echo '<input type="hidden" name="query" value="' . $query . '">';
+              echo '<button class="btn p-0" type="submit" name="association" value="remove"><i class="fa-solid fa-minus fa-xl px-4"></i></button>';
+              echo '</form>';
+            } else {
+              echo '<form action="associations.php" method="POST">';
+              echo '<input type="hidden" name="query" value="' . $query . '">';
+              echo '<button class="btn p-0" type="submit" name="association" value="add"><i class="fa-solid fa-plus fa-xl px-4"></i></button>';
+              echo '</form>';
+            }
           } else {
             echo '<a href="profile.php?profileID=' . $foundUser['UserID'] . '"><i class="fa-solid fa-user fa-xl px-4"></i></a>';
           }
