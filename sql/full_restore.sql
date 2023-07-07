@@ -110,7 +110,7 @@ VALUES
     '12345',
     'benjamin.park@gmail.com',
     '(123) 456-7890',
-    0,
+    1,
     0,
     0
   ),
@@ -165,8 +165,8 @@ VALUES
     'system.admin@guidanceexchange.com',
     '(123) 456-7890',
     0,
-    0,
-    1
+    1,
+    0
   );
 
 INSERT INTO
@@ -239,7 +239,7 @@ VALUES
     'biotech-pattern.png',
     5,
     'Los Angeles',
-    'CA',
+    'California',
     'benjamin.park',
     'benjamin.park',
     'benjamin.park',
@@ -268,7 +268,7 @@ VALUES
     'biotech-pattern.png',
     null,
     'Seattle',
-    'WA',
+    'Washington',
     'harper.brown',
     'harper.brown',
     'harper.brown',
@@ -297,7 +297,7 @@ VALUES
     'biotech-pattern.png',
     null,
     'Chicago',
-    'IL',
+    'Illinois',
     'lucas.khan',
     'lucas.khan',
     'lucas.khan',
@@ -326,7 +326,7 @@ VALUES
     'biotech-pattern.png',
     null,
     'New York City',
-    'NY',
+    'New York',
     'mia.wilson',
     'mia.wilson',
     'mia.wilson',
@@ -354,8 +354,8 @@ VALUES
     '#fa7811',
     'circuits-pattern.png',
     null,
-    null,
-    'DC',
+    'Washington',
+    'District of Columbia',
     'sophia.lee',
     'sophia.lee',
     'sophia.lee',

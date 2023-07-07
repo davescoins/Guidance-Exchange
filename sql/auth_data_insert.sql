@@ -23,7 +23,7 @@ VALUES
     '12345',
     'benjamin.park@gmail.com',
     '(123) 456-7890',
-    0,
+    1,
     0,
     0
   ),

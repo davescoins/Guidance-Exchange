@@ -22,9 +22,6 @@
   <?php
   include('includes/session.inc.php');
   $profileID = $_GET['profileID'];
-  $userMentorStatus = $_SESSION['MentorStatus'];
-  $userModeratorStatus = $_SESSION['ModeratorStatus'];
-  $userSystemAdministratorStatus = $_SESSION['SystemAdministratorStatus'];
   ?>
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
@@ -132,8 +129,8 @@
     $educationEndDateArray = explode(";", $educationEndDate ?? '');
     $educationDescription = $profile['EducationDescription'];
     $educationDescriptionArray = explode(";", $educationDescription ?? '');
-    $associations = $profile['Associations'];
-    $associationsArray = explode(";", $associations ?? '');
+    $profileAssociations = $profile['Associations'];
+    $profileAssociationsArray = explode(";", $profileAssociations ?? '');
   }
 
   // Fetch skills data from qualifications table and skills table
@@ -253,7 +250,7 @@
     'NM' => 'New Mexico', 'NY' => 'New York', 'NC' => 'North Carolina', 'ND' => 'North Dakota', 'OH' => 'Ohio', 'OK' => 'Oklahoma',
     'OR' => 'Oregon', 'PA' => 'Pennsylvania', 'RI' => 'Rhode Island', 'SC' => 'South Carolina', 'SD' => 'South Dakota', 'TN' => 'Tennessee',
     'TX' => 'Texas', 'UT' => 'Utah', 'VT' => 'Vermont', 'VA' => 'Virginia', 'WA' => 'Washington', 'WV' => 'West Virginia',
-    'WI' => 'Wisconsin', 'WY' => 'Wyoming', 'DC' => 'Washington, D.C.'
+    'WI' => 'Wisconsin', 'WY' => 'Wyoming', 'DC' => 'District of Columbia'
   );
 
   // *** Photo Section ***
@@ -262,13 +259,13 @@
   echo '<div class="container-fluid flex-column">';
   if ($profilePictureBorder == null) {
     if ($profilePicture == null) {
-      echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-picture.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+      echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
     } else {
       echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
     }
   } else {
     if ($profilePicture == null) {
-      echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-picture.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+      echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
     } else {
       echo '<img class="profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
     }
@@ -569,20 +566,24 @@
     echo '</div></div></div></div>';
   }
 
-  if ($associations != null) {
+  if ($profileAssociations != null) {
     echo '<div class="container-fluid pb-4">';
     echo '<div class="row align-items-start profile-section pt-2">';
     echo '<div class="col-1 d-flex align-items-center justify-content-center profile-icon">';
     echo '<i class="fa-solid fa-user-group"></i>';
     echo '</div>';
     echo '<div class="col-11 profile-wrap">';
-    echo '<h3>My Associations</h3>';
+    if ($profileID == $userID) {
+      echo '<h3>My Associations</h3>';
+    } else {
+      echo '<h3>' . $firstName . '&#39;s Associations</h3>';
+    }
     echo '<div class="row pt-1">';
 
     // *** Fix this so it doesn't have to make calls to the database again ***
 
     include('includes/connect.inc.php');
-    foreach ($associationsArray as $value) {
+    foreach ($profileAssociationsArray as $value) {
       $associationSql = "SELECT `FirstName`,`LastName`,`ProfilePicture` FROM `userdata_t` WHERE `UserID`=$value";
       $associationResult = mysqli_query($con, $associationSql);
       while ($profileAssociation = mysqli_fetch_assoc($associationResult)) {
