@@ -2,7 +2,6 @@ CREATE TABLE UserData_t (
   UserID INT(9) NOT NULL,
   FirstName VARCHAR(255) NOT NULL,
   LastName VARCHAR(255) NOT NULL,
-  FullName VARCHAR(255) NOT NULL,
   ProfilePicture VARCHAR(255),
   ProfilePictureBorder VARCHAR(255),
   ProfilePictureBackground VARCHAR(255),
@@ -29,3 +28,8 @@ CREATE TABLE UserData_t (
   CONSTRAINT UserData_t_PK PRIMARY KEY (UserID),
   CONSTRAINT UserData_t_FK1 FOREIGN KEY (UserID) REFERENCES Auth_t(UserID)
 );
+
+ALTER TABLE
+  UserData_t
+ADD
+  FullName VARCHAR(255) AS (CONCAT(FirstName, ' ', LastName)) STORED;
