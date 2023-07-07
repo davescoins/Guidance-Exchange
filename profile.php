@@ -81,6 +81,7 @@
 
 <body>
   <?php
+  // Get the status of the visited user profile
   $sqlAuth = "SELECT * FROM `Auth_t` WHERE `UserID` = $profileID";
   $resultAuth = mysqli_query($con, $sqlAuth);
 
@@ -90,10 +91,10 @@
     $systemAdministratorStatus = $auth['SystemAdministratorStatus'];
   }
 
+  // Fetch all of the entries from the UserData table and assign them to variables that can be used later
   $sql = "SELECT * FROM `UserData_t` WHERE `UserID` = $profileID";
   $result = mysqli_query($con, $sql);
 
-  // Fetch all of the entries from the UserData table and assign them to variables that can be used later
   while ($profile = mysqli_fetch_assoc($result)) {
     $firstName = $profile['FirstName'];
     $lastName = $profile['LastName'];
@@ -150,93 +151,37 @@
     }
   }
 
-  if ($userID == $profileID && $mentorStatus == true) {
-    // *** This section will run on the user's page ***
-
-    // If user is a mentor, get appointment information
-    $sqlScheduledAppointments = "SELECT `AppointmentTime`,`SchedulerID` FROM `Appointments_t` WHERE `MentorID` = 1 AND `SchedulerID` IS NOT NULL";
-    $resultScheduledAppointments = mysqli_query($con, $sqlScheduledAppointments);
-
-    // Fetch all appointments that have been booked for the user and assign them to an array then sort them in ascending order
-    $scheduledAppointmentsArray = array();
-    while ($scheduledAppointments = mysqli_fetch_assoc($resultScheduledAppointments)) {
-      $appointmentDateTime = $scheduledAppointments['AppointmentTime'];
-      $appointmentDate = explode(" ", $appointmentDateTime)[0];
-      $appointmentTime = explode(" ", $appointmentDateTime)[1];
-      $scheduledAppointmentsArray[] = array($appointmentDate, $appointmentTime, $scheduledAppointments['SchedulerID']);
-    }
-    sort($scheduledAppointmentsArray);
-
-    // Create an associative array with each unique date as a key and each unique date key having an array of the times and their associated scheduler ID
-    $scheduledAppointmentsAssoc = array();
-    foreach ($scheduledAppointmentsArray as $appointment) {
-      $date = $appointment[0];
-      $time = $appointment[1];
-      $schedulerID = $appointment[2];
-      if (!isset($scheduledAppointmentsAssoc[$date])) {
-        $scheduledAppointmentsAssoc[$date] = array();
-      }
-      $scheduledAppointmentsAssoc[$date][] = array('time' => $time, 'schedulerID' => $schedulerID);
-    }
-
-    // Assign the available dates to an array so that they can be retrieved later and used to retrieve times from the $availableAppointmentsAssoc array
-    $scheduledDates = array_keys($scheduledAppointmentsAssoc);
-
-    // Add unique schedulers to an array to use for querying the database for their information
-    $uniqueSchedulerIDs = array();
-    foreach ($scheduledAppointmentsAssoc as $date => $appointments) {
-      foreach ($appointments as $appointment) {
-        $schedulerID = $appointment['schedulerID'];
-        if (!in_array($schedulerID, $uniqueSchedulerIDs)) {
-          $uniqueSchedulerIDs[] = $schedulerID;
-        }
-      }
-    }
-
-    // Save data for all people that scheduled appointments with the user to an array that can be accessed later
-    $schedulerData = array();
-    foreach ($uniqueSchedulerIDs as $id) {
-      $sqlSchedulers = "SELECT `FirstName`,`LastName`,`ProfilePicture` FROM `userdata_t` WHERE `UserID`=$id";
-      $schedulerResult = mysqli_query($con, $sqlSchedulers);
-      while ($schedulerProfile = mysqli_fetch_assoc($schedulerResult)) {
-        $schedulerFirstName = $schedulerProfile['FirstName'];
-        $schedulerLastName = $schedulerProfile['LastName'];
-        $schedulerProfilePicture = $schedulerProfile['ProfilePicture'];
-        $schedulerDetails = array(
-          'FirstName' => $schedulerFirstName,
-          'LastName' => $schedulerLastName,
-          'ProfilePicture' => $schedulerProfilePicture
-        );
-        $schedulerData[$id] = $schedulerDetails;
-      }
-    }
-  } elseif ($mentorStatus == true) {
-    // *** This section will run on other user's pages ***
-
+  if ($mentorStatus == true) {
     // If user is a mentor, get appointment information
     $sqlAvailableAppointments = "SELECT `AppointmentTime` FROM `Appointments_t` WHERE `MentorID` = $profileID AND `SchedulerID` IS NULL";
     $resultAvailableAppointments = mysqli_query($con, $sqlAvailableAppointments);
 
     // Fetch all appointments that have NOT been booked for the user and assign them to an array then sort them in ascending order
-    $availableAppointmentsArray = [];
-    while ($availableAppointments = mysqli_fetch_assoc($resultAvailableAppointments)) {
-      $availableAppointmentsArray[] = $availableAppointments['AppointmentTime'];
-    }
-    sort($availableAppointmentsArray);
-
-    // Create an associative array with the date as the key and each date key has an array of the times available for that date
-    $availableAppointmentsAssoc = array();
-    foreach ($availableAppointmentsArray as $item) {
-      $date = date('Y-m-d', strtotime($item));
-      $time = date('H:i:s', strtotime($item));
-      if (!isset($availableAppointmentsAssoc[$date])) {
-        $availableAppointmentsAssoc[$date] = array();
+    if (mysqli_num_rows($resultAvailableAppointments) > 0) {
+      $availableAppointmentsArray = [];
+      while ($availableAppointments = mysqli_fetch_assoc($resultAvailableAppointments)) {
+        $availableAppointmentsArray[] = $availableAppointments['AppointmentTime'];
       }
-      $availableAppointmentsAssoc[$date][] = $time;
-    }
+      sort($availableAppointmentsArray);
 
-    // Assign the available dates to an array so that they can be retrieved later and used to retrieve times from the $availableAppointmentsAssoc array
-    $availableDates = array_keys($availableAppointmentsAssoc);
+      // Create an associative array with the date as the key and each date key has an array of the times available for that date
+      $availableAppointmentsAssoc = array();
+      foreach ($availableAppointmentsArray as $item) {
+        $date = date('Y-m-d', strtotime($item));
+        $time = date('H:i:s', strtotime($item));
+        if (!isset($availableAppointmentsAssoc[$date])) {
+          $availableAppointmentsAssoc[$date] = array();
+        }
+        $availableAppointmentsAssoc[$date][] = $time;
+      }
+
+      // Assign the available dates to an array so that they can be retrieved later and used to retrieve times from the $availableAppointmentsAssoc array
+      $availableDates = array_keys($availableAppointmentsAssoc);
+    } else {
+      $availableAppointmentsArray = null;
+    }
+  } else {
+    $availableAppointmentsArray = null;
   }
 
   mysqli_close($con);
@@ -340,9 +285,11 @@
     echo '<div class="col">';
     echo '<a href="#"><i class="fa-solid fa-share-nodes"></i><br>Share</a>';
     echo '</div>';
-    echo '<div class="col">';
-    echo '<a href="#"><i class="fa-solid fa-gear"></i><br>Settings</a>';
-    echo '</div>';
+    if ($userMentorStatus == true) {
+      echo '<div class="col">';
+      echo '<a href="edit-appointments.php"><i class="fa-regular fa-calendar-days"></i></i></i><br>Appointments</a>';
+      echo '</div>';
+    }
     echo '</div>';
     echo '</section>';
   }
@@ -366,64 +313,11 @@
     echo '</div></div></div></div>';
   }
 
-  if ($userID == $profileID && $scheduledAppointmentsArray != null) {
+  if ($availableAppointmentsArray != null) {
     echo '<div class="container-fluid pb-4">';
     echo '<div class="row align-items-start profile-section pt-2">';
     echo '<div class="col-1 d-flex align-items-center justify-content-center profile-icon">';
-    echo '<i class="fa-regular fa-calendar-check"></i>';
-    echo '</div>';
-    echo '<div class="col-11 profile-wrap">';
-    echo '<h3>Scheduled Appointments</h3>';
-    echo '<div>';
-    $ts = 0;
-    foreach ($scheduledDates as $date) {
-      echo '<a class="btn profile-skill me-1" href="#" role="button" onclick="openModal(&#39;timeSelection' . $ts . '&#39;)">' . date('F j', strtotime($date)) . '</a>';
-      $ts++;
-    }
-    echo '</div>';
-
-    // Modal section
-    $ts2 = 0;
-    foreach ($scheduledAppointmentsAssoc as $date => $appointments) {
-      echo '<div class="modal fade" id="timeSelection' . $ts2 . '" tabindex="-1" aria-labelledby="timeLabel' . $ts2 . '" aria-hidden="true">';
-      echo '<div class="modal-dialog modal-dialog-centered">';
-      echo '<div class="modal-content">';
-      echo '<div class="modal-header modal-header-gradient">';
-      echo '<h1 class="modal-title fs-5" id="timeLabel' . $ts2 . '">' . date('F j, Y', strtotime($date)) . '</h1>';
-      echo '<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>';
-      echo '</div>';
-      echo '<div class="modal-body justify-content-center align-items-center pt-4">';
-      foreach ($appointments as $appointment) {
-        $time = $appointment['time'];
-        $schedulerID = $appointment['schedulerID'];
-        $schedulerInfo = $schedulerData[$schedulerID];
-        $schedulerFirstName = $schedulerInfo['FirstName'];
-        $schedulerLastName = $schedulerInfo['LastName'];
-        $schedulerProfilePicture = $schedulerInfo['ProfilePicture'];
-        echo '<div class="container d-flex align-items-center row schedule-container mx-0 mb-3 py-1">';
-        echo '<h2 class="col-5 m-0 scheduler-time">' . date('g:i A', strtotime($time)) . '</h2>';
-        echo '<a href="#" class="col-2 p-0"><img class="schedule-photo" src="upload/' . $schedulerProfilePicture . '" alt="' . $schedulerFirstName . ' ' . $schedulerLastName . ' Profile Picture"></a>';
-        echo '<h3 class="col-5 ps-2 m-0 scheduler-name">' . $schedulerFirstName . ' ' . $schedulerLastName . '</h3>';
-        echo '</div>';
-      }
-      echo '</div>';
-      echo '</div>';
-      echo '</div>';
-      echo '</div>';
-      $ts2++;
-    }
-    // End modal section
-
-    echo '</div>';
-    echo '<div class="col-12 text-end">';
-    echo '<div class="open-link">';
-    echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
-    echo '</div></div></div></div>';
-  } elseif ($availableAppointmentsArray != null) {
-    echo '<div class="container-fluid pb-4">';
-    echo '<div class="row align-items-start profile-section pt-2">';
-    echo '<div class="col-1 d-flex align-items-center justify-content-center profile-icon">';
-    echo '<i class="fa-regular fa-calendar-check"></i>';
+    echo '<i class="fa-regular fa-calendar"></i>';
     echo '</div>';
     echo '<div class="col-11 profile-wrap">';
     echo '<h3>Schedule an Appointment</h3>';
@@ -546,7 +440,7 @@
     echo '</div></div></div></div>';
   }
 
-  if ($skillNames != null) {
+  if (isset($skillNames) && $skillNames != null) {
     echo '<div class="container-fluid pb-4">';
     echo '<div class="row align-items-start profile-section pt-2">';
     echo '<div class="col-1 d-flex align-items-center justify-content-center profile-icon">';

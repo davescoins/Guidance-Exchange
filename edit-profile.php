@@ -72,7 +72,6 @@
     $profilePicture = $profile['ProfilePicture'];
     $profilePictureBorder = $profile['ProfilePictureBorder'];
     $profilePictureBackground = $profile['ProfilePictureBackground'];
-    $mentorStatus = $profile['MentorStatus'];
     $rating = $profile['Rating'];
     $city = $profile['LocationCity'];
     $state = $profile['LocationState'];
@@ -102,8 +101,6 @@
     $educationEndDateArray = explode(";", $educationEndDate ?? '');
     $educationDescription = $profile['EducationDescription'];
     $educationDescriptionArray = explode(";", $educationDescription ?? '');
-    $associations = $profile['Associations'];
-    $associationsArray = explode(";", $associations ?? '');
   }
 
   $sqlEmail = "SELECT `email` FROM `Auth_t` WHERE `UserID` = $userID";
