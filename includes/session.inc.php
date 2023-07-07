@@ -6,3 +6,7 @@ if (!isset($_SESSION['UserID'])) {
 }
 
 $userID = $_SESSION['UserID'];
+$userMentorStatus = $_SESSION['MentorStatus'];
+$userModeratorStatus = $_SESSION['ModeratorStatus'];
+$userSystemAdministratorStatus = $_SESSION['SystemAdministratorStatus'];
+$associationsArray = $_SESSION['Associations'];

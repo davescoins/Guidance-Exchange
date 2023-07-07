@@ -51,12 +51,6 @@ if (isset($_POST['submit'])) {
 
         $errors['uname'] = 'Username or password is not correct. <br>';
       }
-
-      // free the memory and connection
-
-      mysqli_free_result($results);
-
-      mysqli_close($con);
     }
   }
 
@@ -75,6 +69,29 @@ if (isset($_POST['submit'])) {
     $_SESSION['ModeratorStatus'] = $user['ModeratorStatus'];
 
     $_SESSION['SystemAdministratorStatus'] = $user['SystemAdministratorStatus'];
+
+    // Get user associations
+    $userID = $user['UserID'];
+    $sqlAssociations = "SELECT `Associations` FROM `UserData_t` WHERE `UserID` = $userID";
+    $resultAssociations = mysqli_query($con, $sqlAssociations);
+
+    if (mysqli_num_rows($resultAssociations) > 0) {
+      while ($profile = mysqli_fetch_assoc($resultAssociations)) {
+        $associations = $profile['Associations'];
+        $associationsArray = explode(";", $associations ?? '');
+      }
+    } else {
+      $associationsArray = null;
+    }
+
+    $_SESSION['Associations'] = $associationsArray;
+
+    // free the memory and connection
+
+    mysqli_free_result($results);
+    mysqli_free_result($resultAssociations);
+
+    mysqli_close($con);
 
     if ($user['ModeratorStatus'] == 1) {
       $url = 'moderator-dashboard.php?profileID=' . $_SESSION['UserID'];
