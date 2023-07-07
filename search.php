@@ -123,12 +123,14 @@
             if (in_array($foundUser['UserID'], $associationsArray)) {
               echo '<form action="associations.php" method="POST">';
               echo '<input type="hidden" name="query" value="' . $query . '">';
-              echo '<button class="btn p-0" type="submit" name="association" value="remove"><i class="fa-solid fa-minus fa-xl px-4"></i></button>';
+              echo '<input type="hidden" name="association" value="' . $foundUser['UserID'] . '">';
+              echo '<button class="btn p-0" type="submit" name="update" value="remove"><i class="fa-solid fa-minus fa-xl px-4"></i></button>';
               echo '</form>';
             } else {
               echo '<form action="associations.php" method="POST">';
               echo '<input type="hidden" name="query" value="' . $query . '">';
-              echo '<button class="btn p-0" type="submit" name="association" value="add"><i class="fa-solid fa-plus fa-xl px-4"></i></button>';
+              echo '<input type="hidden" name="association" value="' . $foundUser['UserID'] . '">';
+              echo '<button class="btn p-0" type="submit" name="update" value="add"><i class="fa-solid fa-plus fa-xl px-4"></i></button>';
               echo '</form>';
             }
           } else {

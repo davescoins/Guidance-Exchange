@@ -257,7 +257,7 @@ VALUES
     '2007-08-30',
     '2010-05-27',
     'Benjamin earned his Juris Doctor degree from Harvard Law School, renowned for its rigorous legal education and distinguished faculty. He gained a solid foundation in legal theory, constitutional law, and legal research and writing. During his time at law school, Benjamin actively participated in moot court competitions and served on the editorial board of the law review, further honing his legal skills and cultivating a deep understanding of legal principles. His academic achievements and commitment to excellence laid the groundwork for a successful career in law.',
-    '1;2;5'
+    '1;4;5;6'
   ),
   (
     3,
@@ -313,7 +313,7 @@ VALUES
     '2008-08-25',
     '2012-05-12',
     'Lucas completed his undergraduate studies in English Education at the University of Illinois at Urbana-Champaign. He gained a comprehensive understanding of pedagogy, instructional strategies, and educational psychology. Through his coursework and field experiences, Lucas developed the necessary skills to create inclusive and student-centered learning environments. He actively participated in student teaching placements, working with diverse student populations and adapting his instruction to meet their individual needs. Lucas\'s dedication to his profession and his commitment to ongoing professional development contribute to his effectiveness as a high school English teacher.',
-    '1;2;5'
+    '1;2;3;6'
   ),
   (
     5,
@@ -341,7 +341,7 @@ VALUES
     '2011-09-05',
     '2015-05-17',
     'Mia completed her undergraduate studies in Finance at the prestigious Wharton School of the University of Pennsylvania. She gained a comprehensive understanding of financial markets, investment principles, and corporate finance. Through internships and extracurricular activities, she developed practical skills in analyzing financial statements, evaluating investment opportunities, and understanding market dynamics. Her academic excellence and involvement in finance-related clubs further enhanced her knowledge and passion for the field.',
-    '2;4;5'
+    '1;2;6'
   ),
   (
     6,
@@ -369,7 +369,7 @@ VALUES
     '2016-08-21',
     '2020-05-16',
     'Sophia pursued her undergraduate studies in Computer Science, gaining a solid foundation in programming, algorithms, data structures, and software development. She actively participated in various coding competitions, clubs, and workshops, further refining her technical skills and fostering a passion for innovation.',
-    '2;4;5'
+    '1;2;3;4;5'
   ),
   (
     7,
