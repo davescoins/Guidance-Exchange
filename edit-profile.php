@@ -15,6 +15,7 @@
   <link href="assets/fontawesome/css/solid.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
   <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/edit-profile.css" />
   <link rel="stylesheet" href="css/profile.css" />
   <link rel="stylesheet" href="css/main.css" />
 </head>

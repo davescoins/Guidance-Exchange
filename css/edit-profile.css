@@ -1,0 +1,37 @@
+/* Edit Profile Section */
+
+.edit__section-heading {
+  color: #333;
+  border-bottom: #333 solid 2px;
+}
+
+.edit__section-subHeading {
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.input-group {
+  width: 83%;
+}
+
+.choices__inner,
+.choices__input {
+  background-color: #ffffff;
+}
+
+.choices__list--multiple .choices__item {
+  background-color: #e14658;
+  color: #f5f5f5;
+  border: 1px solid #e14658;
+}
+
+.choices__list--multiple .choices__item.is-highlighted {
+  background-color: #8bd8bd;
+  color: #333;
+  border: 1px solid #8bd8bd;
+}
+
+.choices[data-type*='select-multiple'] .choices__button,
+.choices[data-type*='text'] .choices__button {
+  border-left: 1px solid #892a35;
+}
