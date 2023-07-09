@@ -117,7 +117,7 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Guidance Exchange</title>
+    <title>Guidance Exchange | Login</title>
 
     <link href="assets\fontawesome\css\fontawesome.css" rel="stylesheet">
     <link href="assets\fontawesome\css\brands.css" rel="stylesheet">
