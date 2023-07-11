@@ -78,6 +78,6 @@ VALUES
     'system.admin@guidanceexchange.com',
     '(123) 456-7890',
     0,
-    1,
-    0
+    0,
+    1
   );
