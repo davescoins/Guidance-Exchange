@@ -173,17 +173,20 @@
       $openAppointmentsArray[] = array($appointmentDate, $appointmentTime);
     }
     sort($openAppointmentsArray);
-  }
 
-  // Create an associative array with each unique date as a key and each unique date key having an array of the times available
-  $openAppointmentsAssoc = array();
-  foreach ($openAppointmentsArray as $appointment) {
-    $date = $appointment[0];
-    $time = $appointment[1];
-    if (!isset($openAppointmentsAssoc[$date])) {
-      $openAppointmentsAssoc[$date] = array();
+
+    // Create an associative array with each unique date as a key and each unique date key having an array of the times available
+    $openAppointmentsAssoc = array();
+    foreach ($openAppointmentsArray as $appointment) {
+      $date = $appointment[0];
+      $time = $appointment[1];
+      if (!isset($openAppointmentsAssoc[$date])) {
+        $openAppointmentsAssoc[$date] = array();
+      }
+      $openAppointmentsAssoc[$date][] = $time;
     }
-    $openAppointmentsAssoc[$date][] = $time;
+  } else {
+    $openAppointmentsArray = null;
   }
 
   mysqli_close($con);

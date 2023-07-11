@@ -90,27 +90,37 @@
         $appointmentsArray[] = array($appointmentDate, $appointmentTime);
       }
       sort($appointmentsArray);
-    }
 
-    $appointmentsAssoc = array();
-    foreach ($appointmentsArray as $appointment) {
-      $date = $appointment[0];
-      $time = $appointment[1];
-      if (!isset($appointmentsAssoc[$date])) {
-        $appointmentsAssoc[$date] = array();
+      $appointmentsAssoc = array();
+      foreach ($appointmentsArray as $appointment) {
+        $date = $appointment[0];
+        $time = $appointment[1];
+        if (!isset($appointmentsAssoc[$date])) {
+          $appointmentsAssoc[$date] = array();
+        }
+        $appointmentsAssoc[$date][] = $time;
       }
-      $appointmentsAssoc[$date][] = $time;
+    } else {
+      $appointmentsArray = null;
     }
 
     if ($_POST['selection'] == 'single') {
-      if (isset($_POST['singleDate']) && isset($_POST['singleTime'])) {
-        $dateTime = $_POST['singleDate'] . ' ' . date_format(date_create($_POST['singleTime']), "G:i:s");
-        echo $dateTime;
+      if (!empty($_POST['singleDate']) && !empty($_POST['singleTime'])) {
+        $dateTime = $_POST['singleDate'] . ' ' . date_format(date_create($_POST['singleTime']), "H:i:s");
 
-        if (in_array(date_format(date_create($_POST['singleTime']), "G:i:s"), $appointmentsAssoc[$_POST['singleDate']])) {
-          echo 'Appointment slot already exists. Please try again.';
-          echo '<br>';
-          echo '<a href="appointments.php?profileID=' . $userID . '"><< Go Back</a>';
+        if ($appointmentsArray != null) {
+          if (in_array(date_format(date_create($_POST['singleTime']), "H:i:s"), $appointmentsAssoc[$_POST['singleDate']])) {
+            echo 'Appointment slot already exists. Please try again.';
+            echo '<br>';
+            echo '<a href="appointments.php?profileID=' . $userID . '"><< Go Back</a>';
+          } else {
+            $sql = "INSERT INTO `Appointments_t` (`MentorID`, `SchedulerID`, `AppointmentTime`) VALUES ($userID, NULL, '$dateTime')";
+            mysqli_query($con, $sql);
+
+            mysqli_close($con);
+            header('Location: appointments.php?profileID=' . $userID);
+            exit();
+          }
         } else {
           $sql = "INSERT INTO `Appointments_t` (`MentorID`, `SchedulerID`, `AppointmentTime`) VALUES ($userID, NULL, '$dateTime')";
           mysqli_query($con, $sql);
@@ -127,52 +137,310 @@
     }
 
     if ($_POST['selection'] == 'range') {
-      if (isset($_POST['duration']) && isset($_POST['startDate']) && isset($_POST['endDate'])) {
-        $duration = $_POST['duration'];
-        $startDate = $_POST['startDate'];
-        $endDate = $_POST['startDate'];
-        $sunSet = false;
-        $monSet = false;
-        $tueSet = false;
-        $wedSet = false;
-        $thuSet = false;
-        $friSet = false;
-        $satSet = false;
-        $errorSun = false;
-        $errorMon = false;
-        $errorTue = false;
-        $errorWed = false;
-        $errorThu = false;
-        $errorFri = false;
-        $errorSat = false;
-        $errorSunMissing = true;
-        $errorMonMissing = true;
-        $errorTueMissing = true;
-        $errorWedMissing = true;
-        $errorThuMissing = true;
-        $errorFriMissing = true;
-        $errorSatMissing = true;
+      if (!empty($_POST['duration']) && !empty($_POST['startDate']) && !empty($_POST['endDate'])) {
+        if (strtotime($_POST['startDate']) <= strtotime($_POST['endDate'])) {
+          $duration = $_POST['duration'];
+          $startDate = $_POST['startDate'];
+          $endDate = $_POST['endDate'];
+          $sunSet = false;
+          $monSet = false;
+          $tueSet = false;
+          $wedSet = false;
+          $thuSet = false;
+          $friSet = false;
+          $satSet = false;
+          $errorSun = false;
+          $errorMon = false;
+          $errorTue = false;
+          $errorWed = false;
+          $errorThu = false;
+          $errorFri = false;
+          $errorSat = false;
+          $errorSunMissing = false;
+          $errorMonMissing = false;
+          $errorTueMissing = false;
+          $errorWedMissing = false;
+          $errorThuMissing = false;
+          $errorFriMissing = false;
+          $errorSatMissing = false;
 
-        if (isset($_POST['sunStartTime']) && isset($_POST['sunEndTime'])) {
-          if (strtotime($_POST['sunStartTime']) < strtotime($_POST['sunEndTime'])) {
-            $sunStartTime = $_POST['sunStartTime'];
-            $sunEndTime = $_POST['sunEndTime'];
-            $sunSet = true;
-          } else {
-            $errorSun = true;
+          if (!empty($_POST['sunStartTime']) && !empty($_POST['sunEndTime'])) {
+            if (strtotime($_POST['sunStartTime']) < strtotime($_POST['sunEndTime'])) {
+              $sunStartTime = date_format(date_create($_POST['sunStartTime']), "G:i:s");
+              $sunEndTime = date_format(date_create($_POST['sunEndTime']), "G:i:s");
+              $sunSet = true;
+            } else {
+              $errorSun = true;
+            }
+          } elseif (!empty($_POST['sunStartTime']) || !empty($_POST['sunEndTime'])) {
+            $errorSunMissing = true;
           }
-        } elseif (isset($_POST['sunStartTime']) || isset($_POST['sunEndTime'])) {
-          $errorSunMissing = true;
+          if (!empty($_POST['monStartTime']) && !empty($_POST['monEndTime'])) {
+            if (strtotime($_POST['monStartTime']) < strtotime($_POST['monEndTime'])) {
+              $monStartTime = date_format(date_create($_POST['monStartTime']), "G:i:s");
+              $monEndTime = date_format(date_create($_POST['monEndTime']), "G:i:s");
+              $monSet = true;
+            } else {
+              $errorMon = true;
+            }
+          } elseif (!empty($_POST['monStartTime']) || !empty($_POST['monEndTime'])) {
+            $errorMonMissing = true;
+          }
+          if (!empty($_POST['tueStartTime']) && !empty($_POST['tueEndTime'])) {
+            if (strtotime($_POST['tueStartTime']) < strtotime($_POST['tueEndTime'])) {
+              $tueStartTime = date_format(date_create($_POST['tueStartTime']), "G:i:s");
+              $tueEndTime = date_format(date_create($_POST['tueEndTime']), "G:i:s");
+              $tueSet = true;
+            } else {
+              $errorTue = true;
+            }
+          } elseif (!empty($_POST['tueStartTime']) || !empty($_POST['tueEndTime'])) {
+            $errorTueMissing = true;
+          }
+          if (!empty($_POST['wedStartTime']) && !empty($_POST['wedEndTime'])) {
+            if (strtotime($_POST['wedStartTime']) < strtotime($_POST['wedEndTime'])) {
+              $wedStartTime = date_format(date_create($_POST['wedStartTime']), "G:i:s");
+              $wedEndTime = date_format(date_create($_POST['wedEndTime']), "G:i:s");
+              $wedSet = true;
+            } else {
+              $errorWed = true;
+            }
+          } elseif (!empty($_POST['wedStartTime']) || !empty($_POST['wedEndTime'])) {
+            $errorWedMissing = true;
+          }
+          if (!empty($_POST['thuStartTime']) && !empty($_POST['thuEndTime'])) {
+            if (strtotime($_POST['thuStartTime']) < strtotime($_POST['thuEndTime'])) {
+              $thuStartTime = date_format(date_create($_POST['thuStartTime']), "G:i:s");
+              $thuEndTime = date_format(date_create($_POST['thuEndTime']), "G:i:s");
+              $thuSet = true;
+            } else {
+              $errorThu = true;
+            }
+          } elseif (!empty($_POST['thuStartTime']) || !empty($_POST['thuEndTime'])) {
+            $errorThuMissing = true;
+          }
+          if (!empty($_POST['friStartTime']) && !empty($_POST['friEndTime'])) {
+            if (strtotime($_POST['friStartTime']) < strtotime($_POST['friEndTime'])) {
+              $friStartTime = date_format(date_create($_POST['friStartTime']), "G:i:s");
+              $friEndTime = date_format(date_create($_POST['friEndTime']), "G:i:s");
+              $friSet = true;
+            } else {
+              $errorFri = true;
+            }
+          } elseif (!empty($_POST['friStartTime']) || !empty($_POST['friEndTime'])) {
+            $errorFriMissing = true;
+          }
+          if (!empty($_POST['satStartTime']) && !empty($_POST['satEndTime'])) {
+            if (strtotime($_POST['satStartTime']) < strtotime($_POST['satEndTime'])) {
+              $satStartTime = date_format(date_create($_POST['satStartTime']), "G:i:s");
+              $satEndTime = date_format(date_create($_POST['satEndTime']), "G:i:s");
+              $satSet = true;
+            } else {
+              $errorSat = true;
+            }
+          } elseif (!empty($_POST['satStartTime']) || !empty($_POST['satEndTime'])) {
+            $errorSatMissing = true;
+          }
+
+          $currentDay = $startDate;
+          $startTimes = array();
+          $endTimes = array();
+          if ($sunSet) {
+            $startTimes += array(
+              "Sunday" => $sunStartTime
+            );
+            $endTimes += array(
+              "Sunday" => $sunEndTime
+            );
+          } else {
+            $startTimes += array(
+              "Sunday" => '12:00:00'
+            );
+            $endTimes += array(
+              "Sunday" => '12:00:00'
+            );
+          }
+          if ($monSet) {
+            $startTimes += array(
+              "Monday" => $monStartTime
+            );
+            $endTimes += array(
+              "Monday" => $monEndTime
+            );
+          } else {
+            $startTimes += array(
+              "Monday" => '12:00:00'
+            );
+            $endTimes += array(
+              "Monday" => '12:00:00'
+            );
+          }
+          if ($tueSet) {
+            $startTimes += array(
+              "Tuesday" => $tueStartTime
+            );
+            $endTimes += array(
+              "Tuesday" => $tueEndTime
+            );
+          } else {
+            $startTimes += array(
+              "Tuesday" => '12:00:00'
+            );
+            $endTimes += array(
+              "Tuesday" => '12:00:00'
+            );
+          }
+          if ($wedSet) {
+            $startTimes += array(
+              "Wednesday" => $wedStartTime
+            );
+            $endTimes += array(
+              "Wednesday" => $wedEndTime
+            );
+          } else {
+            $startTimes += array(
+              "Wednesday" => '12:00:00'
+            );
+            $endTimes += array(
+              "Wednesday" => '12:00:00'
+            );
+          }
+          if ($thuSet) {
+            $startTimes += array(
+              "Thursday" => $thuStartTime
+            );
+            $endTimes += array(
+              "Thursday" => $thuEndTime
+            );
+          } else {
+            $startTimes += array(
+              "Thursday" => '12:00:00'
+            );
+            $endTimes += array(
+              "Thursday" => '12:00:00'
+            );
+          }
+          if ($friSet) {
+            $startTimes += array(
+              "Friday" => $friStartTime
+            );
+            $endTimes += array(
+              "Friday" => $friEndTime
+            );
+          } else {
+            $startTimes += array(
+              "Friday" => '12:00:00'
+            );
+            $endTimes += array(
+              "Friday" => '12:00:00'
+            );
+          }
+          if ($satSet) {
+            $startTimes += array(
+              "Saturday" => $satStartTime
+            );
+            $endTimes += array(
+              "Saturday" => $satEndTime
+            );
+          } else {
+            $startTimes += array(
+              "Saturday" => '12:00:00'
+            );
+            $endTimes += array(
+              "Saturday" => '12:00:00'
+            );
+          }
+
+          while ($currentDay <= $endDate) {
+            $dayOfWeek = date("l", strtotime($currentDay));
+            $startTime = strtotime($startTimes[$dayOfWeek]);
+            $endTime = strtotime($endTimes[$dayOfWeek]);
+            $interval = $duration * 60;
+            while (($startTime + $interval) <= $endTime) {
+              $appointmentTime = $currentDay . ' ' . date("H:i:s", $startTime);
+
+              if ($appointmentsArray != null && array_key_exists($currentDay, $appointmentsAssoc)) {
+                if (!in_array(date("H:i:s", $startTime), $appointmentsAssoc[$currentDay])) {
+                  $sql = "INSERT INTO `Appointments_t` (`MentorID`, `SchedulerID`, `AppointmentTime`) VALUES ($userID, null, '$appointmentTime')";
+                  mysqli_query($con, $sql);
+                }
+              } else {
+                $sql = "INSERT INTO `Appointments_t` (`MentorID`, `SchedulerID`, `AppointmentTime`) VALUES ($userID, null, '$appointmentTime')";
+                mysqli_query($con, $sql);
+              }
+
+              $startTime += $interval;
+            }
+
+            $currentDay = date("Y-m-d", strtotime("+1 day", strtotime($currentDay)));
+          }
+        } else {
+          echo 'Error: The selected dates are invalid. The start date must be after the end date. Please try again.';
+          echo '<br>';
+          echo '<a href="appointments.php?profileID=' . $userID . '"><< Go Back</a>';
         }
 
-        // echo 'Error: Times selected for Sunday are invalid. The start or end time is missing.';
-        // echo '<br>';
-
-        // echo 'Error: Times selected for Sunday are invalid. The end time must be after the start time.';
-        // echo '<br>';
-
-
+        if ($errorSun || $errorMon || $errorTue || $errorWed || $errorThu || $errorFri || $errorSat || $errorSunMissing || $errorMonMissing || $errorTueMissing || $errorWedMissing || $errorThuMissing || $errorFriMissing || $errorSatMissing) {
+          if ($errorSun) {
+            echo 'Error: Times selected for Sunday are invalid. The start or end time is missing.';
+            echo '<br>';
+          } elseif ($errorSunMissing) {
+            echo 'Error: Times selected for Sunday are invalid. The end time must be after the start time.';
+            echo '<br>';
+          }
+          if ($errorMon) {
+            echo 'Error: Times selected for Monday are invalid. The start or end time is missing.';
+            echo '<br>';
+          } elseif ($errorMonMissing) {
+            echo 'Error: Times selected for Monday are invalid. The end time must be after the start time.';
+            echo '<br>';
+          }
+          if ($errorTue) {
+            echo 'Error: Times selected for Sunday are invalid. The start or end time is missing.';
+            echo '<br>';
+          } elseif ($errorTueMissing) {
+            echo 'Error: Times selected for Sunday are invalid. The end time must be after the start time.';
+            echo '<br>';
+          }
+          if ($errorWed) {
+            echo 'Error: Times selected for Wednesday are invalid. The start or end time is missing.';
+            echo '<br>';
+          } elseif ($errorWedMissing) {
+            echo 'Error: Times selected for Wednesday are invalid. The end time must be after the start time.';
+            echo '<br>';
+          }
+          if ($errorThu) {
+            echo 'Error: Times selected for Thursday are invalid. The start or end time is missing.';
+            echo '<br>';
+          } elseif ($errorThuMissing) {
+            echo 'Error: Times selected for Thursday are invalid. The end time must be after the start time.';
+            echo '<br>';
+          }
+          if ($errorFri) {
+            echo 'Error: Times selected for Friday are invalid. The start or end time is missing.';
+            echo '<br>';
+          } elseif ($errorFriMissing) {
+            echo 'Error: Times selected for Friday are invalid. The end time must be after the start time.';
+            echo '<br>';
+          }
+          if ($errorSat) {
+            echo 'Error: Times selected for Saturday are invalid. The start or end time is missing.';
+            echo '<br>';
+          } elseif ($errorSatMissing) {
+            echo 'Error: Times selected for Saturday are invalid. The end time must be after the start time.';
+            echo '<br>';
+          }
+          mysqli_close($con);
+          echo 'Appointment times for all days without error submitted successfully.';
+          echo '<br>';
+          echo '<a href="appointments.php?profileID=' . $userID . '"><< Go Back</a>';
+        } else {
+          mysqli_close($con);
+          header('Location: appointments.php?profileID=' . $userID);
+          exit();
+        }
       } else {
+        mysqli_close($con);
         echo 'Error: Appointment Duration, Start Date, and End Date fields required. Please try again.';
         echo '<br>';
         echo '<a href="appointments.php?profileID=' . $userID . '"><< Go Back</a>';
