@@ -285,11 +285,9 @@
     echo '<div class="col">';
     echo '<a href="#"><i class="fa-solid fa-share-nodes"></i><br>Share</a>';
     echo '</div>';
-    if ($userMentorStatus == true) {
-      echo '<div class="col">';
-      echo '<a href="appointments.php?profileID=' . $userID . '"><i class="fa-regular fa-calendar-days"></i></i></i><br>Appointments</a>';
-      echo '</div>';
-    }
+    echo '<div class="col">';
+    echo '<a href="appointments.php?profileID=' . $userID . '"><i class="fa-regular fa-calendar-days"></i></i></i><br>Appointments</a>';
+    echo '</div>';
     echo '</div>';
     echo '</section>';
   }

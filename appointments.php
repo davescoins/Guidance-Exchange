@@ -102,8 +102,13 @@
   }
 
   // Get scheduled appointments information
-  $sqlScheduledAppointments = "SELECT `AppointmentTime`,`SchedulerID` FROM `Appointments_t` WHERE `MentorID` = $userID AND `SchedulerID` IS NOT NULL";
-  $resultScheduledAppointments = mysqli_query($con, $sqlScheduledAppointments);
+  if ($userMentorStatus) {
+    $sqlScheduledAppointments = "SELECT `AppointmentTime`,`SchedulerID` FROM `Appointments_t` WHERE `MentorID` = $userID AND `SchedulerID` IS NOT NULL";
+    $resultScheduledAppointments = mysqli_query($con, $sqlScheduledAppointments);
+  } else {
+    $sqlScheduledAppointments = "SELECT `AppointmentTime`,`MentorID` FROM `Appointments_t` WHERE `SchedulerID` = $userID";
+    $resultScheduledAppointments = mysqli_query($con, $sqlScheduledAppointments);
+  }
 
   // Fetch all appointments that have been booked for the user and assign them to an array then sort them in ascending order
   if (mysqli_num_rows($resultScheduledAppointments) > 0) {
@@ -112,7 +117,11 @@
       $appointmentDateTime = $scheduledAppointments['AppointmentTime'];
       $appointmentDate = explode(" ", $appointmentDateTime)[0];
       $appointmentTime = explode(" ", $appointmentDateTime)[1];
-      $scheduledAppointmentsArray[] = array($appointmentDate, $appointmentTime, $scheduledAppointments['SchedulerID']);
+      if ($userMentorStatus) {
+        $scheduledAppointmentsArray[] = array($appointmentDate, $appointmentTime, $scheduledAppointments['SchedulerID']);
+      } else {
+        $scheduledAppointmentsArray[] = array($appointmentDate, $appointmentTime, $scheduledAppointments['MentorID']);
+      }
     }
     sort($scheduledAppointmentsArray);
 
@@ -121,39 +130,76 @@
     foreach ($scheduledAppointmentsArray as $appointment) {
       $date = $appointment[0];
       $time = $appointment[1];
-      $schedulerID = $appointment[2];
+      if ($userMentorStatus) {
+        $schedulerID = $appointment[2];
+      } else {
+        $mentorID = $appointment[2];
+      }
       if (!isset($scheduledAppointmentsAssoc[$date])) {
         $scheduledAppointmentsAssoc[$date] = array();
       }
-      $scheduledAppointmentsAssoc[$date][] = array('time' => $time, 'schedulerID' => $schedulerID);
+      if ($userMentorStatus) {
+        $scheduledAppointmentsAssoc[$date][] = array('time' => $time, 'schedulerID' => $schedulerID);
+      } else {
+        $scheduledAppointmentsAssoc[$date][] = array('time' => $time, 'mentorID' => $mentorID);
+      }
     }
 
     // Add unique schedulers to an array to use for querying the database for their information
-    $uniqueSchedulerIDs = array();
+    if ($userMentorStatus) {
+      $uniqueSchedulerIDs = array();
+    } else {
+      $uniqueMentorIDs = array();
+    }
     foreach ($scheduledAppointmentsAssoc as $date => $appointments) {
       foreach ($appointments as $appointment) {
-        $schedulerID = $appointment['schedulerID'];
-        if (!in_array($schedulerID, $uniqueSchedulerIDs)) {
-          $uniqueSchedulerIDs[] = $schedulerID;
+        if ($userMentorStatus) {
+          $schedulerID = $appointment['schedulerID'];
+          if (!in_array($schedulerID, $uniqueSchedulerIDs)) {
+            $uniqueSchedulerIDs[] = $schedulerID;
+          }
+        } else {
+          $mentorID = $appointment['mentorID'];
+          if (!in_array($mentorID, $uniqueMentorIDs)) {
+            $uniqueMentorIDs[] = $mentorID;
+          }
         }
       }
     }
 
     // Save data for all people that scheduled appointments with the user to an array that can be accessed later
     $schedulerData = array();
-    foreach ($uniqueSchedulerIDs as $id) {
-      $sqlSchedulers = "SELECT `FirstName`,`LastName`,`ProfilePicture` FROM `userdata_t` WHERE `UserID`=$id";
-      $schedulerResult = mysqli_query($con, $sqlSchedulers);
-      while ($schedulerProfile = mysqli_fetch_assoc($schedulerResult)) {
-        $schedulerFirstName = $schedulerProfile['FirstName'];
-        $schedulerLastName = $schedulerProfile['LastName'];
-        $schedulerProfilePicture = $schedulerProfile['ProfilePicture'];
-        $schedulerDetails = array(
-          'FirstName' => $schedulerFirstName,
-          'LastName' => $schedulerLastName,
-          'ProfilePicture' => $schedulerProfilePicture
-        );
-        $schedulerData[$id] = $schedulerDetails;
+    if ($userMentorStatus) {
+      foreach ($uniqueSchedulerIDs as $id) {
+        $sqlSchedulers = "SELECT `FirstName`,`LastName`,`ProfilePicture` FROM `userdata_t` WHERE `UserID`=$id";
+        $schedulerResult = mysqli_query($con, $sqlSchedulers);
+        while ($schedulerProfile = mysqli_fetch_assoc($schedulerResult)) {
+          $schedulerFirstName = $schedulerProfile['FirstName'];
+          $schedulerLastName = $schedulerProfile['LastName'];
+          $schedulerProfilePicture = $schedulerProfile['ProfilePicture'];
+          $schedulerDetails = array(
+            'FirstName' => $schedulerFirstName,
+            'LastName' => $schedulerLastName,
+            'ProfilePicture' => $schedulerProfilePicture
+          );
+          $schedulerData[$id] = $schedulerDetails;
+        }
+      }
+    } else {
+      foreach ($uniqueMentorIDs as $id) {
+        $sqlMentors = "SELECT `FirstName`,`LastName`,`ProfilePicture` FROM `userdata_t` WHERE `UserID`=$id";
+        $mentorResult = mysqli_query($con, $sqlMentors);
+        while ($mentorProfile = mysqli_fetch_assoc($mentorResult)) {
+          $mentorFirstName = $mentorProfile['FirstName'];
+          $mentorLastName = $mentorProfile['LastName'];
+          $mentorProfilePicture = $mentorProfile['ProfilePicture'];
+          $mentorDetails = array(
+            'FirstName' => $mentorFirstName,
+            'LastName' => $mentorLastName,
+            'ProfilePicture' => $mentorProfilePicture
+          );
+          $mentorData[$id] = $mentorDetails;
+        }
       }
     }
   } else {
@@ -336,16 +382,29 @@
 
           foreach ($entries as $entry) {
             $time = $entry['time'];
-            $schedulerID = $entry['schedulerID'];
+            if ($userMentorStatus) {
+              $schedulerID = $entry['schedulerID'];
 
-            echo '<div class="col-3 d-flex align-items-center mb-3">';
-            echo '<p class="scheduler-name m-0">' . date_format(date_create($time), "g:i A") . '</p>';
-            echo '</div>';
-            echo '<div class="col-2 mb-3">';
-            echo '<a href="profile.php?profileID=' . $schedulerID . '"><img class="schedule-photo" src="upload/' . $schedulerData[$schedulerID]['ProfilePicture'] . '" alt="' . $schedulerData[$schedulerID]['FirstName'] . ' ' . $schedulerData[$schedulerID]['LastName'] . ' Profile Picture"></a>';
-            echo '</div>';
-            echo '<div class="col-7 d-flex align-items-center mb-3">';
-            echo '<p class="scheduler-name m-0">' . $schedulerData[$schedulerID]['FirstName'] . ' ' . $schedulerData[$schedulerID]['LastName'] . '</p>';
+              echo '<div class="col-3 d-flex align-items-center mb-3">';
+              echo '<p class="scheduler-name m-0">' . date_format(date_create($time), "g:i A") . '</p>';
+              echo '</div>';
+              echo '<div class="col-2 mb-3">';
+              echo '<a href="profile.php?profileID=' . $schedulerID . '"><img class="schedule-photo" src="upload/' . $schedulerData[$schedulerID]['ProfilePicture'] . '" alt="' . $schedulerData[$schedulerID]['FirstName'] . ' ' . $schedulerData[$schedulerID]['LastName'] . ' Profile Picture"></a>';
+              echo '</div>';
+              echo '<div class="col-7 d-flex align-items-center mb-3">';
+              echo '<p class="scheduler-name m-0">' . $schedulerData[$schedulerID]['FirstName'] . ' ' . $schedulerData[$schedulerID]['LastName'] . '</p>';
+            } else {
+              $mentorID = $entry['mentorID'];
+
+              echo '<div class="col-3 d-flex align-items-center mb-3">';
+              echo '<p class="scheduler-name m-0">' . date_format(date_create($time), "g:i A") . '</p>';
+              echo '</div>';
+              echo '<div class="col-2 mb-3">';
+              echo '<a href="profile.php?profileID=' . $mentorID . '"><img class="schedule-photo" src="upload/' . $mentorData[$mentorID]['ProfilePicture'] . '" alt="' . $mentorData[$mentorID]['FirstName'] . ' ' . $mentorData[$mentorID]['LastName'] . ' Profile Picture"></a>';
+              echo '</div>';
+              echo '<div class="col-7 d-flex align-items-center mb-3">';
+              echo '<p class="scheduler-name m-0">' . $mentorData[$mentorID]['FirstName'] . ' ' . $mentorData[$mentorID]['LastName'] . '</p>';
+            }
             echo '</div>';
           }
 
@@ -364,13 +423,12 @@
   </section>
 
   <!-- *** Open Appointments Section *** -->
-
-  <section class="content-section pt-4 container d-flex align-items-center">
-    <div class="w-100 d-flex justify-content-center p-1 mb-3 appointments__section-heading">
-      <h1>Open Appointment Slots</h1>
-    </div>
-
-    <?php
+  <?php
+  if ($userMentorStatus) {
+    echo '<section class="content-section pt-4 container d-flex align-items-center">';
+    echo '<div class="w-100 d-flex justify-content-center p-1 mb-3 appointments__section-heading">';
+    echo '<h1>Open Appointment Slots</h1>';
+    echo '</div>';
 
     if ($openAppointmentsArray != null) {
       // Group the data by month
@@ -422,107 +480,102 @@
     } else {
       echo '<h2 class="appointments__section-subHeading mb-3">No open appointment slots!</h2>';
     }
-    ?>
-
-  </section>
+    echo '</section>';
+  }
+  ?>
 
   <!-- *** Add Appointments Section *** -->
-
-  <section class="add-appointment-content-section pt-4 container d-flex align-items-center mb-4">
-    <div class="w-100 d-flex justify-content-center p-1 mb-3 appointments__section-heading">
-      <h1>Add Appointments</h1>
-    </div>
-    <div class="profile-section open-appointments-section mb-3 d-flex justify-content-center">
-      <form class="add-appointment mt-3" action="add-appointments.php" method="POST">
-        <div>
-          <label for="selection">Add a single appointment slot or a range?</label>
-          <select class="form-control" name="selection" id="selection">
-            <option value="single">Single Appointment</option>
-            <option value="range">Appointment Range</option>
-          </select>
-        </div>
-        <div class="mt-3" id="singleAppointment" style="display: block;">
-          <fieldset>
-            <legend>Add Single Appointment Slot</legend>
-            <label for="date" class="form-label">Date</label>
-            <input type="date" class="form-control mb-2" name="singleDate" id="date" min="<?php echo date("Y-m-d"); ?>">
-            <label for="time" class="form-label">Time (15 minute increments)</label>
-            <input type="time" class="form-control mb-3" name="singleTime" id="time" step="900">
-            <div class="d-flex justify-content-center">
-              <button type="submit" class="btn main-button me-4">Submit</button>
-              <button type="reset" class="btn cancel-button">Clear</button>
-            </div>
-          </fieldset>
-        </div>
-        <div class="mt-3" id="rangeAppointment" style="display: none;">
-          <fieldset>
-            <legend>Add a Range of Appointment Times</legend>
-            <label for="duration" class="form-label">Appointment Duration (in minutes)</label>
-            <input type="number" class="form-control mb-2" name="duration" id="duration" min="15" step="15" value="15">
-            <label for="startDate" class="form-label">Start Date</label>
-            <input type="date" class="form-control mb-2" name="startDate" id="startDate" min="<?php echo date("Y-m-d"); ?>">
-            <label for="endDate" class="form-label">End Date</label>
-            <input type="date" class="form-control mb-3" name="endDate" id="endDate" min="<?php echo date("Y-m-d"); ?>">
-
-            <label class="form-label">Times (15 minute increments)</label>
-            <div class="input-group mb-3">
-              <span class="input-group-text days">Sun</span>
-              <input type="time" class="form-control" name="sunStartTime" id="sunStartTime" step="900">
-              <span class="input-group-text">-</span>
-              <input type="time" class="form-control" name="sunEndTime" id="sunEndTime" step="900">
-            </div>
-
-            <div class="input-group mb-3">
-              <span class="input-group-text days">Mon</span>
-              <input type="time" class="form-control" name="monStartTime" id="monStartTime" step="900">
-              <span class="input-group-text">-</span>
-              <input type="time" class="form-control" name="monEndTime" id="monEndTime" step="900">
-            </div>
-
-            <div class="input-group mb-3">
-              <span class="input-group-text days">Tue</span>
-              <input type="time" class="form-control" name="tueStartTime" id="tueStartTime" step="900">
-              <span class="input-group-text">-</span>
-              <input type="time" class="form-control" name="tueEndTime" id="tueEndTime" step="900">
-            </div>
-
-            <div class="input-group mb-3">
-              <span class="input-group-text days">Wed</span>
-              <input type="time" class="form-control" name="wedStartTime" id="wedStartTime" step="900">
-              <span class="input-group-text">-</span>
-              <input type="time" class="form-control" name="wedEndTime" id="wedEndTime" step="900">
-            </div>
-
-            <div class="input-group mb-3">
-              <span class="input-group-text days">Thu</span>
-              <input type="time" class="form-control" name="thuStartTime" id="thuStartTime" step="900">
-              <span class="input-group-text">-</span>
-              <input type="time" class="form-control" name="thuEndTime" id="thuEndTime" step="900">
-            </div>
-
-            <div class="input-group mb-3">
-              <span class="input-group-text days">Fri</span>
-              <input type="time" class="form-control" name="friStartTime" id="friStartTime" step="900">
-              <span class="input-group-text">-</span>
-              <input type="time" class="form-control" name="friEndTime" id="friEndTime" step="900">
-            </div>
-
-            <div class="input-group mb-3">
-              <span class="input-group-text days">Sat</span>
-              <input type="time" class="form-control" name="satStartTime" id="satStartTime" step="900">
-              <span class="input-group-text">-</span>
-              <input type="time" class="form-control" name="satEndTime" id="satEndTime" step="900">
-            </div>
-
-            <div class="d-flex justify-content-center">
-              <button type="submit" class="btn main-button me-4">Submit</button>
-              <button type="reset" class="btn cancel-button">Clear</button>
-            </div>
-          </fieldset>
-        </div>
-      </form>
-    </div>
-  </section>
+  <?php
+  if ($userMentorStatus) {
+    echo '<section class="add-appointment-content-section pt-4 container d-flex align-items-center mb-4">';
+    echo '<div class="w-100 d-flex justify-content-center p-1 mb-3 appointments__section-heading">';
+    echo '<h1>Add Appointments</h1>';
+    echo '</div>';
+    echo '<div class="profile-section open-appointments-section mb-3 d-flex justify-content-center">';
+    echo '<form class="add-appointment mt-3" action="add-appointments.php" method="POST">';
+    echo '<div>';
+    echo '<label for="selection">Add a single appointment slot or a range?</label>';
+    echo '<select class="form-control" name="selection" id="selection">';
+    echo '<option value="single">Single Appointment</option>';
+    echo '<option value="range">Appointment Range</option>';
+    echo '</select>';
+    echo '</div>';
+    echo '<div class="mt-3" id="singleAppointment" style="display: block;">';
+    echo '<fieldset>';
+    echo '<legend>Add Single Appointment Slot</legend>';
+    echo '<label for="date" class="form-label">Date</label>';
+    echo '<input type="date" class="form-control mb-2" name="singleDate" id="date" min="' . date("Y-m-d") . '">';
+    echo '<label for="time" class="form-label">Time (15 minute increments)</label>';
+    echo '<input type="time" class="form-control mb-3" name="singleTime" id="time" step="900">';
+    echo '<div class="d-flex justify-content-center">';
+    echo '<button type="submit" class="btn main-button me-4">Submit</button>';
+    echo '<button type="reset" class="btn cancel-button">Clear</button>';
+    echo '</div>';
+    echo '</fieldset>';
+    echo '</div>';
+    echo '<div class="mt-3" id="rangeAppointment" style="display: none;">';
+    echo '<fieldset>';
+    echo '<legend>Add a Range of Appointment Times</legend>';
+    echo '<label for="duration" class="form-label">Appointment Duration (in minutes)</label>';
+    echo '<input type="number" class="form-control mb-2" name="duration" id="duration" min="15" step="15" value="15">';
+    echo '<label for="startDate" class="form-label">Start Date</label>';
+    echo '<input type="date" class="form-control mb-2" name="startDate" id="startDate" min="' . date("Y-m-d") . '">';
+    echo '<label for="endDate" class="form-label">End Date</label>';
+    echo '<input type="date" class="form-control mb-3" name="endDate" id="endDate" min="' . date("Y-m-d") . '">';
+    echo '<label class="form-label">Times (15 minute increments)</label>';
+    echo '<div class="input-group mb-3">';
+    echo '<span class="input-group-text days">Sun</span>';
+    echo '<input type="time" class="form-control" name="sunStartTime" id="sunStartTime" step="900">';
+    echo '<span class="input-group-text">-</span>';
+    echo '<input type="time" class="form-control" name="sunEndTime" id="sunEndTime" step="900">';
+    echo '</div>';
+    echo '<div class="input-group mb-3">';
+    echo '<span class="input-group-text days">Mon</span>';
+    echo '<input type="time" class="form-control" name="monStartTime" id="monStartTime" step="900">';
+    echo '<span class="input-group-text">-</span>';
+    echo '<input type="time" class="form-control" name="monEndTime" id="monEndTime" step="900">';
+    echo '</div>';
+    echo '<div class="input-group mb-3">';
+    echo '<span class="input-group-text days">Tue</span>';
+    echo '<input type="time" class="form-control" name="tueStartTime" id="tueStartTime" step="900">';
+    echo '<span class="input-group-text">-</span>';
+    echo '<input type="time" class="form-control" name="tueEndTime" id="tueEndTime" step="900">';
+    echo '</div>';
+    echo '<div class="input-group mb-3">';
+    echo '<span class="input-group-text days">Wed</span>';
+    echo '<input type="time" class="form-control" name="wedStartTime" id="wedStartTime" step="900">';
+    echo '<span class="input-group-text">-</span>';
+    echo '<input type="time" class="form-control" name="wedEndTime" id="wedEndTime" step="900">';
+    echo '</div>';
+    echo '<div class="input-group mb-3">';
+    echo '<span class="input-group-text days">Thu</span>';
+    echo '<input type="time" class="form-control" name="thuStartTime" id="thuStartTime" step="900">';
+    echo '<span class="input-group-text">-</span>';
+    echo '<input type="time" class="form-control" name="thuEndTime" id="thuEndTime" step="900">';
+    echo '</div>';
+    echo '<div class="input-group mb-3">';
+    echo '<span class="input-group-text days">Fri</span>';
+    echo '<input type="time" class="form-control" name="friStartTime" id="friStartTime" step="900">';
+    echo '<span class="input-group-text">-</span>';
+    echo '<input type="time" class="form-control" name="friEndTime" id="friEndTime" step="900">';
+    echo '</div>';
+    echo '<div class="input-group mb-3">';
+    echo '<span class="input-group-text days">Sat</span>';
+    echo '<input type="time" class="form-control" name="satStartTime" id="satStartTime" step="900">';
+    echo '<span class="input-group-text">-</span>';
+    echo '<input type="time" class="form-control" name="satEndTime" id="satEndTime" step="900">';
+    echo '</div>';
+    echo '<div class="d-flex justify-content-center">';
+    echo '<button type="submit" class="btn main-button me-4">Submit</button>';
+    echo '<button type="reset" class="btn cancel-button">Clear</button>';
+    echo '</div>';
+    echo '</fieldset>';
+    echo '</div>';
+    echo '</form>';
+    echo '</div>';
+    echo '</section>';
+  }
+  ?>
 
   <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/jquery/jquery-3.7.0.min.js"></script>
