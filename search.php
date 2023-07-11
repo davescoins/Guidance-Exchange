@@ -91,7 +91,16 @@
       $query = $_GET['query'];
 
       // Select the users that match the query string
-      $userSql = "SELECT `UserID`, `FirstName`, `LastName`, `ProfilePicture` FROM `UserData_t` WHERE `FullName` LIKE '%$query%' ORDER BY `LastName`";
+      if ($userSystemAdministratorStatus) {
+        $userSql = "SELECT `UserID`, `FirstName`, `LastName`, `ProfilePicture` FROM `UserData_t` WHERE `FullName` LIKE '%$query%' ORDER BY `LastName`";
+      } else {
+        $userSql = "SELECT U.`UserID`, U.`FirstName`, U.`LastName`, U.`ProfilePicture`
+        FROM `UserData_t` U
+        JOIN `Auth_t` A ON U.`UserID` = A.`UserID`
+        WHERE U.`FullName` LIKE '%$query%'
+          AND A.`SystemAdministratorStatus` <> '1' 
+        ORDER BY U.`LastName`";
+      }
       $userQueryResult = mysqli_query($con, $userSql);
 
       echo '<div class="d-flex justify-content-center">';
