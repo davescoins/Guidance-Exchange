@@ -102,79 +102,81 @@
       $appointmentsAssoc[$date][] = $time;
     }
 
-    if ($_POST['selection'] == 'single' && isset($_POST['singleDate']) && isset($_POST['singleTime'])) {
-      $dateTime = $_POST['singleDate'] . ' ' . date_format(date_create($_POST['singleTime']), "G:i:s");
-      echo $dateTime;
+    if ($_POST['selection'] == 'single') {
+      if (isset($_POST['singleDate']) && isset($_POST['singleTime'])) {
+        $dateTime = $_POST['singleDate'] . ' ' . date_format(date_create($_POST['singleTime']), "G:i:s");
+        echo $dateTime;
 
-      if (in_array(date_format(date_create($_POST['singleTime']), "G:i:s"), $appointmentsAssoc[$_POST['singleDate']])) {
-        echo 'Appointment slot already exists. Please try again.';
+        if (in_array(date_format(date_create($_POST['singleTime']), "G:i:s"), $appointmentsAssoc[$_POST['singleDate']])) {
+          echo 'Appointment slot already exists. Please try again.';
+          echo '<br>';
+          echo '<a href="appointments.php?profileID=' . $userID . '"><< Go Back</a>';
+        } else {
+          $sql = "INSERT INTO `Appointments_t` (`MentorID`, `SchedulerID`, `AppointmentTime`) VALUES ($userID, NULL, '$dateTime')";
+          mysqli_query($con, $sql);
+
+          mysqli_close($con);
+          header('Location: appointments.php?profileID=' . $userID);
+          exit();
+        }
+      } else {
+        echo 'Error: All fields required. Please try again.';
         echo '<br>';
         echo '<a href="appointments.php?profileID=' . $userID . '"><< Go Back</a>';
-      } else {
-        $sql = "INSERT INTO `Appointments_t` (`MentorID`, `SchedulerID`, `AppointmentTime`) VALUES ($userID, NULL, '$dateTime')";
-        mysqli_query($con, $sql);
-
-        mysqli_close($con);
-        header('Location: appointments.php?profileID=' . $userID);
-        exit();
       }
-    } else {
-      echo 'Error: All fields required. Please try again.';
-      echo '<br>';
-      echo '<a href="appointments.php?profileID=' . $userID . '"><< Go Back</a>';
     }
 
-    if ($_POST['selection'] == 'range' && isset($_POST['duration']) && isset($_POST['startDate']) && isset($_POST['endDate'])) {
-      $duration = $_POST['duration'];
-      $startDate = $_POST['startDate'];
-      $endDate = $_POST['startDate'];
-      $sunSet = false;
-      $monSet = false;
-      $tueSet = false;
-      $wedSet = false;
-      $thuSet = false;
-      $friSet = false;
-      $satSet = false;
+    if ($_POST['selection'] == 'range') {
+      if (isset($_POST['duration']) && isset($_POST['startDate']) && isset($_POST['endDate'])) {
+        $duration = $_POST['duration'];
+        $startDate = $_POST['startDate'];
+        $endDate = $_POST['startDate'];
+        $sunSet = false;
+        $monSet = false;
+        $tueSet = false;
+        $wedSet = false;
+        $thuSet = false;
+        $friSet = false;
+        $satSet = false;
+        $errorSun = false;
+        $errorMon = false;
+        $errorTue = false;
+        $errorWed = false;
+        $errorThu = false;
+        $errorFri = false;
+        $errorSat = false;
+        $errorSunMissing = true;
+        $errorMonMissing = true;
+        $errorTueMissing = true;
+        $errorWedMissing = true;
+        $errorThuMissing = true;
+        $errorFriMissing = true;
+        $errorSatMissing = true;
 
-      if (isset($_POST['sunStartTime']) && isset($_POST['sunEndTime'])) {
-        $sunStartTime = $_POST['sunStartTime'];
-        $sunEndTime = $_POST['sunEndTime'];
-        $sunSet = true;
+        if (isset($_POST['sunStartTime']) && isset($_POST['sunEndTime'])) {
+          if (strtotime($_POST['sunStartTime']) < strtotime($_POST['sunEndTime'])) {
+            $sunStartTime = $_POST['sunStartTime'];
+            $sunEndTime = $_POST['sunEndTime'];
+            $sunSet = true;
+          } else {
+            $errorSun = true;
+          }
+        } elseif (isset($_POST['sunStartTime']) || isset($_POST['sunEndTime'])) {
+          $errorSunMissing = true;
+        }
+
+        // echo 'Error: Times selected for Sunday are invalid. The start or end time is missing.';
+        // echo '<br>';
+
+        // echo 'Error: Times selected for Sunday are invalid. The end time must be after the start time.';
+        // echo '<br>';
+
+
+      } else {
+        echo 'Error: Appointment Duration, Start Date, and End Date fields required. Please try again.';
+        echo '<br>';
+        echo '<a href="appointments.php?profileID=' . $userID . '"><< Go Back</a>';
       }
-      if (isset($_POST['monStartTime']) && isset($_POST['monEndTime'])) {
-        $monStartTime = $_POST['monStartTime'];
-        $monEndTime = $_POST['monEndTime'];
-        $monSet = true;
-      }
-      if (isset($_POST['tueStartTime']) && isset($_POST['tueEndTime'])) {
-        $tueStartTime = $_POST['tueStartTime'];
-        $tueEndTime = $_POST['tueEndTime'];
-        $tueSet = true;
-      }
-      if (isset($_POST['wedStartTime']) && isset($_POST['wedEndTime'])) {
-        $wedStartTime = $_POST['wedStartTime'];
-        $wedEndTime = $_POST['wedEndTime'];
-        $wedSet = true;
-      }
-      if (isset($_POST['thuStartTime']) && isset($_POST['thuEndTime'])) {
-        $thuStartTime = $_POST['thuStartTime'];
-        $thuEndTime = $_POST['thuEndTime'];
-        $thuSet = true;
-      }
-      if (isset($_POST['friStartTime']) && isset($_POST['friEndTime'])) {
-        $friStartTime = $_POST['friStartTime'];
-        $friEndTime = $_POST['friEndTime'];
-        $friSet = true;
-      }
-      if (isset($_POST['satStartTime']) && isset($_POST['satEndTime'])) {
-        $satStartTime = $_POST['satStartTime'];
-        $satEndTime = $_POST['satEndTime'];
-        $satSet = true;
-      }
-    } else {
-      echo 'Error: Appointment Duration, Start Date, and End Date fields required. Please try again.';
-      echo '<br>';
-      echo '<a href="appointments.php?profileID=' . $userID . '"><< Go Back</a>';
     }
   }
   ?>
