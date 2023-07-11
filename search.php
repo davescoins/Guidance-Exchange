@@ -91,14 +91,18 @@
       $query = $_GET['query'];
 
       // Select the users that match the query string
-      if ($userSystemAdministratorStatus) {
-        $userSql = "SELECT `UserID`, `FirstName`, `LastName`, `ProfilePicture` FROM `UserData_t` WHERE `FullName` LIKE '%$query%' ORDER BY `LastName`";
-      } else {
-        $userSql = "SELECT U.`UserID`, U.`FirstName`, U.`LastName`, U.`ProfilePicture`
+      if (!$userSystemAdministratorStatus) {
+        $userSql = "SELECT U.`UserID`, U.`FirstName`, U.`LastName`, U.`ProfilePicture`, A.`MentorStatus`, A.`ModeratorStatus`, A.`SystemAdministratorStatus`
         FROM `UserData_t` U
         JOIN `Auth_t` A ON U.`UserID` = A.`UserID`
         WHERE U.`FullName` LIKE '%$query%'
           AND A.`SystemAdministratorStatus` <> '1' 
+        ORDER BY U.`LastName`";
+      } else {
+        $userSql = "SELECT U.`UserID`, U.`FirstName`, U.`LastName`, U.`ProfilePicture`, A.`MentorStatus`, A.`ModeratorStatus`, A.`SystemAdministratorStatus`
+        FROM `UserData_t` U
+        JOIN `auth_t` A ON U.`UserID` = A.`UserID`
+        WHERE U.`FullName` LIKE '%$query%'
         ORDER BY U.`LastName`";
       }
       $userQueryResult = mysqli_query($con, $userSql);
@@ -124,6 +128,25 @@
           echo '<div class="col d-flex align-items-center result-wrap">';
           echo '<h3>' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . '</h3>';
           echo '</div>';
+
+          echo '<div class="col-3 d-flex align-items-center mentor-tag-wrap">';
+          if ($foundUser['MentorStatus'] == true) {
+            echo '<div class="mentor-tag">';
+            echo '<p class="py-1 px-3 m-0">Mentor</p>';
+            echo '</div>';
+          }
+          if ($foundUser['ModeratorStatus'] == true) {
+            echo '<div class="mentor-tag">';
+            echo '<p class="py-1 px-3 m-0">Moderator</p>';
+            echo '</div>';
+          }
+          if ($foundUser['SystemAdministratorStatus'] == true) {
+            echo '<div class="mentor-tag">';
+            echo '<p class="py-1 px-3 m-0">System Administrator</p>';
+            echo '</div>';
+          }
+          echo '</div>';
+
           echo '<div class="col-auto d-flex align-items-center justify-content-center result-icons me-3">';
 
           if ($userID != $foundUser['UserID']) {

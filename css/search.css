@@ -92,3 +92,15 @@
   color: #333;
   border-bottom: #333 solid 2px;
 }
+
+.mentor-tag-wrap {
+  height: 60px;
+}
+
+.mentor-tag {
+  background-color: #e14658;
+  color: #f5f5f5;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
