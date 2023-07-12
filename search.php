@@ -57,7 +57,7 @@
             </form>
           </li>
           <li class="nav-item me-3 me-lg-0 px-2">
-            <a class="nav-link" href="#"><i class="fa-solid fa-inbox fa-xl"></i></a>
+            <a class="nav-link" href="messages.php?profileID=<?php echo $userID ?>"><i class="fa-solid fa-inbox fa-xl"></i></a>
           </li>
           <li class="nav-item dropdown me-3 me-lg-0 px-2 d-flex justify-content-center">
             <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

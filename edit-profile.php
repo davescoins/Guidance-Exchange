@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Edit Profile</title>
+  <title>Guidance Exchange | Edit Profile</title>
   <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
   <link rel="icon" type="image/png" sizes="180x180" href="/favicon-180.png">
   <link rel="icon" type="image/png" sizes="128x128" href="/favicon-128.png">
@@ -32,19 +32,34 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <?php
+          if ($userModeratorStatus == true) {
+            echo '<li class="nav-item">';
+            echo ' <a class="nav-link highlight-link nav-text px-4" href="moderator-dashboard.php?profileID=' . $userID . '">Moderator Dashboard</a>';
+            echo '</li>';
+          }
+          if ($userSystemAdministratorStatus == true) {
+            echo '<li class="nav-item">';
+            echo ' <a class="nav-link highlight-link nav-text px-4" href="admin-dashboard.php?profileID=' . $userID . '">Administrator Dashboard</a>';
+            echo '</li>';
+          }
+          ?>
           <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4 active" href="profile.php?profileID=<?php echo $userID; ?>">Profile</a>
+            <a class="nav-link highlight-link nav-text px-4" href="profile.php?profileID=<?php echo $userID ?>">Profile</a>
           </li>
           <li class="nav-item">
             <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
           </li>
         </ul>
         <ul class="navbar-nav d-flex flex-row me-1">
-          <li class="nav-item me-3 me-lg-0 px-2">
-            <a class="nav-link" href="#"><i class="fa-solid fa-magnifying-glass fa-xl"></i></i></i></a>
+          <li class="nav-item me-3 me-lg-0 px-2 d-flex align-items-center">
+            <form class="d-flex" role="search" action="search.php" method="GET">
+              <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
+            </form>
           </li>
           <li class="nav-item me-3 me-lg-0 px-2">
-            <a class="nav-link" href="#"><i class="fa-solid fa-inbox fa-xl"></i></i></a>
+            <a class="nav-link" href="messages.php?profileID=<?php echo $userID ?>"><i class="fa-solid fa-inbox fa-xl"></i></a>
           </li>
           <li class="nav-item dropdown me-3 me-lg-0 px-2 d-flex justify-content-center">
             <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
