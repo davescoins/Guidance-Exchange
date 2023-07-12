@@ -6,6 +6,6 @@ CREATE TABLE Messages_t (
   MessageBody LONGTEXT,
   SendDate DATETIME,
   CONSTRAINT Messages_t_PK PRIMARY KEY (MessageID),
-  CONSTRAINT Messages_t_FK FOREIGN KEY (SenderID) REFERENCES Auth_t(UserID),
-  CONSTRAINT Messages_t_FK FOREIGN KEY (RecipientID) REFERENCES Auth_t(UserID)
+  CONSTRAINT Messages_t_FK1 FOREIGN KEY (SenderID) REFERENCES Auth_t(UserID),
+  CONSTRAINT Messages_t_FK2 FOREIGN KEY (RecipientID) REFERENCES Auth_t(UserID)
 ) Auto_Increment = 1;

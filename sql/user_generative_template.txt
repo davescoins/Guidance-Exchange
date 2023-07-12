@@ -1,3 +1,5 @@
+*** UserData_t Entries ***
+
 Create a person's personal profile based on the below example template using real companies, schools, and realistic dates in the applicable sections.
 First Name: Sophia
 Last Name: Lee
@@ -18,3 +20,8 @@ End Date: 2020-05-16
 School Accomplishments: Sophia pursued her undergraduate studies in Computer Science, gaining a solid foundation in programming, algorithms, data structures, and software development. She actively participated in various coding competitions, clubs, and workshops, further refining her technical skills and fostering a passion for innovation.
 
 Using the information from the previous response, create a short paragraph that talks about their willingness to be a mentor and speak about what areas of knowledge they are most qualified to offer assistance in.
+
+
+*** Messages_t Entries ***
+
+Generate an SQL insert command with data to be used in system testing. The command will insert into the Messages_t table having the parameters of SenderID, RecipientID, MessageSubject, MessageBody, and SendDate. SenderID and RecipientID should be a random number from 1 to 6. The MessageBody and MessageSubject should pertain to talk regarding career advice and mentoring with the MessageSubject being no more than 5 words and a detailed MessageBody being at least 3 sentences but no more than 5. The SendDate should be a randomly chosen date between July 1, 2023 and August 15, 2023 and should include a randomly chosen time. Generate at least 10 sets of data to be inserted into the table.
