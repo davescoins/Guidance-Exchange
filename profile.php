@@ -6,10 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Guidance Exchange | Profile</title>
-  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
-  <link rel="icon" type="image/png" sizes="180x180" href="/favicon-180.png">
-  <link rel="icon" type="image/png" sizes="128x128" href="/favicon-128.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+  <link rel="icon" type="image/png" sizes="180x180" href="favicon-180.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="favicon-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
   <link href="assets/fontawesome/css/fontawesome.css" rel="stylesheet">
   <link href="assets/fontawesome/css/brands.css" rel="stylesheet">
   <link href="assets/fontawesome/css/solid.css" rel="stylesheet">
@@ -143,11 +143,11 @@
   }
 
   if ($skillsArray != null) {
-    $qualificationsSql = "SELECT `skillName` FROM `skills_t` WHERE `skillID` IN (" . implode(',', $skillsArray) . ")";
+    $qualificationsSql = "SELECT `SkillName` FROM `Skills_t` WHERE `SkillID` IN (" . implode(',', $skillsArray) . ")";
     $qualificationsResult = mysqli_query($con, $qualificationsSql);
     $skillNames = array();
     while ($row = mysqli_fetch_assoc($qualificationsResult)) {
-      $skillNames[] = $row['skillName'];
+      $skillNames[] = $row['SkillName'];
     }
   }
 
@@ -476,7 +476,7 @@
 
     include('includes/connect.inc.php');
     foreach ($profileAssociationsArray as $value) {
-      $associationSql = "SELECT `FirstName`,`LastName`,`ProfilePicture` FROM `userdata_t` WHERE `UserID`=$value";
+      $associationSql = "SELECT `FirstName`,`LastName`,`ProfilePicture` FROM `UserData_t` WHERE `UserID`=$value";
       $associationResult = mysqli_query($con, $associationSql);
       while ($profileAssociation = mysqli_fetch_assoc($associationResult)) {
         $associationFirstName = $profileAssociation['FirstName'];

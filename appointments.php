@@ -6,10 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Guidance Exchange | Appointments</title>
-  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
-  <link rel="icon" type="image/png" sizes="180x180" href="/favicon-180.png">
-  <link rel="icon" type="image/png" sizes="128x128" href="/favicon-128.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+  <link rel="icon" type="image/png" sizes="180x180" href="favicon-180.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="favicon-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
   <link href="assets/fontawesome/css/fontawesome.css" rel="stylesheet">
   <link href="assets/fontawesome/css/brands.css" rel="stylesheet">
   <link href="assets/fontawesome/css/solid.css" rel="stylesheet">
@@ -171,7 +171,7 @@
     $schedulerData = array();
     if ($userMentorStatus) {
       foreach ($uniqueSchedulerIDs as $id) {
-        $sqlSchedulers = "SELECT `FirstName`,`LastName`,`ProfilePicture` FROM `userdata_t` WHERE `UserID`=$id";
+        $sqlSchedulers = "SELECT `FirstName`,`LastName`,`ProfilePicture` FROM `UserData_t` WHERE `UserID`=$id";
         $schedulerResult = mysqli_query($con, $sqlSchedulers);
         while ($schedulerProfile = mysqli_fetch_assoc($schedulerResult)) {
           $schedulerFirstName = $schedulerProfile['FirstName'];
@@ -331,7 +331,7 @@
     echo '<section class="profile__buttons-section d-flex justify-content-center">';
     echo '<div class="container text-center row profile__buttons_links">';
     echo '<div class="col">';
-    echo '<a href="/edit-profile.php"><i class="fa-solid fa-pencil"></i><br>Edit Profile</a>';
+    echo '<a href="edit-profile.php"><i class="fa-solid fa-pencil"></i><br>Edit Profile</a>';
     echo '</div>';
     echo '<div class="col">';
     echo '<a href="profile.php?profileID=' . $userID . '"><i class="fa-solid fa-user"></i><br>Back to Profile</a>';
