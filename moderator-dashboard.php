@@ -33,12 +33,12 @@
           <?php
           if ($userModeratorStatus == true) {
             echo '<li class="nav-item">';
-            echo ' <a class="nav-link highlight-link nav-text px-4" href="moderator-dashboard.php?profileID=' . $userID . '">Moderator Dashboard</a>';
+            echo '<a class="nav-link highlight-link nav-text px-4 active" href="moderator-dashboard.php?profileID=' . $userID . '">Moderator Dashboard</a>';
             echo '</li>';
           }
           if ($userSystemAdministratorStatus == true) {
             echo '<li class="nav-item">';
-            echo ' <a class="nav-link highlight-link nav-text px-4" href="admin-dashboard.php?profileID=' . $userID . '">Administrator Dashboard</a>';
+            echo '<a class="nav-link highlight-link nav-text px-4" href="admin-dashboard.php?profileID=' . $userID . '">Administrator Dashboard</a>';
             echo '</li>';
           }
           ?>
