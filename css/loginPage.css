@@ -1,29 +1,30 @@
-/* Juliet Login Page */
+/* Login Page */
 
 .geColor {
   background-color: #243665;
 }
 .geColorWhite {
- color: #f5f5f5;
+  color: #f5f5f5;
 }
 .gecolorred {
-color:#f5f5f5;
-background-color:  #de4141;  
+  color: #f5f5f5;
+  background-color: #de4141;
 }
 
 .geflex {
-  display:flex;
-  justify-content:center;
+  display: flex;
+  justify-content: center;
   padding: 0.5%;
 }
 
 .geimg {
-padding-bottom: 0px;
-background-color: #f44336;
+  padding-bottom: 0px;
+  background-color: #f44336;
 }
 
 /* Full-width inputs */
-input[type=text], input[type=password] {
+input[type='text'],
+input[type='password'] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -79,12 +80,9 @@ span.psw {
 }
 
 /* error message in red*/
-.error{
-  color:#f44336;
-
+.error {
+  color: #f44336;
 }
-
-
 
 /* Change styles for span and cancel button on extra small screens */
 @media screen and (max-width: 300px) {
@@ -96,4 +94,3 @@ span.psw {
     width: 100%;
   }
 }
- 

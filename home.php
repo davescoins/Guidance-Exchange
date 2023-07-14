@@ -5,8 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
-
+    <title>Guidnace Exchange | Home</title>
     <link href="assets\fontawesome\css\fontawesome.css" rel="stylesheet">
     <link href="assets\fontawesome\css\brands.css" rel="stylesheet">
     <link href="assets\fontawesome\css\solid.css" rel="stylesheet">
@@ -18,7 +17,7 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="home.php"><img src="img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>
+            <a class="navbar-brand" href="home.php"><img src="img/logo_gradient.png" alt="Guidance Exchange Logo" height="70"></a>
             <a type="button" class="btn btn-hero-section text-white rounded-pill" href="login.php">
                 Login
             </a>
@@ -36,7 +35,7 @@
             </video>
             <div id="home-hero-text" class="text-center">
                 <h1 class="text-white">Guidance Exchange</h1>
-                <p class="text-light container-sm  mb-5 mt-5">Welcome to our mentoring platform, where meaningful connections between mentors and mentees are formed across the globe. We invite you to join our vibrant community and embark on a journey of personal and professional growth.</p>
+                <p class="text-light container-sm mb-5 mt-5">Welcome to our mentoring platform, where meaningful connections between mentors and mentees are formed across the globe. We invite you to join our vibrant community and embark on a journey of personal and professional growth.</p>
                 <a class="btn btn-primary btn-hero-section mx-5 rounded-pill" href="signup.php" role="button">Join GE Today!</a>
             </div>
         </div>
@@ -118,21 +117,10 @@
         </div>
     </section>
 
-
-
-
-
-
-
-
-
-
-
-
     <script src="assets\bootstrap\js\bootstrap.bundle.min.js"></script>
     <script src="assets\jquery\jquery-3.7.0.min.js"></script>
     <script src="https://kit.fontawesome.com/c5863419fe.js" crossorigin="anonymous"></script>
-    <script src="js/thankyou.js"> </script>
+    <script src="js/thankyou.js"></script>
 
 
 </body>

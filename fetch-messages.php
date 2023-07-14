@@ -3,12 +3,7 @@ include('includes/session.inc.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $senderID = $_POST['senderID'];
-  // Perform necessary validation and sanitization on $senderName
 
-  // Fetch the message chain from the database for the selected sender
-  // Use appropriate SQL queries to retrieve the messages
-
-  // Example code to retrieve messages based on sender name
   $sql = "SELECT R.`RecipientID`, M.`SenderID`, M.`MessageBody`, M.`SendDate`, U.`FirstName`, U.`LastName`, U.`ProfilePicture` FROM `Message_Recipient_t` R JOIN `Messages_t` M ON R.`MessageID` = M.`MessageID` JOIN `UserData_t` U ON U.`UserID` = M.`SenderID` WHERE (`RecipientID` = $senderID AND `SenderID` = $userID) OR (`RecipientID` = $userID AND `SenderID` = $senderID) ORDER BY M.`SendDate`";
   $result = mysqli_query($con, $sql);
 

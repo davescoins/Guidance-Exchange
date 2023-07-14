@@ -1,107 +1,102 @@
-
 /* CSS for Home page Hero */
 
+.color-home-header {
+  color: #243665;
+}
 
-.color-home-header{
-    color: #243665;
-  }
-  
-  /* ***Hero Section*** */
-  
-  .hero {
-    position: relative;
-    height: 70vh;
-  }
-  
-  .hero video,
-  .hero img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    z-index: -1;
-    filter: brightness(65%);
-  }
-  
-  .home-hero {
-    text-align: left;
-  }
-  
-  .btn-hero-section{
-    background-color: #e14658;
-  }
-  .btn-hero-section:hover{
-    background-color: #8bd8bd !important; 
-    color: #e14658 !important;
-    font-weight: bold;
-  }
-  #home-hero-text {
-    top: 25%;
-    padding: 0 20px;
-  }
-  
-  #home-hero-text {
-    position: absolute;
-    left: 50%;
-    width: 100%;
-    box-sizing: border-box;
-    transform: translate(-50%, 0);
-  }
-  
-  /* CSS for mission vision imas */
-  
-  .img-row{
-    width: 200px;
-  }
-  
-  /* CSS for Meet the Team */
-  .img-team{
-    width: 120px;
-  }
-  
-  /* CSS for mentor and mentee forms */
-  .container-singupform{
-    max-width: 900px;
-  }
-  
-  .bg-hero-form-section{
-     background-color: #243665 !important;
-     height:auto;
-  }
-  
-  #form-hero-text{
-    top: 10% !important;
-  }
-  
-  
-  
-  .text-signup-label {
-    color:#243665 !important;
-  }
-  
-  /* sign up form skills section  */
+/* ***Hero Section*** */
 
-  .choices__inner,
-  .choices__input {
-    background-color: #ffffff;
-  }
-  
-  .choices__list--multiple .choices__item {
-    background-color: #e14658;
-    color: #f5f5f5;
-    border: 1px solid #e14658;
-  }
-  
-  .choices__list--multiple .choices__item.is-highlighted {
-    background-color: #8bd8bd;
-    color: #333;
-    border: 1px solid #8bd8bd;
-  }
-  
-  .choices[data-type*='select-multiple'] .choices__button,
-  .choices[data-type*='text'] .choices__button {
-    border-left: 1px solid #892a35;
-  }
-  
+.hero {
+  position: relative;
+  height: 70vh;
+}
+
+.hero video,
+.hero img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  z-index: -1;
+  filter: brightness(65%);
+}
+
+.home-hero {
+  text-align: left;
+}
+
+.btn-hero-section {
+  background-color: #e14658;
+}
+.btn-hero-section:hover {
+  background-color: #8bd8bd !important;
+  color: #e14658 !important;
+  font-weight: bold;
+}
+#home-hero-text {
+  top: 25%;
+  padding: 0 20px;
+}
+
+#home-hero-text {
+  position: absolute;
+  left: 50%;
+  width: 100%;
+  box-sizing: border-box;
+  transform: translate(-50%, 0);
+}
+
+/* CSS for mission vision imas */
+
+.img-row {
+  width: 200px;
+}
+
+/* CSS for Meet the Team */
+.img-team {
+  width: 120px;
+}
+
+/* CSS for mentor and mentee forms */
+.container-singupform {
+  max-width: 900px;
+}
+
+.bg-hero-form-section {
+  background-color: #243665 !important;
+  height: auto;
+}
+
+#form-hero-text {
+  top: 10% !important;
+}
+
+.text-signup-label {
+  color: #243665 !important;
+}
+
+/* sign up form skills section  */
+
+.choices__inner,
+.choices__input {
+  background-color: #ffffff;
+}
+
+.choices__list--multiple .choices__item {
+  background-color: #e14658;
+  color: #f5f5f5;
+  border: 1px solid #e14658;
+}
+
+.choices__list--multiple .choices__item.is-highlighted {
+  background-color: #8bd8bd;
+  color: #333;
+  border: 1px solid #8bd8bd;
+}
+
+.choices[data-type*='select-multiple'] .choices__button,
+.choices[data-type*='text'] .choices__button {
+  border-left: 1px solid #892a35;
+}

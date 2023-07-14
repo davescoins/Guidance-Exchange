@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mentor sign up</title>
+    <title>Guidance Exchange | Mentor sign up</title>
 
     <link href="assets\fontawesome\css\fontawesome.css" rel="stylesheet">
     <link href="assets\fontawesome\css\brands.css" rel="stylesheet">
@@ -15,9 +15,10 @@
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/home_signup.css" />
 </head>
+
 <header>
     <?php
-include('includes/connect.inc.php');
+    include('includes/connect.inc.php');
     ?>
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
@@ -42,26 +43,24 @@ include('includes/connect.inc.php');
         </div>
     </section>
 
-
     <Section>
         <?php
 
-          // Create an associative array for all of the skills in the database
-  $sqlSkills = "SELECT * FROM `Skills_t`";
-  $skillsResult = mysqli_query($con, $sqlSkills);
-  $allSkillsArray = array();
+        // Create an associative array for all of the skills in the database
+        $sqlSkills = "SELECT * FROM `Skills_t`";
+        $skillsResult = mysqli_query($con, $sqlSkills);
+        $allSkillsArray = array();
 
-  while ($fetchSkills = mysqli_fetch_assoc($skillsResult)) {
-    $skillID = $fetchSkills['SkillID'];
-    $allSkillsArray[$skillID] = array(
-      'SkillName' => $fetchSkills['SkillName'],
-      'SkillGroup' => $fetchSkills['SkillGroup']
-    );
-  }
+        while ($fetchSkills = mysqli_fetch_assoc($skillsResult)) {
+            $skillID = $fetchSkills['SkillID'];
+            $allSkillsArray[$skillID] = array(
+                'SkillName' => $fetchSkills['SkillName'],
+                'SkillGroup' => $fetchSkills['SkillGroup']
+            );
+        }
         ?>
 
-        <form id="signupForm" method="POST" action="signup_process.php" role="form" data-toggle="validator"
-        >
+        <form id="signupForm" method="POST" action="signup_process.php" role="form" data-toggle="validator">
             <div class="container container-singupform py-4">
 
                 <div class="row py-2">
@@ -75,11 +74,8 @@ include('includes/connect.inc.php');
                     </div>
                 </div>
 
-
                 <div class="row py-2">
                     <div class="col-12 col-lg-6">
-
-
                         <label for="firstName" class="form-label text-signup-label"> First Name</label>
                         <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter First Name" required>
                     </div>
@@ -265,34 +261,30 @@ include('includes/connect.inc.php');
                     </div>
                 </div>
 
-
-              <div class="row py-2">
+                <div class="row py-2">
                     <div class="col-12 col-lg-6">
                         <label class="text-signup-label" for="Skills">Select Skills:</label>
                         <br>
-<select id="choices-multiple-remove-button" name="skills[]" class="form-select mb-3" multiple>
-          <option value="">Select Skills...</option>
-          <?php
-          foreach ($allSkillsArray as $skillID => $skill) {
-            // $selected = in_array($skillID, $qualificationsArray) ? 'selected' : '';
-            if (!isset($currentGroup) || $currentGroup !== $skill['SkillGroup']) {
-              if (isset($currentGroup)) {
-                echo '</optgroup>';
-              }
-              $currentGroup = $skill['SkillGroup'];
-              echo '<optgroup label="' . $currentGroup . '">';
-            }
-            echo '<option value="' . $skillID . '" >' . $skill['SkillName'] . '</option>';
-          }
-          echo '</optgroup>';
-          ?>
-        </select>
-                       
+                        <select id="choices-multiple-remove-button" name="skills[]" class="form-select mb-3" multiple>
+                            <option value="">Select Skills...</option>
+                            <?php
+                            foreach ($allSkillsArray as $skillID => $skill) {
+                                // $selected = in_array($skillID, $qualificationsArray) ? 'selected' : '';
+                                if (!isset($currentGroup) || $currentGroup !== $skill['SkillGroup']) {
+                                    if (isset($currentGroup)) {
+                                        echo '</optgroup>';
+                                    }
+                                    $currentGroup = $skill['SkillGroup'];
+                                    echo '<optgroup label="' . $currentGroup . '">';
+                                }
+                                echo '<option value="' . $skillID . '" >' . $skill['SkillName'] . '</option>';
+                            }
+                            echo '</optgroup>';
+                            ?>
+                        </select>
+
                     </div>
-                </div> 
-
-
-
+                </div>
 
                 <!-- About Me section-->
 
@@ -306,45 +298,18 @@ include('includes/connect.inc.php');
                 <!-- Section below only for Mentors -->
                 <div class="row py-2" id="mentorOnlySection">
 
-
                 </div>
-
-
-
 
                 <div class="row my-5">
                     <div class="col text-center">
                         <input type="submit" name="Register" value="Register" class="btn btn-hero-section text-white rounded-pill">
                         </input>
-
                     </div>
                 </div>
             </div>
         </form>
 
-
     </Section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     <script src="assets\bootstrap\js\bootstrap.bundle.min.js"></script>
     <script src="assets\jquery\jquery-3.7.0.min.js"></script>
