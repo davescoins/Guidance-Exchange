@@ -724,7 +724,8 @@ VALUES
   (27, 1, 0),
   (28, 4, 0),
   (29, 3, 0),
-  (30, 4, 0)
+  (30, 4, 0);
+
 INSERT INTO
   Skills_t (`SkillName`, `SkillGroup`)
 VALUES
