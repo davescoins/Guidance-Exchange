@@ -110,52 +110,6 @@ if (mysqli_ping($con)) {
             if ($con->query($sql_userT) === TRUE) {
                 $last_id = $con->insert_id;
                 echo "New record created successfully. Last inserted ID is: " . $last_id;
-
-                    // Login
-                        $errors = array('uname' => '', 'pwd' => '');
-                        $uname = '';
-
-                        $uname = htmlspecialchars($loginUserName);
-                        $pwd = htmlspecialchars($loginPassword);
-
-
-                        $sql = 'SELECT * FROM Auth_t WHERE username = \'' . $uname . '\' ';
-
-                        //echo $sql;
-                  
-                        // run the query
-                  
-                        $results = mysqli_query($con, $sql);
-                  
-                  
-                        if (mysqli_num_rows($results) > 0) {
-                  
-                          $user = mysqli_fetch_assoc($results);
-                  
-                          if ($user['password'] != $pwd) {
-                  
-                            $errors['uname'] = 'Username or password is not correct. <br>';
-                          }
-                        } else {
-                  
-                          $errors['uname'] = 'Username or password is not correct. <br>';
-                        }
-    
-                        if (empty($errors['uname']) && empty($errors['pwd'])) {
-
-
-                            session_start();
-                        
-                            $_SESSION['uname'] = $uname;
-                        
-                            $_SESSION['UserID'] = $user['UserID'];
-                        
-                            header("Location:/home.php?signup=success");
-                            exit();
-
-                                       }
-
-                        
             } else {
                 echo "Error: " . $sql_auth . "<br>" . $con->error;
             }
@@ -170,6 +124,7 @@ echo " <br>";
 echo  $sql_userT;
 // mysqli_query($con, $sql);
 
+header("Location:/home.php?signup=success");
 
     }
     
