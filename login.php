@@ -86,6 +86,15 @@ if (isset($_POST['submit'])) {
 
     $_SESSION['Associations'] = $associationsArray;
 
+    // Get user profile info
+    $sqlProfile = "SELECT `FirstName`, `LastName`, `ProfilePicture` FROM `UserData_t` WHERE `UserID` = $userID";
+    $resultProfile = mysqli_query($con, $sqlProfile);
+    while ($profile = mysqli_fetch_assoc($resultProfile)) {
+      $profileArray = array('FirstName' => $profile['FirstName'], 'LastName' => $profile['LastName'], 'ProfilePicture' => $profile['ProfilePicture']);
+    }
+
+    $_SESSION['Profile'] = $profileArray;
+
     // free the memory and connection
 
     mysqli_free_result($results);

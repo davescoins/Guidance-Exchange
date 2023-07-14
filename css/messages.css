@@ -70,3 +70,13 @@
   border-color: var(--bs-border-color);
   box-shadow: none;
 }
+
+.dropdown-item {
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  width: 100%;
+  max-height: 150px;
+  overflow-y: scroll;
+}

@@ -10,3 +10,4 @@ $userMentorStatus = $_SESSION['MentorStatus'];
 $userModeratorStatus = $_SESSION['ModeratorStatus'];
 $userSystemAdministratorStatus = $_SESSION['SystemAdministratorStatus'];
 $associationsArray = $_SESSION['Associations'];
+$profileArray = $_SESSION['Profile'];

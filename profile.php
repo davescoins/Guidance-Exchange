@@ -58,12 +58,12 @@
         <ul class="navbar-nav d-flex flex-row me-1">
           <li class="nav-item me-3 me-lg-0 px-2 d-flex align-items-center">
             <form class="d-flex" role="search" action="search.php" method="GET">
-              <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search">
+              <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
               <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
             </form>
           </li>
           <li class="nav-item me-3 me-lg-0 px-2">
-            <a class="nav-link" href="messages.php?profileID=<?php echo $userID ?>"><i class="fa-solid fa-inbox fa-xl"></i></a>
+            <a class="nav-link" href="messages.php"><i class="fa-solid fa-inbox fa-xl"></i></a>
           </li>
           <li class="nav-item dropdown me-3 me-lg-0 px-2 d-flex justify-content-center">
             <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

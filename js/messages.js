@@ -77,3 +77,41 @@ $(document).ready(function () {
     });
   }
 });
+
+$(document).ready(function () {
+  var $searchInput = $('#recipientName');
+  var $dropdown = $(
+    '<ul class="dropdown-menu" id="messageSearchResults"></ul>'
+  );
+
+  $searchInput.after($dropdown);
+
+  $searchInput.keyup(function () {
+    var searchText = $(this).val();
+    if (searchText != '') {
+      $.ajax({
+        url: 'recipient-search.php',
+        method: 'post',
+        data: { query: searchText },
+        success: function (response) {
+          $dropdown.html(response).show();
+        },
+      });
+    } else {
+      $dropdown.empty().hide();
+    }
+  });
+
+  $(document).on('click', '.dropdown-item', function () {
+    var resultText = $(this).text();
+    var userID = $(this).data('userid');
+    $searchInput.val(resultText);
+    var hiddenInput = $('<input>').attr({
+      type: 'hidden',
+      name: 'recipientID',
+      value: userID,
+    });
+    $('#newMessage').append(hiddenInput);
+    $dropdown.empty().hide();
+  });
+});

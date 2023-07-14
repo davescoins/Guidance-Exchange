@@ -52,12 +52,12 @@
         <ul class="navbar-nav d-flex flex-row me-1">
           <li class="nav-item me-3 me-lg-0 px-2 d-flex align-items-center">
             <form class="d-flex" role="search" action="search.php" method="GET">
-              <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search">
+              <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
               <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
             </form>
           </li>
           <li class="nav-item me-3 me-lg-0 px-2">
-            <a class="nav-link" href="messages.php?profileID=<?php echo $userID ?>"><i class="fa-solid fa-inbox fa-xl"></i></a>
+            <a class="nav-link" href="messages.php"><i class="fa-solid fa-inbox fa-xl"></i></a>
           </li>
           <li class="nav-item dropdown me-3 me-lg-0 px-2 d-flex justify-content-center">
             <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -76,22 +76,33 @@
 <body>
   <?php
   // Get the all messages where user is recipient or sender
-  $sqlMessages = "SELECT R.`RecipientID`, M.`SenderID`, M.`MessageBody`, M.`SendDate`, U.`FirstName`, U.`LastName`, U.`ProfilePicture` FROM `Message_Recipient_t` R JOIN `Messages_t` M ON R.`MessageID` = M.`MessageID` JOIN `UserData_t` U ON U.`UserID` = M.`SenderID` WHERE `RecipientID` = $userID OR `SenderID` = $userID ORDER BY M.`SendDate`";
+  $sqlMessages = "SELECT R.`RecipientID`, M.`SenderID` FROM `Message_Recipient_t` R JOIN `Messages_t` M ON R.`MessageID` = M.`MessageID` WHERE `RecipientID` = $userID OR `SenderID` = $userID ORDER BY M.`SendDate`";
   $resultMessages = mysqli_query($con, $sqlMessages);
 
   if (mysqli_num_rows($resultMessages) > 0) {
     $messagesArray = array();
     while ($messages = mysqli_fetch_assoc($resultMessages)) {
-      $messagesArray[] = array('RecipientID' => $messages['RecipientID'], 'SenderID' => $messages['SenderID'], 'MessageBody' => $messages['MessageBody'], 'SendDate' => $messages['SendDate'], 'FirstName' => $messages['FirstName'], 'LastName' => $messages['LastName'], 'ProfilePicture' => $messages['ProfilePicture']);
+      $messagesArray[] = array('RecipientID' => $messages['RecipientID'], 'SenderID' => $messages['SenderID']);
     }
 
-    $senderIDs = array();
-    $senderData = array();
+    $uniqueUsers = array();
     foreach ($messagesArray as $message) {
       $senderID = $message['SenderID'];
-      if ($senderID != $userID && !in_array($senderID, $senderIDs)) {
-        $senderIDs[] = $senderID;
-        $senderData[] = array('SenderID' => $message['SenderID'], 'FirstName' => $message['FirstName'], 'LastName' => $message['LastName'], 'ProfilePicture' => $message['ProfilePicture']);
+      $recipientID = $message['RecipientID'];
+      if ($senderID != $userID && !in_array($senderID, $uniqueUsers)) {
+        $uniqueUsers[] = $senderID;
+      }
+      if ($recipientID != $userID && !in_array($recipientID, $uniqueUsers)) {
+        $uniqueUsers[] = $recipientID;
+      }
+    }
+
+    $senderData = array();
+    foreach ($uniqueUsers as $user) {
+      $sqlSender = "SELECT `UserID`, `FirstName`, `LastName`, `ProfilePicture` FROM `UserData_t` WHERE `UserID` = $user";
+      $resultSender = mysqli_query($con, $sqlSender);
+      while ($row = mysqli_fetch_assoc($resultSender)) {
+        $senderData[] = array('SenderID' => $row['UserID'], 'FirstName' => $row['FirstName'], 'LastName' => $row['LastName'], 'ProfilePicture' => $row['ProfilePicture']);
       }
     }
 
@@ -163,7 +174,6 @@
                 }
               }
               ?>
-
             </div>
 
           </div>
@@ -175,7 +185,7 @@
                 foreach ($senderData as $sender) {
                   if ($sender['SenderID'] == $firstUser) {
                     echo '<div class="position-relative">';
-                    echo '<img src="upload/' . $sender['ProfilePicture'] . '" class="rounded-circle mr-1" alt="' . $sender['FirstName'] . ' ' . $sender['LastName'] . '" width="40" height="40">';
+                    echo '<img src="upload/' . $sender['ProfilePicture'] . '" class="rounded-circle me-1" alt="' . $sender['FirstName'] . ' ' . $sender['LastName'] . '" width="40" height="40">';
                     echo '</div>';
                     echo '<div class="flex-grow-1 ps-3">';
                     echo '<strong>' . $sender['FirstName'] . ' ' . $sender['LastName'] . '</strong>';
@@ -188,6 +198,40 @@
                 ?>
 
               </div>
+
+              <!-- New Message Modal -->
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">New Message</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form action="new-message.php" method="POST">
+                        <div class="mb-3">
+                          <label for="recipientName" class="col-form-label">Recipient:</label>
+                          <div class="dropdown" id="newMessage">
+                            <input type="text" class="form-control" id="recipientName" placeholder="Search for a person" autocomplete="off">
+                            <ul class="dropdown-menu" id="messageSearchResults"></ul>
+                          </div>
+                        </div>
+                        <div class="mb-3">
+                          <label for="messageText" class="col-form-label">Message:</label>
+                          <textarea class="form-control" id="messageText" name="message"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Cancel</button>
+                      <button type="submit" class="btn main-button">Send</button>
+                    </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <!-- End New Message Modal -->
+
             </div>
 
             <div class="position-relative">
