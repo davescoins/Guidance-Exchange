@@ -1,3 +1,20 @@
+$(document).ready(function () {
+  $('.profile-section').each(function () {
+    var upperContainer = $(this);
+    var container = upperContainer.find('.profile-wrap');
+    var textEnd = upperContainer.find('.text-end');
+
+    // Check if content overflows horizontally
+    if (container[0].scrollHeight > container.outerHeight()) {
+      // Create and append the additional div
+      var newDiv = $('<div class="open-link">').html(
+        '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>'
+      );
+      textEnd.append(newDiv);
+    }
+  });
+});
+
 // This function is used to expand the profile sections to allow for additional content
 $(document).ready(function () {
   $('.expand-btn').click(function () {

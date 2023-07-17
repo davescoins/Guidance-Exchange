@@ -306,9 +306,7 @@
     echo '<p>' . $mentoring . '</p>';
     echo '</div>';
     echo '<div class="col-12 text-end">';
-    echo '<div class="open-link">';
-    echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
-    echo '</div></div></div></div>';
+    echo '</div></div></div>';
   }
 
   if ($availableAppointmentsArray != null && $userID != $profileID) {
@@ -365,9 +363,7 @@
 
     echo '</div>';
     echo '<div class="col-12 text-end">';
-    echo '<div class="open-link">';
-    echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
-    echo '</div></div></div></div>';
+    echo '</div></div></div>';
   }
 
   if ($aboutMe != null) {
@@ -381,9 +377,7 @@
     echo '<p>' . $aboutMe . '</p>';
     echo '</div>';
     echo '<div class="col-12 text-end">';
-    echo '<div class="open-link">';
-    echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
-    echo '</div></div></div></div>';
+    echo '</div></div></div>';
   }
 
   if ($workLocation != null) {
@@ -407,9 +401,7 @@
     }
     echo '</div>';
     echo '<div class="col-12 text-end">';
-    echo '<div class="open-link">';
-    echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
-    echo '</div></div></div></div>';
+    echo '</div></div></div>';
   }
 
   if ($educationLocation != null) {
@@ -433,9 +425,7 @@
     }
     echo '</div>';
     echo '<div class="col-12 text-end">';
-    echo '<div class="open-link">';
-    echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
-    echo '</div></div></div></div>';
+    echo '</div></div></div>';
   }
 
   if (isset($skillNames) && $skillNames != null) {
@@ -453,9 +443,7 @@
     echo '</div>';
     echo '</div>';
     echo '<div class="col-12 text-end">';
-    echo '<div class="open-link">';
-    echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
-    echo '</div></div></div></div>';
+    echo '</div></div></div>';
   }
 
   if ($profileAssociations != null) {
@@ -490,9 +478,7 @@
     echo '</div>';
     echo '</div>';
     echo '<div class="col-12 text-end">';
-    echo '<div class="open-link">';
-    echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
-    echo '</div></div></div></div>';
+    echo '</div></div></div>';
     mysqli_close($con);
   }
 
