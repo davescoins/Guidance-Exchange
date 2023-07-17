@@ -20,46 +20,95 @@ session_start();
     <link rel="stylesheet" href="css/home_signup.css" />
 </head>
 
+<!-- Header 1 - Search bar
+Header 2 - LOgged out
 
+If the user is not logged in
+- Hide header 1
+
+IF the user is logged in
+- Hide header 2
+-->
+
+
+<header 
+<?php
+ if(!isset($_SESSION['UserID'])){
+    echo 'class="d-none"';
+ };
+
+?>
+
+>
+  <?php
+
+  $profileID = $_SESSION['UserID'];
+  ?>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="home.php"><img src="img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <?php
+          if ($userModeratorStatus == true) {
+            echo '<li class="nav-item">';
+            echo ' <a class="nav-link highlight-link nav-text px-4" href="moderator-dashboard.php?profileID=' . $profileID . '">Moderator Dashboard</a>';
+            echo '</li>';
+          }
+          if ($userSystemAdministratorStatus == true) {
+            echo '<li class="nav-item">';
+            echo ' <a class="nav-link highlight-link nav-text px-4" href="admin-dashboard.php?profileID=' . $profileID. '">Administrator Dashboard</a>';
+            echo '</li>';
+          }
+          ?>
+          <li class="nav-item">
+            <?php 
+              echo '<a class="nav-link highlight-link nav-text px-4 active" href="profile.php?profileID=' . $profileID . '">Profile</a>';
+          
+             
+            
+            ?>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link highlight-link nav-text px-4" href="communities.php">Communities</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav d-flex flex-row me-1">
+          <li class="nav-item me-3 me-lg-0 px-2 d-flex align-items-center">
+            <form class="d-flex" role="search" action="search.php" method="GET">
+              <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
+              <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
+            </form>
+          </li>
+          <li class="nav-item me-3 me-lg-0 px-2">
+            <a class="nav-link" href="messages.php"><i class="fa-solid fa-inbox fa-xl"></i></a>
+          </li>
+          <li class="nav-item dropdown me-3 me-lg-0 px-2 d-flex justify-content-center">
+            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-user-group fa-xl"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<header
 <?php
  if(isset($_SESSION['UserID'])){
-    echo '<header>
-    <nav class="navbar navbar-expand-lg navbar-light">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="home.php"><img src="img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link highlight-link nav-text px-4" href="/profile.php?profileID=' .$_SESSION['UserID']. '">Profile</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link highlight-link nav-text px-4" href="#">Mentoring</a>
-            </li>
-          </ul>
-          <ul class="navbar-nav d-flex flex-row me-1">
-            <li class="nav-item me-3 me-lg-0 px-2">
-              <a class="nav-link" href="#"><i class="fa-solid fa-magnifying-glass fa-xl"></i></i></i></a>
-            </li>
-            <li class="nav-item me-3 me-lg-0 px-2">
-              <a class="nav-link" href="#"><i class="fa-solid fa-inbox fa-xl"></i></i></a>
-            </li>
-            <li class="nav-item me-3 me-lg-0 px-2">
-              <a class="nav-link" href="#"><i class="fa-solid fa-user-group fa-xl"></i></i></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>';
- }else{
-    echo '
-    <header>
+    echo 'class="d-none"';
+ };
+
+?>
+
+>
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="home.php"><img src="img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>
@@ -69,11 +118,7 @@ session_start();
     
             </div>
         </nav>
-    </header>';
-
- }
-
-?>
+    </header>
 
 
 <body>
