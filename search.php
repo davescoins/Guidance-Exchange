@@ -151,7 +151,7 @@
 
           if ($userID != $foundUser['UserID']) {
             echo '<a href="profile.php?profileID=' . $foundUser['UserID'] . '"><i class="fa-solid fa-user fa-xl px-4"></i></a>';
-            echo '<a href="#"><i class="fa-solid fa-envelope fa-xl px-4"></i></a>';
+            echo '<a href="#" data-bs-toggle="modal" data-bs-target="#newMessageModal' . $foundUser['UserID'] . '"><i class="fa-solid fa-envelope fa-xl px-4"></i></a>';
             if (in_array($foundUser['UserID'], $associationsArray)) {
               echo '<form action="associations.php" method="POST">';
               echo '<input type="hidden" name="query" value="' . $query . '">';
@@ -169,6 +169,40 @@
             echo '<a href="profile.php?profileID=' . $foundUser['UserID'] . '"><i class="fa-solid fa-user fa-xl px-4"></i></a>';
           }
           echo '</div></div></div>';
+
+          echo '<!-- New Message Modal -->
+            <div class="modal fade" id="newMessageModal' . $foundUser['UserID'] . '" tabindex="-1" aria-labelledby="newMessageModalLabel' . $foundUser['UserID'] . '" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="newMessageModalLabel' . $foundUser['UserID'] . '">New Message</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="new-message.php" method="POST">
+                      <div class="mb-3">
+                        <label for="recipientName" class="col-form-label">Recipient:</label>
+                        <div class="dropdown" id="newMessage">
+                          <input type="text" class="form-control" id="recipientName" placeholder="Search for a person" autocomplete="off" value="' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . '" disabled>
+                          <ul class="dropdown-menu" id="messageSearchResults"></ul>
+                          <input type="hidden" name="recipientID" value="' . $foundUser['UserID'] . '">
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="messageText" class="col-form-label">Message:</label>
+                        <textarea class="form-control" id="messageText" name="message"></textarea>
+                      </div>
+        
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn main-button">Send</button>
+                  </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- End New Message Modal -->';
         }
       } else {
         echo '<div class="container-fluid pb-4 d-flex align-items-center">';
@@ -179,7 +213,6 @@
       mysqli_close($con);
     }
     ?>
-
   </section>
 
   <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
