@@ -3,6 +3,7 @@ CREATE TABLE Message_Recipient_t (
   MessageID INT(9) NOT NULL,
   RecipientID INT(9) NOT NULL,
   IsRead BOOL NOT NULL,
+  IsDeleted BOOL NOT NULL,
   CONSTRAINT Message_Recipient_t_PK PRIMARY KEY (MessageRecipientID),
   CONSTRAINT Message_Recipient_t_FK1 FOREIGN KEY (MessageID) REFERENCES Messages_t(MessageID),
   CONSTRAINT Message_Recipient_t_FK2 FOREIGN KEY (RecipientID) REFERENCES Auth_t(UserID)

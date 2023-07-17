@@ -89,6 +89,7 @@ CREATE TABLE Message_Recipient_t (
   MessageID INT(9) NOT NULL,
   RecipientID INT(9) NOT NULL,
   IsRead BOOL NOT NULL,
+  IsDeleted BOOL NOT NULL,
   CONSTRAINT Message_Recipient_t_PK PRIMARY KEY (MessageRecipientID),
   CONSTRAINT Message_Recipient_t_FK1 FOREIGN KEY (MessageID) REFERENCES Messages_t(MessageID),
   CONSTRAINT Message_Recipient_t_FK2 FOREIGN KEY (RecipientID) REFERENCES Auth_t(UserID)
@@ -693,39 +694,43 @@ VALUES
   );
 
 INSERT INTO
-  Message_Recipient_t (`MessageID`, `RecipientID`, `IsRead`)
+  Message_Recipient_t (
+    `MessageID`,
+    `RecipientID`,
+    `IsRead`,
+    `IsDeleted`
+  )
 VALUES
-  (1, 2, 0),
-  (2, 5, 0),
-  (3, 1, 0),
-  (4, 6, 0),
-  (5, 3, 0),
-  (6, 4, 0),
-  (7, 3, 0),
-  (8, 4, 0),
-  (9, 6, 0),
-  (10, 5, 0),
-  (11, 4, 0),
-  (12, 2, 0),
-  (13, 6, 0),
-  (14, 5, 0),
-  (15, 1, 0),
-  (16, 3, 0),
-  (17, 2, 0),
-  (18, 4, 0),
-  (19, 6, 0),
-  (20, 1, 0),
-  (21, 1, 0),
-  (22, 3, 0),
-  (23, 4, 0),
-  (24, 2, 0),
-  (25, 5, 0),
-  (26, 6, 0),
-  (27, 1, 0),
-  (28, 4, 0),
-  (29, 3, 0),
-  (30, 4, 0);
-
+  (1, 2, 0, 0),
+  (2, 5, 0, 0),
+  (3, 1, 0, 0),
+  (4, 6, 0, 0),
+  (5, 3, 0, 0),
+  (6, 4, 0, 0),
+  (7, 3, 0, 0),
+  (8, 4, 0, 0),
+  (9, 6, 0, 0),
+  (10, 5, 0, 0),
+  (11, 4, 0, 0),
+  (12, 2, 0, 0),
+  (13, 6, 0, 0),
+  (14, 5, 0, 0),
+  (15, 1, 0, 0),
+  (16, 3, 0, 0),
+  (17, 2, 0, 0),
+  (18, 4, 0, 0),
+  (19, 6, 0, 0),
+  (20, 1, 0, 0),
+  (21, 1, 0, 0),
+  (22, 3, 0, 0),
+  (23, 4, 0, 0),
+  (24, 2, 0, 0),
+  (25, 5, 0, 0),
+  (26, 6, 0, 0),
+  (27, 1, 0, 0),
+  (28, 4, 0, 0),
+  (29, 3, 0, 0),
+  (30, 4, 0, 0)
 INSERT INTO
   Skills_t (`SkillName`, `SkillGroup`)
 VALUES
