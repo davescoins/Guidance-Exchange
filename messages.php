@@ -125,16 +125,35 @@
     <div class="container p-0">
 
       <div class="card">
+        <div class="row g-0 messages__header-section">
+          <div class="col-12 col-lg-5 col-xl-3 border-bottom-heading">
+            <div class="px-4 d-none d-md-block">
+              <div class="d-flex align-items-center">
+                <div class="flex-grow-1">
+                  <!-- <h1 class="messages__header">Inbox</h1> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-7 col-xl-9">
+            <div class="py-2 px-4 border-bottom-heading d-none d-lg-block">
+              <div class="d-flex align-items-center py-1 justify-content-end">
+                <button class="btn main-button me-3 btn-long" data-bs-toggle="modal" data-bs-target="#newMessageModal">New Message</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="row g-0">
           <div class="col-12 col-lg-5 col-xl-3 border-right">
 
-            <div class="px-4 d-none d-md-block">
+            <!-- <div class="px-4 d-none d-md-block">
               <div class="d-flex align-items-center">
                 <div class="flex-grow-1">
                   <input type="text" class="form-control my-3" placeholder="Search...">
                 </div>
               </div>
-            </div>
+            </div> -->
 
 
             <div class="list-group">
@@ -190,9 +209,6 @@
                     echo '<div class="flex-grow-1 ps-3">';
                     echo '<strong>' . $sender['FirstName'] . ' ' . $sender['LastName'] . '</strong>';
                     echo '</div>';
-                    echo '<div>';
-                    echo '<button class="btn main-button me-3 btn-long">New Message</button>';
-                    echo '</div>';
                   }
                 }
                 ?>
@@ -200,11 +216,11 @@
               </div>
 
               <!-- New Message Modal -->
-              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal fade" id="newMessageModal" tabindex="-1" aria-labelledby="newMessageModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="exampleModalLabel">New Message</h1>
+                      <h1 class="modal-title fs-5" id="newMessageModalLabel">New Message</h1>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
