@@ -22,7 +22,7 @@ session_start();
 
 
 <?php
- if(isset($_SESSION['UserID'])){
+if (isset($_SESSION['UserID'])) {
     echo '<header>
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container-fluid">
@@ -33,7 +33,7 @@ session_start();
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link highlight-link nav-text px-4" href="/profile.php?profileID=' .$_SESSION['UserID']. '">Profile</a>
+              <a class="nav-link highlight-link nav-text px-4" href="/profile.php?profileID=' . $_SESSION['UserID'] . '">Profile</a>
             </li>
             <li class="nav-item">
               <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
@@ -57,28 +57,27 @@ session_start();
       </div>
     </nav>
   </header>';
- }else{
+} else {
     echo '
     <header>
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="home.php"><img src="img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>
-                <a type="button" href="login.php" class="btn btn-hero-section text-white rounded-pill">
+                <a type="button" href="login.php" class="btn main-button">
                     Login
                 </a>
     
             </div>
         </nav>
     </header>';
-
- }
+}
 
 ?>
 
 
 <body>
 
-   <!-- Content Section -->
+    <!-- Content Section -->
 
     <section>
         <div class="hero home-hero">
@@ -89,17 +88,17 @@ session_start();
                 <h1 class="text-white">Guidance Exchange</h1>
                 <p class="text-light container-sm  mb-5 mt-5">Welcome to our mentoring platform, where meaningful connections between mentors and mentees are formed across the globe. We invite you to join our vibrant community and embark on a journey of personal and professional growth.</p>
                 <?php
-                    if(!isset($_SESSION['UserID'])){
-                    echo ' <a class="btn btn-primary btn-hero-section mx-5 rounded-pill" href="signup.php" role="button">Join GE Today!</a>';
-                    }
-                   
+                if (!isset($_SESSION['UserID'])) {
+                    echo ' <a class="btn main-button btn-long" href="signup.php" role="button">Join GE Today!</a>';
+                }
+
 
                 ?>
-                
-                
+
+
 
             </div>
-            
+
         </div>
     </section>
 
