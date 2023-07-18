@@ -63,6 +63,9 @@ nav i:hover {
   box-shadow: 0px 10px 20px -6px rgba(0, 0, 0, 0.5);
   background-color: #e14658;
   color: #f5f5f5;
+}
+
+.btn-std {
   width: 100px;
 }
 

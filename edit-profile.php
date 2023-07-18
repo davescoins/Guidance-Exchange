@@ -673,7 +673,7 @@
         </div>
       </div>
       <div class="d-flex justify-content-center my-5">
-        <button type="submit" class="btn main-button me-3">Save</button>
+        <button type="submit" class="btn main-button btn-std me-3">Save</button>
         <button type="button" class="btn cancel-button ms-3" data-bs-toggle="modal" data-bs-target="#cancelModal">
           Cancel
         </button>

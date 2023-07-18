@@ -508,7 +508,7 @@
     echo '<label for="time" class="form-label">Time (15 minute increments)</label>';
     echo '<input type="time" class="form-control mb-3" name="singleTime" id="time" step="900">';
     echo '<div class="d-flex justify-content-center">';
-    echo '<button type="submit" class="btn main-button me-4">Submit</button>';
+    echo '<button type="submit" class="btn main-button btn-std me-4">Submit</button>';
     echo '<button type="reset" class="btn cancel-button">Clear</button>';
     echo '</div>';
     echo '</fieldset>';
@@ -566,7 +566,7 @@
     echo '<input type="time" class="form-control" name="satEndTime" id="satEndTime" step="900">';
     echo '</div>';
     echo '<div class="d-flex justify-content-center">';
-    echo '<button type="submit" class="btn main-button me-4">Submit</button>';
+    echo '<button type="submit" class="btn main-button btn-std me-4">Submit</button>';
     echo '<button type="reset" class="btn cancel-button">Clear</button>';
     echo '</div>';
     echo '</fieldset>';

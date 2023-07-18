@@ -63,7 +63,7 @@ if (isset($_SESSION['UserID'])) {
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="home.php"><img src="img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>
-                <a type="button" href="login.php" class="btn main-button">
+                <a type="button" href="login.php" class="btn main-button btn-std">
                     Login
                 </a>
     

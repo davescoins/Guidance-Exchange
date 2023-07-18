@@ -240,7 +240,7 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Cancel</button>
-                      <button type="submit" class="btn main-button">Send</button>
+                      <button type="submit" class="btn main-button btn-std">Send</button>
                     </div>
                     </form>
                   </div>
@@ -260,7 +260,7 @@
                 <div class="input-group">
                   <input type="hidden" name="recipientID" id="recipientID" value="<?php echo $firstUser; ?>">
                   <input type="text" class="form-control" placeholder="Type your message" name="message" autocomplete="off">
-                  <button class="btn main-button">Send</button>
+                  <button class="btn main-button btn-std">Send</button>
                 </div>
               </form>
             </div>

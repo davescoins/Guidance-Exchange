@@ -114,42 +114,43 @@
       // Display search results
       if (mysqli_num_rows($userQueryResult) > 0) {
         while ($foundUser = mysqli_fetch_assoc($userQueryResult)) {
-          echo '<div class="container-fluid pb-4">';
-          echo '<div class="row align-items-start results-section py-2">';
-          echo '<div class="col-auto d-flex align-items-center justify-content-center result-picture">';
-
-          if ($foundUser['ProfilePicture'] == null) {
-            echo '<img class="px-2" src="/img/blank-profile-image.png" alt="' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . ' Profile Photo">';
-          } else {
-            echo '<img class="px-2" src="upload/' . $foundUser['ProfilePicture'] . '" alt="' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . ' Profile Photo">';
-          }
-
-          echo '</div>';
-          echo '<div class="col d-flex align-items-center result-wrap">';
-          echo '<h3>' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . '</h3>';
-          echo '</div>';
-
-          echo '<div class="col-3 d-flex align-items-center mentor-tag-wrap">';
-          if ($foundUser['MentorStatus'] == true) {
-            echo '<div class="mentor-tag">';
-            echo '<p class="py-1 px-3 m-0">Mentor</p>';
-            echo '</div>';
-          }
-          if ($foundUser['ModeratorStatus'] == true) {
-            echo '<div class="mentor-tag">';
-            echo '<p class="py-1 px-3 m-0">Moderator</p>';
-            echo '</div>';
-          }
-          if ($foundUser['SystemAdministratorStatus'] == true) {
-            echo '<div class="mentor-tag">';
-            echo '<p class="py-1 px-3 m-0">System Administrator</p>';
-            echo '</div>';
-          }
-          echo '</div>';
-
-          echo '<div class="col-auto d-flex align-items-center justify-content-center result-icons me-3">';
-
           if ($userID != $foundUser['UserID']) {
+            echo '<div class="container-fluid pb-4">';
+            echo '<div class="row align-items-start results-section py-2">';
+            echo '<div class="col-auto d-flex align-items-center justify-content-center result-picture">';
+
+            if ($foundUser['ProfilePicture'] == null) {
+              echo '<img class="px-2" src="/img/blank-profile-image.png" alt="' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . ' Profile Photo">';
+            } else {
+              echo '<img class="px-2" src="upload/' . $foundUser['ProfilePicture'] . '" alt="' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . ' Profile Photo">';
+            }
+
+            echo '</div>';
+            echo '<div class="col d-flex align-items-center result-wrap">';
+            echo '<h3>' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . '</h3>';
+            echo '</div>';
+
+            echo '<div class="col-3 d-flex align-items-center mentor-tag-wrap">';
+            if ($foundUser['MentorStatus'] == true) {
+              echo '<div class="mentor-tag">';
+              echo '<p class="py-1 px-3 m-0">Mentor</p>';
+              echo '</div>';
+            }
+            if ($foundUser['ModeratorStatus'] == true) {
+              echo '<div class="mentor-tag">';
+              echo '<p class="py-1 px-3 m-0">Moderator</p>';
+              echo '</div>';
+            }
+            if ($foundUser['SystemAdministratorStatus'] == true) {
+              echo '<div class="mentor-tag">';
+              echo '<p class="py-1 px-3 m-0">System Administrator</p>';
+              echo '</div>';
+            }
+            echo '</div>';
+
+            echo '<div class="col-auto d-flex align-items-center justify-content-center result-icons me-3">';
+
+
             echo '<a href="profile.php?profileID=' . $foundUser['UserID'] . '"><i class="fa-solid fa-user fa-xl px-4"></i></a>';
             echo '<a href="#" data-bs-toggle="modal" data-bs-target="#newMessageModal' . $foundUser['UserID'] . '"><i class="fa-solid fa-envelope fa-xl px-4"></i></a>';
             if (in_array($foundUser['UserID'], $associationsArray)) {
@@ -165,9 +166,8 @@
               echo '<button class="btn p-0" type="submit" name="update" value="add"><i class="fa-solid fa-plus fa-xl px-4"></i></button>';
               echo '</form>';
             }
-          } else {
-            echo '<a href="profile.php?profileID=' . $foundUser['UserID'] . '"><i class="fa-solid fa-user fa-xl px-4"></i></a>';
           }
+
           echo '</div></div></div>';
 
           echo '<!-- New Message Modal -->
@@ -196,7 +196,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn main-button">Send</button>
+                    <button type="submit" class="btn main-button btn-std">Send</button>
                   </div>
                   </form>
                 </div>
