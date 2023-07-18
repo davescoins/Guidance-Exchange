@@ -207,11 +207,11 @@
 
           echo '</div></div></div>';
 
-          echo '<!-- New Message Modal -->
-            <div class="modal fade" id="newMessageModal' . $foundUser['UserID'] . '" tabindex="-1" aria-labelledby="newMessageModalLabel' . $foundUser['UserID'] . '" aria-hidden="true">
+          // Start New Message Modal
+          echo '<div class="modal fade" id="newMessageModal' . $foundUser['UserID'] . '" tabindex="-1" aria-labelledby="newMessageModalLabel' . $foundUser['UserID'] . '" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                  <div class="modal-header">
+                  <div class="modal-header modal-header-gradient">
                     <h1 class="modal-title fs-5" id="newMessageModalLabel' . $foundUser['UserID'] . '">New Message</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
@@ -238,8 +238,8 @@
                   </form>
                 </div>
               </div>
-            </div>
-            <!-- End New Message Modal -->';
+            </div>';
+          // End New Message Modal
         }
       } else {
         echo '<div class="container-fluid pb-4 d-flex align-items-center">';
