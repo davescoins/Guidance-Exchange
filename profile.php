@@ -58,7 +58,22 @@
         <ul class="navbar-nav d-flex flex-row me-1">
           <li class="nav-item me-3 me-lg-0 px-2 d-flex align-items-center">
             <form class="d-flex" role="search" action="search.php" method="GET">
-              <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
+              <div class="input-group">
+                <input class="form-control" name="query" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
+                <button type="button" class="btn main-button btn-drop dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end">
+                  <div class="my-2 ms-3">
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="mentorSearch" name="mentorSearch">
+                      <label class="form-check-label" for="mentorSearch">
+                        Mentors
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
             </form>
           </li>
@@ -344,14 +359,14 @@
         $formattedTime = date('g:i A', strtotime($availableTime));
         echo '<div class="form-check form-check-inline me-0 ps-1 pb-2 col-3 d-flex align-items-center justify-content-center">';
         echo '<input type="radio" name="time" id="time' . $ts2 . $at . '" value="' . $availableDates[$ts2] . ' ' . $availableTime . '" />';
-        echo '<label class="btn main-button" for="time' . $ts2 . $at . '">' . $formattedTime . '</label>';
+        echo '<label class="btn main-button btn-std" for="time' . $ts2 . $at . '">' . $formattedTime . '</label>';
         echo '</div>';
         $at++;
       }
       echo '</fieldset>';
       echo '</div>';
       echo '<div class="modal-footer justify-content-center">';
-      echo '<button class="btn main-button" type="submit">Submit</button>';
+      echo '<button class="btn main-button btn-std" type="submit">Submit</button>';
       echo '</div>';
       echo '</form>';
       echo '</div>';

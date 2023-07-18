@@ -52,7 +52,22 @@
         <ul class="navbar-nav d-flex flex-row me-1">
           <li class="nav-item me-3 me-lg-0 px-2 d-flex align-items-center">
             <form class="d-flex" role="search" action="search.php" method="GET">
-              <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
+              <div class="input-group">
+                <input class="form-control" name="query" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
+                <button type="button" class="btn main-button btn-drop dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end">
+                  <div class="my-2 ms-3">
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="mentorSearch" name="mentorSearch">
+                      <label class="form-check-label" for="mentorSearch">
+                        Mentors
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
             </form>
           </li>
@@ -89,21 +104,39 @@
     // Check for query
     if (isset($_GET['query'])) {
       $query = $_GET['query'];
+      $mentorSearch = $_GET['mentorSearch'];
 
       // Select the users that match the query string
       if (!$userSystemAdministratorStatus) {
-        $userSql = "SELECT U.`UserID`, U.`FirstName`, U.`LastName`, U.`ProfilePicture`, A.`MentorStatus`, A.`ModeratorStatus`, A.`SystemAdministratorStatus`
-        FROM `UserData_t` U
-        JOIN `Auth_t` A ON U.`UserID` = A.`UserID`
-        WHERE U.`FullName` LIKE '%$query%'
-          AND A.`SystemAdministratorStatus` <> '1'  AND U.`UserID` <> '1'
-        ORDER BY U.`LastName`";
+        if ($mentorSearch) {
+          $userSql = "SELECT U.`UserID`, U.`FirstName`, U.`LastName`, U.`ProfilePicture`, A.`MentorStatus`, A.`ModeratorStatus`, A.`SystemAdministratorStatus`
+          FROM `UserData_t` U
+          JOIN `Auth_t` A ON U.`UserID` = A.`UserID`
+          WHERE U.`FullName` LIKE '%$query%'
+          AND A.`SystemAdministratorStatus` <> '1'  AND U.`UserID` <> $userID AND A.`MentorStatus` = 1
+          ORDER BY U.`LastName`";
+        } else {
+          $userSql = "SELECT U.`UserID`, U.`FirstName`, U.`LastName`, U.`ProfilePicture`, A.`MentorStatus`, A.`ModeratorStatus`, A.`SystemAdministratorStatus`
+          FROM `UserData_t` U
+          JOIN `Auth_t` A ON U.`UserID` = A.`UserID`
+          WHERE U.`FullName` LIKE '%$query%'
+          AND A.`SystemAdministratorStatus` <> '1'  AND U.`UserID` <> $userID
+          ORDER BY U.`LastName`";
+        }
       } else {
-        $userSql = "SELECT U.`UserID`, U.`FirstName`, U.`LastName`, U.`ProfilePicture`, A.`MentorStatus`, A.`ModeratorStatus`, A.`SystemAdministratorStatus`
-        FROM `UserData_t` U
-        JOIN `auth_t` A ON U.`UserID` = A.`UserID`
-        WHERE U.`FullName` LIKE '%$query%'
-        ORDER BY U.`LastName`";
+        if ($mentorSearch) {
+          $userSql = "SELECT U.`UserID`, U.`FirstName`, U.`LastName`, U.`ProfilePicture`, A.`MentorStatus`, A.`ModeratorStatus`, A.`SystemAdministratorStatus`
+          FROM `UserData_t` U
+          JOIN `auth_t` A ON U.`UserID` = A.`UserID`
+          WHERE U.`FullName` LIKE '%$query%' AND A.`MentorStatus` = 1
+          ORDER BY U.`LastName`";
+        } else {
+          $userSql = "SELECT U.`UserID`, U.`FirstName`, U.`LastName`, U.`ProfilePicture`, A.`MentorStatus`, A.`ModeratorStatus`, A.`SystemAdministratorStatus`
+          FROM `UserData_t` U
+          JOIN `auth_t` A ON U.`UserID` = A.`UserID`
+          WHERE U.`FullName` LIKE '%$query%'
+          ORDER BY U.`LastName`";
+        }
       }
       $userQueryResult = mysqli_query($con, $userSql);
 

@@ -108,6 +108,17 @@ nav i:hover {
   width: auto;
 }
 
+.form-check-input:checked {
+  background-color: #e14658;
+  border-color: #e14658;
+}
+
+.btn.show {
+  color: #f5f5f5;
+  background-color: #64bba1;
+  border-color: #64bba1;
+}
+
 /* Body */
 
 html,
