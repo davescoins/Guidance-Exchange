@@ -4,9 +4,9 @@ CREATE TABLE Auth_t (
   password VARCHAR(100),
   email VARCHAR(255),
   phone_number VARCHAR(255),
-  MentorStatus BOOL NOT NULL,
-  ModeratorStatus BOOL NOT NULL,
-  SystemAdministratorStatus BOOL NOT NULL,
+  MentorStatus INT(1) NOT NULL,
+  ModeratorStatus INT(1) NOT NULL,
+  SystemAdministratorStatus INT(1) NOT NULL,
   CONSTRAINT Auth_t_PK PRIMARY KEY (UserID)
 ) Auto_Increment = 1;
 
@@ -51,6 +51,9 @@ CREATE TABLE Appointments_t (
   MentorID INT(9) NOT NULL,
   SchedulerID INT(9),
   AppointmentTime DATETIME,
+  Missed INT(1) NOT NULL DEFAULT 0,
+  Completed INT(1) NOT NULL DEFAULT 0,
+  Canceled INT(1) NOT NULL DEFAULT 0,
   CONSTRAINT Appointments_t_PK PRIMARY KEY (AppointmentID),
   CONSTRAINT Appointments_t_FK1 FOREIGN KEY (MentorID) REFERENCES Auth_t(UserID),
   CONSTRAINT Appointments_t_FK2 FOREIGN KEY (SchedulerID) REFERENCES Auth_t(UserID)
@@ -88,8 +91,8 @@ CREATE TABLE Message_Recipient_t (
   MessageRecipientID INT(9) NOT NULL Auto_Increment,
   MessageID INT(9) NOT NULL,
   RecipientID INT(9) NOT NULL,
-  IsRead BOOL NOT NULL,
-  IsDeleted BOOL NOT NULL DEFAULT 0,
+  IsRead INT(1) NOT NULL,
+  IsDeleted INT(1) NOT NULL DEFAULT 0,
   CONSTRAINT Message_Recipient_t_PK PRIMARY KEY (MessageRecipientID),
   CONSTRAINT Message_Recipient_t_FK1 FOREIGN KEY (MessageID) REFERENCES Messages_t(MessageID),
   CONSTRAINT Message_Recipient_t_FK2 FOREIGN KEY (RecipientID) REFERENCES Auth_t(UserID)
