@@ -144,7 +144,23 @@
   <!-- Photo Section -->
   <section class="moderator__photo-section pt-5 pb-3" style="background-image: url('img/<?php echo $profilePictureBackground; ?>'); background-attachment: fixed; background-size: cover;">
     <div class="container-fluid flex-column">
-      <img class="moderator__profile-photo mb-3" style="border-color: <?php echo $profilePictureBorder; ?>;" src="upload/<?php echo $profilePicture; ?>" alt="<?php echo $firstName . ' ' . $lastName; ?> Profile Photo">
+
+      <?php
+      if ($profilePictureBorder == null) {
+        if ($profilePicture == null) {
+          echo '<img class="moderator__profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+        } else {
+          echo '<img class="moderator__profile-photo mb-3" style="border-color: #008a0e;" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+        }
+      } else {
+        if ($profilePicture == null) {
+          echo '<img class="moderator__profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+        } else {
+          echo '<img class="moderator__profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+        }
+      }
+      ?>
+
       <div class="moderator__tag mb-2">
         <p class="py-1 px-3 m-0">Moderator</p>
       </div>
