@@ -62,3 +62,13 @@ function openModal(modalId) {
   const projectsModal = new bootstrap.Modal(document.getElementById(modalId));
   projectsModal.show();
 }
+
+$(document).ready(function () {
+  $('form').submit(function (event) {
+    var checkedBoxes = $(this).find('input[type=checkbox]:checked');
+    if (checkedBoxes.length > 1) {
+      alert('Only one appointment can be selected.');
+      event.preventDefault(); // Prevent form submission
+    }
+  });
+});
