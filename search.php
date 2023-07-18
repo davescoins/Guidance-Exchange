@@ -104,7 +104,11 @@
     // Check for query
     if (isset($_GET['query'])) {
       $query = $_GET['query'];
-      $mentorSearch = $_GET['mentorSearch'];
+      if (isset($_GET['mentorSearch'])) {
+        $mentorSearch = $_GET['mentorSearch'];
+      } else {
+        $mentorSearch = false;
+      }
 
       // Select the users that match the query string
       if (!$userSystemAdministratorStatus) {
