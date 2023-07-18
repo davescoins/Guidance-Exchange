@@ -73,7 +73,7 @@ IF the user is logged in
             ?>
           </li>
           <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4" href="communities.php">Communities</a>
+            <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
           </li>
         </ul>
         <ul class="navbar-nav d-flex flex-row me-1">
@@ -112,7 +112,7 @@ IF the user is logged in
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="home.php"><img src="img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>
-                <a type="button" href="login.php" class="btn btn-hero-section text-white rounded-pill">
+                <a type="button" href="login.php" class="btn main-button">
                     Login
                 </a>
     
@@ -135,7 +135,7 @@ IF the user is logged in
                 <p class="text-light container-sm  mb-5 mt-5">Welcome to our mentoring platform, where meaningful connections between mentors and mentees are formed across the globe. We invite you to join our vibrant community and embark on a journey of personal and professional growth.</p>
                 <?php
                     if(!isset($_SESSION['UserID'])){
-                    echo ' <a class="btn btn-primary btn-hero-section mx-5 rounded-pill" href="signup.php" role="button">Join GE Today!</a>';
+                    echo ' <a class="btn main-button btn-long" href="signup.php" role="button">Join GE Today!</a>';
                     }
                    
 
@@ -156,7 +156,7 @@ IF the user is logged in
                     <img class="img-thumbnail rounded-circle img-row" src="img/home_objectives.PNG" alt="objectives">
                 </div>
                 <div class="col">
-                    <h3 class="color-home-header my-4">Core Objectives</h3>
+                    <h3 class="color-home-header my-5">Core Objectives</h3>
                     <p>
                         The objective of Guidance Exchange is to provide a web-based mentorship platform that connects mentors and mentees from diverse backgrounds and industries. The platform aims to facilitate personal and professional development by offering valuable insights, guidance, and real-world knowledge to mentees. Additionally, the platform strives to create a community-driven environment that fosters networking, deeper relationships, and empowerment among its users.
                     </p>
@@ -165,26 +165,26 @@ IF the user is logged in
             </div>
             <div class="row bg-white my-4">
                 <div class="col">
-                    <h3 class="color-home-header my-4">Mission</h3>
+                    <h3 class="color-home-header my-5">Mission</h3>
                     <p>
                         Our mission at Guidance Exchange is to connect individuals worldwide with mentors who can provide valuable guidance, support, and insights to foster personal and professional growth. We strive to create a community-driven platform that empowers users to enhance their skills, expand their networks, and make meaningful connections across various industries and interests.
-                        Previous
+                        
                     </p>
                 </div>
                 <div class="col-12 col-lg-3 d-flex align-items-center justify-content-center">
                     <img class="img-thumbnail rounded-circle img-row" src="img/home_mission.PNG" alt="objectives">
                 </div>
             </div>
-            <div class="row bg-white my-4">
+            <div class="row bg-white my-5">
                 <div class="col-12 col-lg-3 d-flex align-items-center justify-content-center">
                     <img class="img-thumbnail rounded-circle img-row" src="img/home_vision.png" alt="objectives">
                 </div>
                 <div class="col">
-                    <h3 class="color-home-header my-4">Vison</h3>
+                    <h3 class="color-home-header my-5">Vision</h3>
                     <p>
                         Our vision is to become the leading web-based mentorship social media site, enabling individuals to unlock their full potential and achieve their goals through mentorship. We aim to revolutionize the way mentorship is accessed by providing a user-friendly platform that facilitates diverse mentor-mentee connections, fosters community engagement, and promotes lifelong learning. By leveraging technology and collaboration, we envision Guidance Exchange as the go-to platform for mentorship, empowering individuals to thrive in their personal and professional lives.
 
-                        Previous
+                        
 
 
                     </p>
@@ -196,12 +196,12 @@ IF the user is logged in
                     <h3 class="color-home-header">Meet The Team</h3>
                 </div>
                 <div class="col text-center">
-                    <img class="rounded-circle img-team" src="img/Adam.jpg" alt="profile">
+                    <img class="rounded-circle img-team" src="img/adamjawarishpic.jpg" alt="profile">
                     <h6>Adam Jawarish</h6>
                     <p> Database Developer</p>
                 </div>
                 <div class="col text-center">
-                    <img class="rounded-circle img-team" src="img/Bernie.jpg" alt="profile">
+                    <img class="rounded-circle img-team" src="img/berineyanpic.jpg" alt="profile">
                     <h6>Bernie Yanos</h6>
                     <p>Software Developer</p>
                 </div>

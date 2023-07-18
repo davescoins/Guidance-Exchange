@@ -23,7 +23,7 @@
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="home.php"><img src="img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>
-                <a type="button" href="login.php" class="btn btn-hero-section text-white rounded-pill">
+                <a type="button" href="login.php" class="btn main-button">
                     Login
                 </a>
         </div>
@@ -60,13 +60,13 @@
         }
         ?>
 
-        <form id="signupForm" method="POST" action="signup_process.php" role="form" data-toggle="validator">
+        <form class="needs-validation" id="signupForm" method="POST" action="signup_process.php" role="form" data-toggle="validator" novalidate>
             <div class="container container-singupform py-4">
 
                 <div class="row py-2">
                     <div class="col-12">
                         <p> What do you want to sign up as?</p>
-                        <select class="form-select" id="userType" name="userType" onchange="toggleFields()">
+                        <select class="form-select was-validated" id="userType" name="userType" onchange="toggleFields()">
                             <option value="1">Mentor</option>
                             <option value="0" selected>Mentee</option>
 
@@ -78,10 +78,16 @@
                     <div class="col-12 col-lg-6">
                         <label for="firstName" class="form-label text-signup-label"> First Name</label>
                         <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter First Name" required>
+                        <div class="invalid-feedback">
+                        First Name is required.
+                        </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <label for="lastName" class="form-label text-signup-label"> Last Name</label>
                         <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter Last Name" required>
+                        <div class="invalid-feedback">
+                        Last name is required.
+                        </div>
                     </div>
                 </div>
                 <div class="row py-2">
@@ -167,18 +173,27 @@
                 <div class="row py-2">
                     <div class="col-12 col-lg-6">
                         <label for="userName" class="form-label text-signup-label"> User Name</label>
-                        <input type="text" class="form-control" id="userName" name="userName" placeholder="Enter your User Name">
+                        <input type="text" class="form-control" id="userName" name="userName" placeholder="Enter your User Name" required>
+                        <div class="invalid-feedback">
+                        User Name is required.
+                        </div>
                     </div>
                     <div class="col">
                         <label for="userPassword" class="form-label text-signup-label"> Password</label>
-                        <input type="password" class="form-control" id="userPassword" name="userPassword" placeholder="Enter your Password">
+                        <input type="password" class="form-control" id="userPassword" name="userPassword" placeholder="Enter your Password " required>
+                        <div class="invalid-feedback">
+                        Password is required.
+                        </div>
                     </div>
                 </div>
                 <div class="row py-2">
                     <div class="col-12 col-lg-6">
 
                         <label for="userEmail" class="form-label text-signup-label">Email address</label>
-                        <input type="email" class="form-control" id="userEmail" name="userEmail" placeholder="email@example.com">
+                        <input type="email" class="form-control" id="userEmail" name="userEmail" placeholder="email@example.com" required>
+                        <div class="invalid-feedback">
+                        Email address is required.
+                        </div>
                     </div>
                     <div class="col">
                         <label for="userPhone" class="form-label text-signup-label">Phone number</label>
@@ -302,7 +317,7 @@
 
                 <div class="row my-5">
                     <div class="col text-center">
-                        <input type="submit" name="Register" value="Register" class="btn btn-hero-section text-white rounded-pill">
+                        <input type="submit" name="Register" value="Register" class="btn main-button">
                         </input>
                     </div>
                 </div>
@@ -317,6 +332,28 @@
     <script src="https://kit.fontawesome.com/c5863419fe.js" crossorigin="anonymous"></script>
     <script src="js/form_city_country.js"></script>
     <script src="js/signup.js" lang="javascript">
+    </script>
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
     </script>
 </body>
 <footer>

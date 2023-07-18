@@ -36,7 +36,12 @@ if (mysqli_ping($con)) {
         $userEducation = $_POST['userEducation'];
         $EducationFrom = $_POST['EducationFrom'];
         $EducationEnd = $_POST['EducationEnd'];
-        $mentoringUpload = $_POST['mentoringUpload'];
+        $mentoringUpload = null;
+        
+
+        // $ModeratorStatus = 0;
+        // $SystemAdministratorStatus = 0;
+
 
         // Sql query to auth table return UseId
 
@@ -45,15 +50,23 @@ if (mysqli_ping($con)) {
             username, 
             password,
             email, 
-            phone_number)
+            phone_number
+            -- MentorStatus
+            -- ModeratorStatus, 
+            -- SystemAdministratorStatus
+            )
         VALUES 
             ('" . $loginUserName . "', 
             '" . $loginPassword . "', 
             '" . $email . "', 
             '" . $phoneNumber . "'
+
+
             );
         
         ";
+
+echo "<br> this is the auth query". $sql_auth; 
 
         $rStatus = $con->query($sql_auth);
         $user_id = $con->insert_id;
@@ -61,8 +74,7 @@ if (mysqli_ping($con)) {
         $sql_userT = "
             INSERT INTO userdata_t 
                 (UserID,
-                MentorStatus, 
-                FirstName, 
+                            FirstName, 
                 LastName,
                 LocationCity, 
                 LocationState, 
@@ -80,8 +92,7 @@ if (mysqli_ping($con)) {
                 EducationEndDate
                )
             VALUES 
-                ( '" . $user_id . "', 
-                    '" . $userType . "', 
+                ( '" . $user_id . "',  
                 '" . $firstName . "', 
                 '" . $lastName . "', 
                 '" . $city . "', 
@@ -101,7 +112,42 @@ if (mysqli_ping($con)) {
             
             );
             ";
-        
+
+
+
+if($userType){
+
+
+    $sql_mentorrequests = "INSERT INTO mentorrequests_t
+    ( 
+        UserID, 
+        ResumeLocation,
+        MentorStatement
+
+    )
+VALUES 
+    ('" . $user_id . "', 
+    '" . $mentoringUpload. "', 
+    '" .  $mentoringDetails . "'
+
+    );
+
+";
+
+echo "<br> this is the auth query".  $sql_mentorrequests; 
+
+$rStatus = $con->query($sql_mentorrequests);
+
+
+
+
+
+};
+
+
+
+
+        echo "<br> <br>this is for user table" .$sql_userT;
             
             if ($con->query($sql_userT) === TRUE) {
                 $last_id = $con->insert_id;

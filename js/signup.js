@@ -1,8 +1,11 @@
 var mentorOnlySection = `
             <div class="col-12">
                 <label for="mentoringDetails" class="form-label text-signup-label">Mentoring</label>
-                <textarea rows="3" class="form-control" id="mentoringDetails" name="mentoringDetails" placeholder="Provide a short bio about your mentoring experience." > </textarea>
-            </div>
+                <textarea rows="3" class="form-control" id="mentoringDetails" name="mentoringDetails" placeholder="Provide a short bio about your mentoring experience."  required> </textarea>
+                <div class="invalid-feedback">
+                Mentoring Details is required
+                </div>
+                </div>
             <div class="col-6 py-2">
 
                 <label for="mentoringUpload" class="form-label text-signup-label">Mentoring Verification</label>
