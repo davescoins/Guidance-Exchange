@@ -298,9 +298,9 @@
     echo '<div class="col">';
     echo '<a href="/edit-profile.php"><i class="fa-solid fa-pencil"></i><br>Edit Profile</a>';
     echo '</div>';
-    echo '<div class="col">';
-    echo '<a href="#"><i class="fa-solid fa-share-nodes"></i><br>Share</a>';
-    echo '</div>';
+    // echo '<div class="col">';
+    // echo '<a href="#"><i class="fa-solid fa-share-nodes"></i><br>Share</a>';
+    // echo '</div>';
     echo '<div class="col">';
     echo '<a href="appointments.php?profileID=' . $userID . '"><i class="fa-regular fa-calendar-days"></i></i></i><br>Appointments</a>';
     echo '</div>';

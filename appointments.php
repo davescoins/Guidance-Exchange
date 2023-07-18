@@ -21,6 +21,9 @@
 
 <header>
   <?php
+
+  use function PHPSTORM_META\type;
+
   include('includes/session.inc.php');
   $profileID = $_GET['profileID'];
   ?>
@@ -118,27 +121,49 @@
 
   // Get scheduled appointments information
   if ($userMentorStatus) {
-    $sqlScheduledAppointments = "SELECT `AppointmentTime`,`SchedulerID` FROM `Appointments_t` WHERE `MentorID` = $userID AND `SchedulerID` IS NOT NULL";
+    $sqlScheduledAppointments = "SELECT `AppointmentID`, `AppointmentTime`,`SchedulerID` FROM `Appointments_t` WHERE `MentorID` = $userID AND `SchedulerID` IS NOT NULL AND `Missed` <> 1 AND `Completed` <> 1 AND `Canceled` <> 1";
     $resultScheduledAppointments = mysqli_query($con, $sqlScheduledAppointments);
   } else {
-    $sqlScheduledAppointments = "SELECT `AppointmentTime`,`MentorID` FROM `Appointments_t` WHERE `SchedulerID` = $userID";
+    $sqlScheduledAppointments = "SELECT `AppointmentID`, `AppointmentTime`,`MentorID` FROM `Appointments_t` WHERE `SchedulerID` = $userID AND `Missed` <> 1 AND `Completed` <> 1 AND `Canceled` <> 1";
     $resultScheduledAppointments = mysqli_query($con, $sqlScheduledAppointments);
   }
 
   // Fetch all appointments that have been booked for the user and assign them to an array then sort them in ascending order
   if (mysqli_num_rows($resultScheduledAppointments) > 0) {
     $scheduledAppointmentsArray = array();
+    $pastAppointmentsArray = array();
     while ($scheduledAppointments = mysqli_fetch_assoc($resultScheduledAppointments)) {
       $appointmentDateTime = $scheduledAppointments['AppointmentTime'];
       $appointmentDate = explode(" ", $appointmentDateTime)[0];
       $appointmentTime = explode(" ", $appointmentDateTime)[1];
-      if ($userMentorStatus) {
-        $scheduledAppointmentsArray[] = array($appointmentDate, $appointmentTime, $scheduledAppointments['SchedulerID']);
+
+      if (date_format(date_create($appointmentDateTime), "U") < time()) {
+        if ($userMentorStatus) {
+          $pastAppointmentsArray[] = array($appointmentDate, $appointmentTime, $scheduledAppointments['SchedulerID'], $scheduledAppointments['AppointmentID']);
+        } else {
+          $pastAppointmentsArray[] = array($appointmentDate, $appointmentTime, $scheduledAppointments['MentorID'], $scheduledAppointments['AppointmentID']);
+        }
       } else {
-        $scheduledAppointmentsArray[] = array($appointmentDate, $appointmentTime, $scheduledAppointments['MentorID']);
+        if ($userMentorStatus) {
+          $scheduledAppointmentsArray[] = array($appointmentDate, $appointmentTime, $scheduledAppointments['SchedulerID'], $scheduledAppointments['AppointmentID']);
+        } else {
+          $scheduledAppointmentsArray[] = array($appointmentDate, $appointmentTime, $scheduledAppointments['MentorID'], $scheduledAppointments['AppointmentID']);
+        }
       }
     }
-    sort($scheduledAppointmentsArray);
+
+    function sortByDateTime($a, $b)
+    {
+      $dateComparison = strcmp($a[0], $b[0]);
+      if ($dateComparison == 0) {
+        return strcmp($a[1], $b[1]);
+      }
+      return $dateComparison;
+    }
+
+    usort($pastAppointmentsArray, 'sortByDateTime');
+
+    usort($scheduledAppointmentsArray, 'sortByDateTime');
 
     // Create an associative array with each unique date as a key and each unique date key having an array of the times and their associated scheduler ID
     $scheduledAppointmentsAssoc = array();
@@ -150,13 +175,34 @@
       } else {
         $mentorID = $appointment[2];
       }
+      $appointmentID = $appointment[3];
       if (!isset($scheduledAppointmentsAssoc[$date])) {
         $scheduledAppointmentsAssoc[$date] = array();
       }
       if ($userMentorStatus) {
-        $scheduledAppointmentsAssoc[$date][] = array('time' => $time, 'schedulerID' => $schedulerID);
+        $scheduledAppointmentsAssoc[$date][] = array('time' => $time, 'schedulerID' => $schedulerID, 'appointmentID' => $appointmentID);
       } else {
-        $scheduledAppointmentsAssoc[$date][] = array('time' => $time, 'mentorID' => $mentorID);
+        $scheduledAppointmentsAssoc[$date][] = array('time' => $time, 'mentorID' => $mentorID, 'appointmentID' => $appointmentID);
+      }
+    }
+
+    $pastAppointmentsAssoc = array();
+    foreach ($pastAppointmentsArray as $appointment) {
+      $date = $appointment[0];
+      $time = $appointment[1];
+      if ($userMentorStatus) {
+        $schedulerID = $appointment[2];
+      } else {
+        $mentorID = $appointment[2];
+      }
+      $appointmentID = $appointment[3];
+      if (!isset($pastAppointmentsAssoc[$date])) {
+        $pastAppointmentsAssoc[$date] = array();
+      }
+      if ($userMentorStatus) {
+        $pastAppointmentsAssoc[$date][] = array('time' => $time, 'schedulerID' => $schedulerID, 'appointmentID' => $appointmentID);
+      } else {
+        $pastAppointmentsAssoc[$date][] = array('time' => $time, 'mentorID' => $mentorID, 'appointmentID' => $appointmentID);
       }
     }
 
@@ -167,6 +213,22 @@
       $uniqueMentorIDs = array();
     }
     foreach ($scheduledAppointmentsAssoc as $date => $appointments) {
+      foreach ($appointments as $appointment) {
+        if ($userMentorStatus) {
+          $schedulerID = $appointment['schedulerID'];
+          if (!in_array($schedulerID, $uniqueSchedulerIDs)) {
+            $uniqueSchedulerIDs[] = $schedulerID;
+          }
+        } else {
+          $mentorID = $appointment['mentorID'];
+          if (!in_array($mentorID, $uniqueMentorIDs)) {
+            $uniqueMentorIDs[] = $mentorID;
+          }
+        }
+      }
+    }
+
+    foreach ($pastAppointmentsAssoc as $date => $appointments) {
       foreach ($appointments as $appointment) {
         if ($userMentorStatus) {
           $schedulerID = $appointment['schedulerID'];
@@ -219,10 +281,11 @@
     }
   } else {
     $scheduledAppointmentsArray = null;
+    $pastAppointmentsArray = null;
   }
 
   // Get open appointments slots information
-  $sqlOpenAppointments = "SELECT `AppointmentTime` FROM `Appointments_t` WHERE `MentorID` = $userID AND `SchedulerID` IS NULL";
+  $sqlOpenAppointments = "SELECT `AppointmentTime` FROM `Appointments_t` WHERE `MentorID` = $userID AND `SchedulerID` IS NULL AND `AppointmentTime` > NOW()";
   $resultOpenAppointments = mysqli_query($con, $sqlOpenAppointments);
 
   if (mysqli_num_rows($resultOpenAppointments) > 0) {
@@ -297,19 +360,19 @@
     echo '</div>';
   }
   echo '<h1 class="profile-name mb-2">' . $firstName . ' ' . $lastName . '</h1>';
-  if ($rating != null) {
-    echo '<div class="flex-row">';
-    for ($x = 1; $x <= $rating; $x++) {
-      echo '<i class="fa-solid fa-star filled px-1"></i>';
-    }
-    if ($rating < 5) {
-      $unfilled = 5 - $rating;
-      for ($y = 1; $y <= $unfilled; $y++) {
-        echo '<i class="fa-solid fa-star unfilled px-1"></i>';
-      }
-    }
-    echo '</div>';
-  }
+  // if ($rating != null) {
+  //   echo '<div class="flex-row">';
+  //   for ($x = 1; $x <= $rating; $x++) {
+  //     echo '<i class="fa-solid fa-star filled px-1"></i>';
+  //   }
+  //   if ($rating < 5) {
+  //     $unfilled = 5 - $rating;
+  //     for ($y = 1; $y <= $unfilled; $y++) {
+  //       echo '<i class="fa-solid fa-star unfilled px-1"></i>';
+  //     }
+  //   }
+  //   echo '</div>';
+  // }
   if ($city != null) {
     echo '<h2 class="city-name mt-2 mb-3">' . $city;
     if ($state != null) {
@@ -356,6 +419,101 @@
   }
   ?>
 
+  <!-- *** Past Appointments Section *** -->
+
+  <section class="content-section pt-4 container d-flex align-items-center">
+    <div class="w-100 d-flex justify-content-center p-1 mb-3 appointments__section-heading">
+      <h1>Past Appointments</h1>
+    </div>
+
+    <?php
+    if ($pastAppointmentsArray != null) {
+      // Group the data by month
+      $groupedPastAppointments = [];
+      foreach ($pastAppointmentsAssoc as $date => $entries) {
+        $month = date('F Y', strtotime($date));
+        $groupedPastAppointments[$month][$date] = $entries;
+      }
+
+      // Print the grouped data
+      foreach ($groupedPastAppointments as $month => $monthData) {
+        echo '<div class="profile-section mb-3">';
+        echo '<div class="d-flex justify-content-center appointments__month-heading">';
+        echo '<h2 class="appointments__section-subHeading mb-3 mt-4">' . $month . '</h2>';
+        echo '</div>';
+        echo '<div class="container">';
+
+        $firstDate = true;
+
+        foreach ($monthData as $date => $entries) {
+          if ($firstDate) {
+            echo '<div class="row p-2">';
+            $firstDate = false;
+          } else {
+            echo '<div class="row p-2 appointments__dayRow">';
+          }
+          echo '<div class="col-3">';
+          echo '<span class="appointments__day pe-1">' . date_format(date_create($date), "j") . '</span>';
+          echo '<span class="appointments__dayOfWeek">' . date_format(date_create($date), "D") . '</span>';
+          echo '</div>';
+          echo '<div class="col-9 row">';
+
+          foreach ($entries as $entry) {
+            $time = $entry['time'];
+            $appointmentID = $entry['appointmentID'];
+            if ($userMentorStatus) {
+              $schedulerID = $entry['schedulerID'];
+
+              echo '<div class="col-3 d-flex align-items-center mb-3">';
+              echo '<p class="scheduler-name m-0">' . date_format(date_create($time), "g:i A") . '</p>';
+              echo '</div>';
+              echo '<div class="col-2 mb-3">';
+              echo '<a href="profile.php?profileID=' . $schedulerID . '"><img class="schedule-photo" src="upload/' . $schedulerData[$schedulerID]['ProfilePicture'] . '" alt="' . $schedulerData[$schedulerID]['FirstName'] . ' ' . $schedulerData[$schedulerID]['LastName'] . ' Profile Picture"></a>';
+              echo '</div>';
+              echo '<div class="col-3 d-flex align-items-center mb-3">';
+              echo '<p class="scheduler-name m-0">' . $schedulerData[$schedulerID]['FirstName'] . ' ' . $schedulerData[$schedulerID]['LastName'] . '</p>';
+            } else {
+              $mentorID = $entry['mentorID'];
+
+              echo '<div class="col-3 d-flex align-items-center mb-3">';
+              echo '<p class="scheduler-name m-0">' . date_format(date_create($time), "g:i A") . '</p>';
+              echo '</div>';
+              echo '<div class="col-2 mb-3">';
+              echo '<a href="profile.php?profileID=' . $mentorID . '"><img class="schedule-photo" src="upload/' . $mentorData[$mentorID]['ProfilePicture'] . '" alt="' . $mentorData[$mentorID]['FirstName'] . ' ' . $mentorData[$mentorID]['LastName'] . ' Profile Picture"></a>';
+              echo '</div>';
+              echo '<div class="col-3 d-flex align-items-center mb-3">';
+              echo '<p class="scheduler-name m-0">' . $mentorData[$mentorID]['FirstName'] . ' ' . $mentorData[$mentorID]['LastName'] . '</p>';
+            }
+            echo '</div>';
+            echo '<div class="col-4 d-flex align-items-center justify-content-center mb-3">';
+            echo '<form action="modify-appointment.php" method="POST">';
+            echo '<input type="hidden" name="appointmentID" value="' . $appointmentID . '"/>';
+            echo '<input type="hidden" name="complete" value="true"/>';
+            echo '<button type="submit" class="btn btn-success me-2">Complete</button>';
+            echo '</form>';
+            echo '<form action="modify-appointment.php" method="POST">';
+            echo '<input type="hidden" name="appointmentID" value="' . $appointmentID . '"/>';
+            echo '<input type="hidden" name="missed" value="true"/>';
+            echo '<button type="submit" class="btn btn-danger">Missed</button>';
+            echo '</form>';
+            echo '</div>';
+          }
+
+          echo '</div>';
+          echo '</div>';
+        }
+
+        echo '</div>';
+        echo '</div>';
+      }
+    } else {
+      echo '<h2 class="appointments__section-subHeading mb-3">No past appointments!</h2>';
+    }
+    ?>
+
+  </section>
+
+
   <!-- *** Scheduled Appointments Section *** -->
 
   <section class="content-section pt-4 container d-flex align-items-center">
@@ -397,6 +555,7 @@
 
           foreach ($entries as $entry) {
             $time = $entry['time'];
+            $appointmentID = $entry['appointmentID'];
             if ($userMentorStatus) {
               $schedulerID = $entry['schedulerID'];
 
@@ -406,7 +565,7 @@
               echo '<div class="col-2 mb-3">';
               echo '<a href="profile.php?profileID=' . $schedulerID . '"><img class="schedule-photo" src="upload/' . $schedulerData[$schedulerID]['ProfilePicture'] . '" alt="' . $schedulerData[$schedulerID]['FirstName'] . ' ' . $schedulerData[$schedulerID]['LastName'] . ' Profile Picture"></a>';
               echo '</div>';
-              echo '<div class="col-7 d-flex align-items-center mb-3">';
+              echo '<div class="col-4 d-flex align-items-center mb-3">';
               echo '<p class="scheduler-name m-0">' . $schedulerData[$schedulerID]['FirstName'] . ' ' . $schedulerData[$schedulerID]['LastName'] . '</p>';
             } else {
               $mentorID = $entry['mentorID'];
@@ -417,9 +576,16 @@
               echo '<div class="col-2 mb-3">';
               echo '<a href="profile.php?profileID=' . $mentorID . '"><img class="schedule-photo" src="upload/' . $mentorData[$mentorID]['ProfilePicture'] . '" alt="' . $mentorData[$mentorID]['FirstName'] . ' ' . $mentorData[$mentorID]['LastName'] . ' Profile Picture"></a>';
               echo '</div>';
-              echo '<div class="col-7 d-flex align-items-center mb-3">';
+              echo '<div class="col-4 d-flex align-items-center mb-3">';
               echo '<p class="scheduler-name m-0">' . $mentorData[$mentorID]['FirstName'] . ' ' . $mentorData[$mentorID]['LastName'] . '</p>';
             }
+            echo '</div>';
+            echo '<div class="col-3 d-flex align-items-center justify-content-center mb-3">';
+            echo '<form action="modify-appointment.php" method="POST">';
+            echo '<input type="hidden" name="appointmentID" value="' . $appointmentID . '"/>';
+            echo '<input type="hidden" name="canceled" value="true"/>';
+            echo '<button type="submit" class="btn btn-danger">Cancel</button>';
+            echo '</form>';
             echo '</div>';
           }
 
