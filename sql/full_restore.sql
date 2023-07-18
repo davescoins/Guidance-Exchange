@@ -730,7 +730,8 @@ VALUES
   (27, 1, 0, 0),
   (28, 4, 0, 0),
   (29, 3, 0, 0),
-  (30, 4, 0, 0)
+  (30, 4, 0, 0);
+
 INSERT INTO
   Skills_t (`SkillName`, `SkillGroup`)
 VALUES
@@ -753,10 +754,7 @@ VALUES
     'Creativity',
     'Entrepreneurial Skills'
   ),
-  (
-    'Teamwork',
-    'Entrepreneurial Skills'
-  ),
+  ('Teamwork', 'Entrepreneurial Skills'),
   (
     'Problem Solving',
     'Entrepreneurial Skills'
