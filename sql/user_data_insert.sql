@@ -226,9 +226,9 @@ VALUES
   ),
   (
     8,
-    'System',
-    'Administrator',
-    null,
+    'András',
+    'Arató',
+    'andras-arato.png',
     null,
     'abstract-lines-pattern_trans.png',
     null,

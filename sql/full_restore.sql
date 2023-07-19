@@ -187,9 +187,9 @@ VALUES
     0
   ),
   (
-    'system.admin',
+    'andras.arato',
     '12345',
-    'system.admin@guidanceexchange.com',
+    'harold.pain@hide.com',
     '(123) 456-7890',
     0,
     0,
@@ -424,9 +424,9 @@ VALUES
   ),
   (
     8,
-    'System',
-    'Administrator',
-    null,
+    'András',
+    'Arató',
+    'andras-arato.png',
     null,
     'abstract-lines-pattern_trans.png',
     null,
