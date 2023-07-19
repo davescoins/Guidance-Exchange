@@ -46,7 +46,7 @@
             <a class="nav-link highlight-link nav-text px-4" href="profile.php?profileID=<?php echo $userID ?>">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
+            <a class="nav-link highlight-link nav-text px-4" href="communities.php">Communities</a>
           </li>
         </ul>
         <ul class="navbar-nav d-flex flex-row me-1">
@@ -196,30 +196,47 @@
       <div class="w-25 d-flex justify-content-center">
         <form action="modify-moderator.php" method="POST" class="w-100">
           <div class="mb-3">
-            <label for="firstName" class="form-label">First Name</label>
-            <input type="text" class="form-control" id="firstName" name="firstName" required>
+            <label for="selection">New or Existing User?</label>
+            <select class="form-select" name="selection" id="selection" aria-label="Moderator Account Creation">
+              <option value="new" selected>New User</option>
+              <option value="existing">Existing User</option>
+            </select>
           </div>
-          <div class="mb-3">
-            <label for="lastName" class="form-label">Last Name</label>
-            <input type="text" class="form-control" id="lastName" name="lastName" required>
+          <div id="new" style="display: block;">
+            <div class="mb-3">
+              <label for="firstName" class="form-label">First Name</label>
+              <input type="text" class="form-control" id="firstName" name="firstName" required>
+            </div>
+            <div class="mb-3">
+              <label for="lastName" class="form-label">Last Name</label>
+              <input type="text" class="form-control" id="lastName" name="lastName" required>
+            </div>
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="tel" class="form-label">Phone Number</label>
+              <input type="tel" class="form-control" id="tel" name="tel" required>
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" name="username" required>
-          </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" required>
-          </div>
-          <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" required>
-          </div>
-          <div class="mb-3">
-            <label for="tel" class="form-label">Phone Number</label>
-            <input type="tel" class="form-control" id="tel" name="tel" required>
-          </div>
-          <button type="submit" class="btn main-button">Create</button>
+          <div id="existing" style="display: none;">
+            <div class="mb-3">
+              <label for="existingUser" class="col-form-label">User Search</label>
+              <div class="dropdown" id="userSearch">
+                <input type="text" class="form-control" id="existingUser" placeholder="Search for a user" autocomplete="off">
+                <ul class="dropdown-menu" id="userSearchResults"></ul>
+              </div>
+            </div>
+            <button type="submit" class="btn main-button">Create</button>
         </form>
       </div>
     </div>
@@ -228,6 +245,7 @@
   <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/jquery/jquery-3.7.0.min.js"></script>
   <script src="https://kit.fontawesome.com/c5863419fe.js" crossorigin="anonymous"></script>
+  <script src="js/admin.js"></script>
 </body>
 
 <footer>
