@@ -52,7 +52,7 @@
             ?>
           </li>
           <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
+            <a class="nav-link highlight-link nav-text px-4" href="communities.php">Communities</a>
           </li>
         </ul>
         <ul class="navbar-nav d-flex flex-row me-1">
@@ -313,11 +313,13 @@
     if (in_array($profileID, $associationsArray)) {
       echo '<form action="associations.php" method="POST">';
       echo '<input type="hidden" name="association" value="' . $profileID . '">';
+      echo '<input type="hidden" name="profile" value="' . $profileID . '">';
       echo '<button class="btn profile__buttons" type="submit" name="update" value="remove"><i class="fa-solid fa-minus fa-xl px-4"></i><br>Remove Association</button>';
       echo '</form>';
     } else {
       echo '<form action="associations.php" method="POST">';
       echo '<input type="hidden" name="association" value="' . $profileID . '">';
+      echo '<input type="hidden" name="profile" value="' . $profileID . '">';
       echo '<button class="btn profile__buttons" type="submit" name="update" value="add"><i class="fa-solid fa-plus fa-xl px-4"></i><br>Add Association</button>';
       echo '</form>';
     }
@@ -328,46 +330,42 @@
     echo '<div class="col d-flex align-items-center justify-content-center">';
     echo '<a href="#" data-bs-toggle="modal" data-bs-target="#newMessageModal' . $profileID . '"><i class="fa-solid fa-envelope fa-xl px-4"></i><br>Send Message</a>';
     echo '</div>';
-
-    // Start New Message Modal
-    echo '<div class="modal fade" id="newMessageModal' . $profileID . '" tabindex="-1" aria-labelledby="newMessageModalLabel' . $profileID . '" aria-hidden="true">
-<div class="modal-dialog modal-dialog-centered">
-  <div class="modal-content">
-    <div class="modal-header modal-header-gradient">
-      <h1 class="modal-title fs-5" id="newMessageModalLabel' . $profileID . '">New Message</h1>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    </div>
-    <div class="modal-body">
-      <form action="new-message.php" method="POST">
-        <div class="mb-3">
-          <label for="recipientName" class="col-form-label">Recipient:</label>
-          <div class="dropdown" id="newMessage">
-            <input type="text" class="form-control" id="recipientName" placeholder="Search for a person" autocomplete="off" value="' . $firstName . ' ' . $lastName . '" disabled>
-            <ul class="dropdown-menu" id="messageSearchResults"></ul>
-            <input type="hidden" name="recipientID" value="' . $profileID . '">
-          </div>
-        </div>
-        <div class="mb-3">
-          <label for="messageText" class="col-form-label">Message:</label>
-          <textarea class="form-control" id="messageText" name="message"></textarea>
-        </div>
-
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Cancel</button>
-      <button type="submit" class="btn main-button btn-std">Send</button>
-    </div>
-    </form>
-  </div>
-</div>
-</div>';
-    // End New Message Modal
-
     echo '</div>';
     echo '</section>';
   }
 
-
+  // Start New Message Modal
+  echo '<div class="modal fade" id="newMessageModal' . $profileID . '" tabindex="-1" aria-labelledby="newMessageModalLabel' . $profileID . '" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header modal-header-gradient">
+        <h1 class="modal-title fs-5" id="newMessageModalLabel' . $profileID . '">New Message</h1>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="new-message.php" method="POST">
+          <div class="mb-3">
+            <label for="recipientName" class="col-form-label">Recipient:</label>
+            <div class="dropdown" id="newMessage">
+              <input type="text" class="form-control" id="recipientName" placeholder="Search for a person" autocomplete="off" value="' . $firstName . ' ' . $lastName . '" disabled>
+              <ul class="dropdown-menu" id="messageSearchResults"></ul>
+              <input type="hidden" name="recipientID" value="' . $profileID . '">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="messageText" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="messageText" name="message"></textarea>
+          </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="submit" class="btn main-button btn-std">Send</button>
+        <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Cancel</button>
+      </div>
+      </form>
+    </div>
+  </div>
+  </div>';
+  // End New Message Modal
 
   // *** Content Section ***
 

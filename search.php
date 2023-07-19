@@ -46,7 +46,7 @@
             <a class="nav-link highlight-link nav-text px-4" href="profile.php?profileID=<?php echo $userID ?>">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
+            <a class="nav-link highlight-link nav-text px-4" href="communities.php">Communities</a>
           </li>
         </ul>
         <ul class="navbar-nav d-flex flex-row me-1">
@@ -213,7 +213,7 @@
                 <div class="modal-content">
                   <div class="modal-header modal-header-gradient">
                     <h1 class="modal-title fs-5" id="newMessageModalLabel' . $foundUser['UserID'] . '">New Message</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
                     <form action="new-message.php" method="POST">
@@ -231,9 +231,9 @@
                       </div>
         
                   </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Cancel</button>
+                  <div class="modal-footer d-flex justify-content-center">
                     <button type="submit" class="btn main-button btn-std">Send</button>
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Cancel</button>
                   </div>
                   </form>
                 </div>

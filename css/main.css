@@ -134,6 +134,35 @@ body {
   flex-direction: column;
 }
 
+/* Modals */
+
+.modal-header {
+  border: none;
+  color: #f5f5f5;
+}
+
+.modal-header-gradient {
+  background: linear-gradient(
+    to bottom right,
+    rgb(36, 54, 101),
+    rgb(56, 84, 131)
+  );
+}
+
+/* .modal-header .btn-close {
+  color: #ffffff;
+  --bs-btn-close-color: #ffffff;
+} */
+
+.modal-body {
+  color: #333;
+  background-color: #f5f5f5;
+}
+
+.modal-footer {
+  border: top;
+}
+
 /* Footer */
 .content {
   flex: 1;

@@ -48,7 +48,7 @@
             <a class="nav-link highlight-link nav-text px-4" href="profile.php?profileID=<?php echo $userID ?>">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
+            <a class="nav-link highlight-link nav-text px-4" href="communities.php">Communities</a>
           </li>
         </ul>
         <ul class="navbar-nav d-flex flex-row me-1">
@@ -204,7 +204,7 @@
     $years[] = $i;
   }
 
-  $overlayArray = array('BioTech' => 'biotech-pattern.png', 'Circuits' => 'circuit_gray_transparent.png');
+  $overlayArray = array('BioTech' => 'biotech-pattern.png', 'Circuits' => 'circuit_gray_transparent.png', 'Waves' => 'abstract-lines-pattern_trans.png');
 
   // *** Photo Section ***
 
