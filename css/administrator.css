@@ -1,0 +1,147 @@
+/* Administrator Photo Section */
+
+.administrator__photo-section {
+  background-color: #243665;
+}
+
+.administrator__photo-section .container-fluid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.administrator__photo-section .administrator__profile-photo {
+  width: 13rem;
+  border: 5px solid;
+  border-radius: 100%;
+}
+
+.administrator__photo-section .administrator__profile-name {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #f5f5f5;
+}
+
+.administrator__section-heading {
+  border-bottom: #333 solid 2px;
+}
+
+.administrator__section-heading h1 {
+  color: #333;
+}
+
+.administrator__section-subHeading {
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.administrator__tag {
+  background-color: #e14658;
+  color: #f5f5f5;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.administrator__profile-wrap {
+  height: 110px;
+  width: 12rem;
+  overflow: hidden;
+}
+
+.administrator__profile-wrap h3 {
+  color: #333;
+}
+
+.administrator__profile-wrap p {
+  color: #5e5e5e;
+  font-size: 1rem;
+}
+
+.administrator__profile-icon {
+  height: 110px;
+  border-right: #b0b0b0 1px solid;
+  color: #e14658;
+  font-size: 2.5rem;
+}
+
+.administrator__profile-section {
+  background-color: #ffffff;
+  border-radius: 25px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), 0 2px 2px rgba(0, 0, 0, 0.2),
+    0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.1),
+    0 16px 16px rgba(0, 0, 0, 0.05);
+}
+
+/* Administrator Content Section */
+
+.content-section .container-fluid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.moderators-section {
+  background-color: #ffffff;
+  border-radius: 25px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), 0 2px 2px rgba(0, 0, 0, 0.2),
+    0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.1),
+    0 16px 16px rgba(0, 0, 0, 0.05);
+  width: 50rem;
+}
+
+.moderator-wrap {
+  height: 60px;
+  width: auto;
+}
+
+.moderator-wrap h3 {
+  color: #333;
+}
+
+.moderator-wrap p {
+  color: #5e5e5e;
+  font-size: 1rem;
+}
+
+.moderator-picture {
+  height: 60px;
+  border-right: #b0b0b0 1px solid;
+  width: auto;
+}
+
+.moderator-picture img {
+  height: 50px;
+}
+
+.moderator-icons {
+  height: 60px;
+  width: auto;
+}
+
+.moderator-icons a:link,
+.moderator-icons a:visited,
+.moderator-icons a:active {
+  color: #e14658;
+}
+
+.moderator-icons a:hover {
+  color: #8bd8bd;
+}
+
+.moderator-icons a:active {
+  color: #64bba1;
+}
+
+.moderator-icons .btn {
+  color: #e14658;
+  font-size: 1.75rem;
+}
+
+.moderator-icons .btn:hover {
+  color: #8bd8bd;
+}
+
+.moderator-icons .btn:active {
+  color: #64bba1;
+}

@@ -105,7 +105,7 @@ if (isset($_POST['submit'])) {
     if ($user['ModeratorStatus'] == 1) {
       $url = 'moderator-dashboard.php?profileID=' . $_SESSION['UserID'];
     } elseif ($user['SystemAdministratorStatus'] == 1) {
-      $url = 'administrator-dashboard.php?profileID=' . $_SESSION['UserID'];
+      $url = 'admin-dashboard.php?profileID=' . $_SESSION['UserID'];
     } else {
       $url = 'profile.php?profileID=' . $_SESSION['UserID'];
     }
