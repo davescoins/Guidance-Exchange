@@ -4,9 +4,9 @@ CREATE TABLE Auth_t (
   password VARCHAR(100),
   email VARCHAR(255),
   phone_number VARCHAR(255),
-  MentorStatus BOOL NOT NULL,
-  ModeratorStatus BOOL NOT NULL,
-  SystemAdministratorStatus BOOL NOT NULL,
+  MentorStatus INT(1) NOT NULL DEFAULT 0,
+  ModeratorStatus INT(1) NOT NULL DEFAULT 0,
+  SystemAdministratorStatus INT(1) NOT NULL DEFAULT 0,
   CONSTRAINT Auth_t_PK PRIMARY KEY (UserID)
 ) Auto_Increment = 1;
 
@@ -51,6 +51,9 @@ CREATE TABLE Appointments_t (
   MentorID INT(9) NOT NULL,
   SchedulerID INT(9),
   AppointmentTime DATETIME,
+  Missed INT(1) NOT NULL DEFAULT 0,
+  Completed INT(1) NOT NULL DEFAULT 0,
+  Canceled INT(1) NOT NULL DEFAULT 0,
   CONSTRAINT Appointments_t_PK PRIMARY KEY (AppointmentID),
   CONSTRAINT Appointments_t_FK1 FOREIGN KEY (MentorID) REFERENCES Auth_t(UserID),
   CONSTRAINT Appointments_t_FK2 FOREIGN KEY (SchedulerID) REFERENCES Auth_t(UserID)
@@ -88,7 +91,8 @@ CREATE TABLE Message_Recipient_t (
   MessageRecipientID INT(9) NOT NULL Auto_Increment,
   MessageID INT(9) NOT NULL,
   RecipientID INT(9) NOT NULL,
-  IsRead BOOL NOT NULL,
+  IsRead INT(1) NOT NULL,
+  IsDeleted INT(1) NOT NULL DEFAULT 0,
   CONSTRAINT Message_Recipient_t_PK PRIMARY KEY (MessageRecipientID),
   CONSTRAINT Message_Recipient_t_FK1 FOREIGN KEY (MessageID) REFERENCES Messages_t(MessageID),
   CONSTRAINT Message_Recipient_t_FK2 FOREIGN KEY (RecipientID) REFERENCES Auth_t(UserID)
@@ -183,9 +187,9 @@ VALUES
     0
   ),
   (
-    'system.admin',
+    'andras.arato',
     '12345',
-    'system.admin@guidanceexchange.com',
+    'harold.pain@hide.com',
     '(123) 456-7890',
     0,
     0,
@@ -420,9 +424,9 @@ VALUES
   ),
   (
     8,
-    'System',
-    'Administrator',
-    null,
+    'András',
+    'Arató',
+    'andras-arato.png',
     null,
     'abstract-lines-pattern_trans.png',
     null,
@@ -693,38 +697,43 @@ VALUES
   );
 
 INSERT INTO
-  Message_Recipient_t (`MessageID`, `RecipientID`, `IsRead`)
+  Message_Recipient_t (
+    `MessageID`,
+    `RecipientID`,
+    `IsRead`,
+    `IsDeleted`
+  )
 VALUES
-  (1, 2, 0),
-  (2, 5, 0),
-  (3, 1, 0),
-  (4, 6, 0),
-  (5, 3, 0),
-  (6, 4, 0),
-  (7, 3, 0),
-  (8, 4, 0),
-  (9, 6, 0),
-  (10, 5, 0),
-  (11, 4, 0),
-  (12, 2, 0),
-  (13, 6, 0),
-  (14, 5, 0),
-  (15, 1, 0),
-  (16, 3, 0),
-  (17, 2, 0),
-  (18, 4, 0),
-  (19, 6, 0),
-  (20, 1, 0),
-  (21, 1, 0),
-  (22, 3, 0),
-  (23, 4, 0),
-  (24, 2, 0),
-  (25, 5, 0),
-  (26, 6, 0),
-  (27, 1, 0),
-  (28, 4, 0),
-  (29, 3, 0),
-  (30, 4, 0);
+  (1, 2, 0, 0),
+  (2, 5, 0, 0),
+  (3, 1, 0, 0),
+  (4, 6, 0, 0),
+  (5, 3, 0, 0),
+  (6, 4, 0, 0),
+  (7, 3, 0, 0),
+  (8, 4, 0, 0),
+  (9, 6, 0, 0),
+  (10, 5, 0, 0),
+  (11, 4, 0, 0),
+  (12, 2, 0, 0),
+  (13, 6, 0, 0),
+  (14, 5, 0, 0),
+  (15, 1, 0, 0),
+  (16, 3, 0, 0),
+  (17, 2, 0, 0),
+  (18, 4, 0, 0),
+  (19, 6, 0, 0),
+  (20, 1, 0, 0),
+  (21, 1, 0, 0),
+  (22, 3, 0, 0),
+  (23, 4, 0, 0),
+  (24, 2, 0, 0),
+  (25, 5, 0, 0),
+  (26, 6, 0, 0),
+  (27, 1, 0, 0),
+  (28, 4, 0, 0),
+  (29, 3, 0, 0),
+  (30, 4, 0, 0);
 
 INSERT INTO
   Skills_t (`SkillName`, `SkillGroup`)
@@ -748,10 +757,7 @@ VALUES
     'Creativity',
     'Entrepreneurial Skills'
   ),
-  (
-    'Teamwork',
-    'Entrepreneurial Skills'
-  ),
+  ('Teamwork', 'Entrepreneurial Skills'),
   (
     'Problem Solving',
     'Entrepreneurial Skills'

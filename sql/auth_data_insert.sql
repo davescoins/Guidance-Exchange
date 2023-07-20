@@ -73,9 +73,9 @@ VALUES
     0
   ),
   (
-    'system.admin',
+    'andras.arato',
     '12345',
-    'system.admin@guidanceexchange.com',
+    'andras.arato@guidanceexchange.com',
     '(123) 456-7890',
     0,
     0,

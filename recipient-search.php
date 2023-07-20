@@ -11,13 +11,13 @@ if (isset($_POST['query'])) {
   FROM `UserData_t` U
   JOIN `Auth_t` A ON U.`UserID` = A.`UserID`
   WHERE U.`FullName` LIKE '%$query%'
-    AND A.`SystemAdministratorStatus` <> '1' AND U.`UserID` <> '1'
+    AND A.`SystemAdministratorStatus` <> '1' AND U.`UserID` <> $userID
   ORDER BY U.`LastName`";
   } else {
     $userSql = "SELECT U.`UserID`, U.`FirstName`, U.`LastName`, U.`ProfilePicture`, A.`MentorStatus`, A.`ModeratorStatus`, A.`SystemAdministratorStatus`
   FROM `UserData_t` U
   JOIN `auth_t` A ON U.`UserID` = A.`UserID`
-  WHERE U.`FullName` LIKE '%$query%'
+  WHERE U.`FullName` LIKE '%$query%' AND U.`UserID` <> $userID
   ORDER BY U.`LastName`";
   }
   $userQueryResult = mysqli_query($con, $userSql);

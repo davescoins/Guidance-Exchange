@@ -23,9 +23,9 @@
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="home.php"><img src="img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>
-                <a type="button" href="login.php" class="btn main-button">
-                    Login
-                </a>
+            <a type="button" href="login.php" class="btn main-button btn-std">
+                Login
+            </a>
         </div>
     </nav>
 
@@ -79,14 +79,14 @@
                         <label for="firstName" class="form-label text-signup-label"> First Name</label>
                         <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter First Name" required>
                         <div class="invalid-feedback">
-                        First Name is required.
+                            First Name is required.
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <label for="lastName" class="form-label text-signup-label"> Last Name</label>
                         <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter Last Name" required>
                         <div class="invalid-feedback">
-                        Last name is required.
+                            Last name is required.
                         </div>
                     </div>
                 </div>
@@ -175,14 +175,14 @@
                         <label for="userName" class="form-label text-signup-label"> User Name</label>
                         <input type="text" class="form-control" id="userName" name="userName" placeholder="Enter your User Name" required>
                         <div class="invalid-feedback">
-                        User Name is required.
+                            User Name is required.
                         </div>
                     </div>
                     <div class="col">
                         <label for="userPassword" class="form-label text-signup-label"> Password</label>
                         <input type="password" class="form-control" id="userPassword" name="userPassword" placeholder="Enter your Password " required>
                         <div class="invalid-feedback">
-                        Password is required.
+                            Password is required.
                         </div>
                     </div>
                 </div>
@@ -192,7 +192,7 @@
                         <label for="userEmail" class="form-label text-signup-label">Email address</label>
                         <input type="email" class="form-control" id="userEmail" name="userEmail" placeholder="email@example.com" required>
                         <div class="invalid-feedback">
-                        Email address is required.
+                            Email address is required.
                         </div>
                     </div>
                     <div class="col">
@@ -317,8 +317,11 @@
 
                 <div class="row my-5">
                     <div class="col text-center">
-                        <input type="submit" name="Register" value="Register" class="btn main-button">
-                        </input>
+                        <<<<<<< HEAD <input type="submit" name="Register" value="Register" class="btn main-button">
+                            =======
+                            <input type="submit" name="Register" value="Register" class="btn main-button btn-std">
+                            >>>>>>> userProfile
+                            </input>
                     </div>
                 </div>
             </div>
@@ -335,25 +338,25 @@
     </script>
     <script>
         // Example starter JavaScript for disabling form submissions if there are invalid fields
-(function () {
-  'use strict'
+        (function() {
+            'use strict'
 
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  var forms = document.querySelectorAll('.needs-validation')
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
 
-  // Loop over them and prevent submission
-  Array.prototype.slice.call(forms)
-    .forEach(function (form) {
-      form.addEventListener('submit', function (event) {
-        if (!form.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
 
-        form.classList.add('was-validated')
-      }, false)
-    })
-})()
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
     </script>
 </body>
 <footer>

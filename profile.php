@@ -52,13 +52,28 @@
             ?>
           </li>
           <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
+            <a class="nav-link highlight-link nav-text px-4" href="communities.php">Communities</a>
           </li>
         </ul>
         <ul class="navbar-nav d-flex flex-row me-1">
           <li class="nav-item me-3 me-lg-0 px-2 d-flex align-items-center">
             <form class="d-flex" role="search" action="search.php" method="GET">
-              <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
+              <div class="input-group">
+                <input class="form-control" name="query" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
+                <button type="button" class="btn main-button btn-drop dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end">
+                  <div class="my-2 ms-3">
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="mentorSearch" name="mentorSearch">
+                      <label class="form-check-label" for="mentorSearch">
+                        Mentors
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
             </form>
           </li>
@@ -153,26 +168,27 @@
 
   if ($mentorStatus == true) {
     // If user is a mentor, get appointment information
-    $sqlAvailableAppointments = "SELECT `AppointmentTime` FROM `Appointments_t` WHERE `MentorID` = $profileID AND `SchedulerID` IS NULL";
+    $sqlAvailableAppointments = "SELECT `AppointmentID`, `AppointmentTime` FROM `Appointments_t` WHERE `MentorID` = $profileID AND `SchedulerID` IS NULL";
     $resultAvailableAppointments = mysqli_query($con, $sqlAvailableAppointments);
 
     // Fetch all appointments that have NOT been booked for the user and assign them to an array then sort them in ascending order
     if (mysqli_num_rows($resultAvailableAppointments) > 0) {
       $availableAppointmentsArray = [];
       while ($availableAppointments = mysqli_fetch_assoc($resultAvailableAppointments)) {
-        $availableAppointmentsArray[] = $availableAppointments['AppointmentTime'];
+        $availableAppointmentsArray[] = array('AppointmentID' => $availableAppointments['AppointmentID'], 'AppointmentTime' => $availableAppointments['AppointmentTime']);
       }
-      sort($availableAppointmentsArray);
+      $columns = array_column($availableAppointmentsArray, 'AppointmentTime');
+      array_multisort($columns, SORT_ASC, $availableAppointmentsArray);
 
       // Create an associative array with the date as the key and each date key has an array of the times available for that date
       $availableAppointmentsAssoc = array();
       foreach ($availableAppointmentsArray as $item) {
-        $date = date('Y-m-d', strtotime($item));
-        $time = date('H:i:s', strtotime($item));
+        $date = date('Y-m-d', strtotime($item['AppointmentTime']));
+        $time = date('H:i:s', strtotime($item['AppointmentTime']));
         if (!isset($availableAppointmentsAssoc[$date])) {
           $availableAppointmentsAssoc[$date] = array();
         }
-        $availableAppointmentsAssoc[$date][] = $time;
+        $availableAppointmentsAssoc[$date][] = array('AppointmentID' => $item['AppointmentID'], 'AppointmentTime' => $time);
       }
 
       // Assign the available dates to an array so that they can be retrieved later and used to retrieve times from the $availableAppointmentsAssoc array
@@ -231,19 +247,19 @@
     echo '</div>';
   }
   echo '<h1 class="profile-name mb-2">' . $firstName . ' ' . $lastName . '</h1>';
-  if ($rating != null) {
-    echo '<div class="flex-row">';
-    for ($x = 1; $x <= $rating; $x++) {
-      echo '<i class="fa-solid fa-star filled px-1"></i>';
-    }
-    if ($rating < 5) {
-      $unfilled = 5 - $rating;
-      for ($y = 1; $y <= $unfilled; $y++) {
-        echo '<i class="fa-solid fa-star unfilled px-1"></i>';
-      }
-    }
-    echo '</div>';
-  }
+  // if ($rating != null) {
+  //   echo '<div class="flex-row">';
+  //   for ($x = 1; $x <= $rating; $x++) {
+  //     echo '<i class="fa-solid fa-star filled px-1"></i>';
+  //   }
+  //   if ($rating < 5) {
+  //     $unfilled = 5 - $rating;
+  //     for ($y = 1; $y <= $unfilled; $y++) {
+  //       echo '<i class="fa-solid fa-star unfilled px-1"></i>';
+  //     }
+  //   }
+  //   echo '</div>';
+  // }
   if ($city != null) {
     echo '<h2 class="city-name mt-2 mb-3">' . $city;
     if ($state != null) {
@@ -274,7 +290,7 @@
   echo '</div>';
   echo '</section>';
 
-  // *** Buttons Secion ***
+  // *** Buttons Section ***
 
   if ($userID == $profileID) {
     echo '<section class="profile__buttons-section d-flex justify-content-center">';
@@ -282,15 +298,74 @@
     echo '<div class="col">';
     echo '<a href="/edit-profile.php"><i class="fa-solid fa-pencil"></i><br>Edit Profile</a>';
     echo '</div>';
+    // echo '<div class="col">';
+    // echo '<a href="#"><i class="fa-solid fa-share-nodes"></i><br>Share</a>';
+    // echo '</div>';
     echo '<div class="col">';
-    echo '<a href="#"><i class="fa-solid fa-share-nodes"></i><br>Share</a>';
+    echo '<a href="appointments.php?profileID=' . $userID . '"><i class="fa-regular fa-calendar-days"></i><br>Appointments</a>';
     echo '</div>';
+    echo '</div>';
+    echo '</section>';
+  } else {
+    echo '<section class="profile__buttons-section d-flex justify-content-center">';
+    echo '<div class="container text-center row profile__buttons_links">';
     echo '<div class="col">';
-    echo '<a href="appointments.php?profileID=' . $userID . '"><i class="fa-regular fa-calendar-days"></i></i></i><br>Appointments</a>';
+    if (in_array($profileID, $associationsArray)) {
+      echo '<form action="associations.php" method="POST">';
+      echo '<input type="hidden" name="association" value="' . $profileID . '">';
+      echo '<input type="hidden" name="profile" value="' . $profileID . '">';
+      echo '<button class="btn profile__buttons" type="submit" name="update" value="remove"><i class="fa-solid fa-minus fa-xl px-4"></i><br>Remove Association</button>';
+      echo '</form>';
+    } else {
+      echo '<form action="associations.php" method="POST">';
+      echo '<input type="hidden" name="association" value="' . $profileID . '">';
+      echo '<input type="hidden" name="profile" value="' . $profileID . '">';
+      echo '<button class="btn profile__buttons" type="submit" name="update" value="add"><i class="fa-solid fa-plus fa-xl px-4"></i><br>Add Association</button>';
+      echo '</form>';
+    }
+    echo '</div>';
+    // echo '<div class="col">';
+    // echo '<a href="#"><i class="fa-solid fa-share-nodes"></i><br>Share</a>';
+    // echo '</div>';
+    echo '<div class="col d-flex align-items-center justify-content-center">';
+    echo '<a href="#" data-bs-toggle="modal" data-bs-target="#newMessageModal' . $profileID . '"><i class="fa-solid fa-envelope fa-xl px-4"></i><br>Send Message</a>';
     echo '</div>';
     echo '</div>';
     echo '</section>';
   }
+
+  // Start New Message Modal
+  echo '<div class="modal fade" id="newMessageModal' . $profileID . '" tabindex="-1" aria-labelledby="newMessageModalLabel' . $profileID . '" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header modal-header-gradient">
+        <h1 class="modal-title fs-5" id="newMessageModalLabel' . $profileID . '">New Message</h1>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="new-message.php" method="POST">
+          <div class="mb-3">
+            <label for="recipientName" class="col-form-label">Recipient:</label>
+            <div class="dropdown" id="newMessage">
+              <input type="text" class="form-control" id="recipientName" placeholder="Search for a person" autocomplete="off" value="' . $firstName . ' ' . $lastName . '" disabled>
+              <ul class="dropdown-menu" id="messageSearchResults"></ul>
+              <input type="hidden" name="recipientID" value="' . $profileID . '">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="messageText" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="messageText" name="message"></textarea>
+          </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="submit" class="btn main-button btn-std">Send</button>
+        <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Cancel</button>
+      </div>
+      </form>
+    </div>
+  </div>
+  </div>';
+  // End New Message Modal
 
   // *** Content Section ***
 
@@ -306,9 +381,7 @@
     echo '<p>' . $mentoring . '</p>';
     echo '</div>';
     echo '<div class="col-12 text-end">';
-    echo '<div class="open-link">';
-    echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
-    echo '</div></div></div></div>';
+    echo '</div></div></div>';
   }
 
   if ($availableAppointmentsArray != null && $userID != $profileID) {
@@ -327,7 +400,7 @@
     }
     echo '</div>';
 
-    // Modal section
+    // Modal Section
     $ts2 = 0;
     foreach ($availableDates as $date) {
       echo '<div class="modal fade" id="timeSelection' . $ts2 . '" tabindex="-1" aria-labelledby="timeLabel' . $ts2 . '" aria-hidden="true">';
@@ -337,23 +410,23 @@
       echo '<h1 class="modal-title fs-5" id="timeLabel' . $ts2 . '">' . date('F j, Y', strtotime($availableDates[$ts2])) . '</h1>';
       echo '<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>';
       echo '</div>';
-      echo '<form>';
+      echo '<form action="schedule-appointment.php" method="POST">';
       echo '<div class="modal-body justify-content-center">';
       echo '<fieldset class="row align-items-start py-3 mx-2">';
-      $times = $availableAppointmentsAssoc[$availableDates[$ts2]];
-      $at = 0;
-      foreach ($times as $availableTime) {
-        $formattedTime = date('g:i A', strtotime($availableTime));
-        echo '<div class="form-check form-check-inline me-0 ps-1 pb-2 col-3 d-flex align-items-center justify-content-center">';
-        echo '<input type="radio" name="time" id="time' . $ts2 . $at . '" value="' . $availableDates[$ts2] . ' ' . $availableTime . '" />';
-        echo '<label class="btn main-button" for="time' . $ts2 . $at . '">' . $formattedTime . '</label>';
+      $appointments = $availableAppointmentsAssoc[$date];
+      foreach ($appointments as $appointment) {
+        $formattedTime = date('g:i A', strtotime($appointment['AppointmentTime']));
+        echo '<div class="form-check form-check-inline me-0 ps-1 pb-2 col-4 d-flex align-items-center justify-content-center profile__appointments">';
+        echo '<input type="checkbox" name="time" id="appointmentID' . $appointment['AppointmentID'] . '" value="" />';
+        echo '<label class="btn main-button btn-std my-1" for="appointmentID' . $appointment['AppointmentID'] . '">' . $formattedTime . '</label>';
+        echo '<input type="hidden" name="appointmentID" value="' . $appointment['AppointmentID'] . '"/>';
+        echo '<input type="hidden" name="schedulerID" value="' . $userID . '"/>';
         echo '</div>';
-        $at++;
       }
       echo '</fieldset>';
       echo '</div>';
       echo '<div class="modal-footer justify-content-center">';
-      echo '<button class="btn main-button" type="submit">Submit</button>';
+      echo '<button class="btn main-button btn-std" type="submit">Submit</button>';
       echo '</div>';
       echo '</form>';
       echo '</div>';
@@ -361,13 +434,11 @@
       echo '</div>';
       $ts2++;
     }
-    // End modal section
+    // End Modal Section
 
     echo '</div>';
     echo '<div class="col-12 text-end">';
-    echo '<div class="open-link">';
-    echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
-    echo '</div></div></div></div>';
+    echo '</div></div></div>';
   }
 
   if ($aboutMe != null) {
@@ -381,9 +452,7 @@
     echo '<p>' . $aboutMe . '</p>';
     echo '</div>';
     echo '<div class="col-12 text-end">';
-    echo '<div class="open-link">';
-    echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
-    echo '</div></div></div></div>';
+    echo '</div></div></div>';
   }
 
   if ($workLocation != null) {
@@ -407,9 +476,7 @@
     }
     echo '</div>';
     echo '<div class="col-12 text-end">';
-    echo '<div class="open-link">';
-    echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
-    echo '</div></div></div></div>';
+    echo '</div></div></div>';
   }
 
   if ($educationLocation != null) {
@@ -433,9 +500,7 @@
     }
     echo '</div>';
     echo '<div class="col-12 text-end">';
-    echo '<div class="open-link">';
-    echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
-    echo '</div></div></div></div>';
+    echo '</div></div></div>';
   }
 
   if (isset($skillNames) && $skillNames != null) {
@@ -453,9 +518,7 @@
     echo '</div>';
     echo '</div>';
     echo '<div class="col-12 text-end">';
-    echo '<div class="open-link">';
-    echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
-    echo '</div></div></div></div>';
+    echo '</div></div></div>';
   }
 
   if ($profileAssociations != null) {
@@ -490,9 +553,7 @@
     echo '</div>';
     echo '</div>';
     echo '<div class="col-12 text-end">';
-    echo '<div class="open-link">';
-    echo '<div class="expand-btn"><i class="fa-solid fa-plus"></i></div>';
-    echo '</div></div></div></div>';
+    echo '</div></div></div>';
     mysqli_close($con);
   }
 

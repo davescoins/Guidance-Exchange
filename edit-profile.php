@@ -48,13 +48,28 @@
             <a class="nav-link highlight-link nav-text px-4" href="profile.php?profileID=<?php echo $userID ?>">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
+            <a class="nav-link highlight-link nav-text px-4" href="communities.php">Communities</a>
           </li>
         </ul>
         <ul class="navbar-nav d-flex flex-row me-1">
           <li class="nav-item me-3 me-lg-0 px-2 d-flex align-items-center">
             <form class="d-flex" role="search" action="search.php" method="GET">
-              <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
+              <div class="input-group">
+                <input class="form-control" name="query" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
+                <button type="button" class="btn main-button btn-drop dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end">
+                  <div class="my-2 ms-3">
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="mentorSearch" name="mentorSearch">
+                      <label class="form-check-label" for="mentorSearch">
+                        Mentors
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
             </form>
           </li>
@@ -189,13 +204,25 @@
     $years[] = $i;
   }
 
-  $overlayArray = array('BioTech' => 'biotech-pattern.png', 'Circuits' => 'circuit_gray_transparent.png');
+  $overlayArray = array('BioTech' => 'biotech-pattern.png', 'Circuits' => 'circuit_gray_transparent.png', 'Waves' => 'abstract-lines-pattern_trans.png');
 
   // *** Photo Section ***
 
   echo '<section class="photo-section pt-5 pb-3">';
   echo '<div class="container-fluid flex-column">';
-  echo '<img class="profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+  if ($profilePictureBorder == null) {
+    if ($profilePicture == null) {
+      echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+    } else {
+      echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+    }
+  } else {
+    if ($profilePicture == null) {
+      echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+    } else {
+      echo '<img class="profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+    }
+  }
   echo '</div>';
   echo '</section>';
 
@@ -673,7 +700,7 @@
         </div>
       </div>
       <div class="d-flex justify-content-center my-5">
-        <button type="submit" class="btn main-button me-3">Save</button>
+        <button type="submit" class="btn main-button btn-std me-3">Save</button>
         <button type="button" class="btn cancel-button ms-3" data-bs-toggle="modal" data-bs-target="#cancelModal">
           Cancel
         </button>

@@ -46,13 +46,28 @@
             <a class="nav-link highlight-link nav-text px-4" href="profile.php?profileID=<?php echo $userID ?>">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
+            <a class="nav-link highlight-link nav-text px-4" href="communities.php">Communities</a>
           </li>
         </ul>
         <ul class="navbar-nav d-flex flex-row me-1">
           <li class="nav-item me-3 me-lg-0 px-2 d-flex align-items-center">
             <form class="d-flex" role="search" action="search.php" method="GET">
-              <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
+              <div class="input-group">
+                <input class="form-control" name="query" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
+                <button type="button" class="btn main-button btn-drop dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end">
+                  <div class="my-2 ms-3">
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="mentorSearch" name="mentorSearch">
+                      <label class="form-check-label" for="mentorSearch">
+                        Mentors
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
             </form>
           </li>
@@ -89,21 +104,43 @@
     // Check for query
     if (isset($_GET['query'])) {
       $query = $_GET['query'];
+      if (isset($_GET['mentorSearch'])) {
+        $mentorSearch = $_GET['mentorSearch'];
+      } else {
+        $mentorSearch = false;
+      }
 
       // Select the users that match the query string
       if (!$userSystemAdministratorStatus) {
-        $userSql = "SELECT U.`UserID`, U.`FirstName`, U.`LastName`, U.`ProfilePicture`, A.`MentorStatus`, A.`ModeratorStatus`, A.`SystemAdministratorStatus`
-        FROM `UserData_t` U
-        JOIN `Auth_t` A ON U.`UserID` = A.`UserID`
-        WHERE U.`FullName` LIKE '%$query%'
-          AND A.`SystemAdministratorStatus` <> '1'  AND U.`UserID` <> '1'
-        ORDER BY U.`LastName`";
+        if ($mentorSearch) {
+          $userSql = "SELECT U.`UserID`, U.`FirstName`, U.`LastName`, U.`ProfilePicture`, A.`MentorStatus`, A.`ModeratorStatus`, A.`SystemAdministratorStatus`
+          FROM `UserData_t` U
+          JOIN `Auth_t` A ON U.`UserID` = A.`UserID`
+          WHERE U.`FullName` LIKE '%$query%'
+          AND A.`SystemAdministratorStatus` <> '1'  AND U.`UserID` <> $userID AND A.`MentorStatus` = 1
+          ORDER BY U.`LastName`";
+        } else {
+          $userSql = "SELECT U.`UserID`, U.`FirstName`, U.`LastName`, U.`ProfilePicture`, A.`MentorStatus`, A.`ModeratorStatus`, A.`SystemAdministratorStatus`
+          FROM `UserData_t` U
+          JOIN `Auth_t` A ON U.`UserID` = A.`UserID`
+          WHERE U.`FullName` LIKE '%$query%'
+          AND A.`SystemAdministratorStatus` <> '1'  AND U.`UserID` <> $userID
+          ORDER BY U.`LastName`";
+        }
       } else {
-        $userSql = "SELECT U.`UserID`, U.`FirstName`, U.`LastName`, U.`ProfilePicture`, A.`MentorStatus`, A.`ModeratorStatus`, A.`SystemAdministratorStatus`
-        FROM `UserData_t` U
-        JOIN `auth_t` A ON U.`UserID` = A.`UserID`
-        WHERE U.`FullName` LIKE '%$query%'
-        ORDER BY U.`LastName`";
+        if ($mentorSearch) {
+          $userSql = "SELECT U.`UserID`, U.`FirstName`, U.`LastName`, U.`ProfilePicture`, A.`MentorStatus`, A.`ModeratorStatus`, A.`SystemAdministratorStatus`
+          FROM `UserData_t` U
+          JOIN `auth_t` A ON U.`UserID` = A.`UserID`
+          WHERE U.`FullName` LIKE '%$query%' AND A.`MentorStatus` = 1
+          ORDER BY U.`LastName`";
+        } else {
+          $userSql = "SELECT U.`UserID`, U.`FirstName`, U.`LastName`, U.`ProfilePicture`, A.`MentorStatus`, A.`ModeratorStatus`, A.`SystemAdministratorStatus`
+          FROM `UserData_t` U
+          JOIN `auth_t` A ON U.`UserID` = A.`UserID`
+          WHERE U.`FullName` LIKE '%$query%'
+          ORDER BY U.`LastName`";
+        }
       }
       $userQueryResult = mysqli_query($con, $userSql);
 
@@ -114,44 +151,45 @@
       // Display search results
       if (mysqli_num_rows($userQueryResult) > 0) {
         while ($foundUser = mysqli_fetch_assoc($userQueryResult)) {
-          echo '<div class="container-fluid pb-4">';
-          echo '<div class="row align-items-start results-section py-2">';
-          echo '<div class="col-auto d-flex align-items-center justify-content-center result-picture">';
-
-          if ($foundUser['ProfilePicture'] == null) {
-            echo '<img class="px-2" src="/img/blank-profile-image.png" alt="' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . ' Profile Photo">';
-          } else {
-            echo '<img class="px-2" src="upload/' . $foundUser['ProfilePicture'] . '" alt="' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . ' Profile Photo">';
-          }
-
-          echo '</div>';
-          echo '<div class="col d-flex align-items-center result-wrap">';
-          echo '<h3>' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . '</h3>';
-          echo '</div>';
-
-          echo '<div class="col-3 d-flex align-items-center mentor-tag-wrap">';
-          if ($foundUser['MentorStatus'] == true) {
-            echo '<div class="mentor-tag">';
-            echo '<p class="py-1 px-3 m-0">Mentor</p>';
-            echo '</div>';
-          }
-          if ($foundUser['ModeratorStatus'] == true) {
-            echo '<div class="mentor-tag">';
-            echo '<p class="py-1 px-3 m-0">Moderator</p>';
-            echo '</div>';
-          }
-          if ($foundUser['SystemAdministratorStatus'] == true) {
-            echo '<div class="mentor-tag">';
-            echo '<p class="py-1 px-3 m-0">System Administrator</p>';
-            echo '</div>';
-          }
-          echo '</div>';
-
-          echo '<div class="col-auto d-flex align-items-center justify-content-center result-icons me-3">';
-
           if ($userID != $foundUser['UserID']) {
+            echo '<div class="container-fluid pb-4">';
+            echo '<div class="row align-items-start results-section py-2">';
+            echo '<div class="col-auto d-flex align-items-center justify-content-center result-picture">';
+
+            if ($foundUser['ProfilePicture'] == null) {
+              echo '<img class="px-2" src="/img/blank-profile-image.png" alt="' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . ' Profile Photo">';
+            } else {
+              echo '<img class="px-2" src="upload/' . $foundUser['ProfilePicture'] . '" alt="' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . ' Profile Photo">';
+            }
+
+            echo '</div>';
+            echo '<div class="col d-flex align-items-center result-wrap">';
+            echo '<h3>' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . '</h3>';
+            echo '</div>';
+
+            echo '<div class="col-3 d-flex align-items-center mentor-tag-wrap">';
+            if ($foundUser['MentorStatus'] == true) {
+              echo '<div class="mentor-tag">';
+              echo '<p class="py-1 px-3 m-0">Mentor</p>';
+              echo '</div>';
+            }
+            if ($foundUser['ModeratorStatus'] == true) {
+              echo '<div class="mentor-tag">';
+              echo '<p class="py-1 px-3 m-0">Moderator</p>';
+              echo '</div>';
+            }
+            if ($foundUser['SystemAdministratorStatus'] == true) {
+              echo '<div class="mentor-tag">';
+              echo '<p class="py-1 px-3 m-0">System Administrator</p>';
+              echo '</div>';
+            }
+            echo '</div>';
+
+            echo '<div class="col-auto d-flex align-items-center justify-content-center result-icons me-3">';
+
+
             echo '<a href="profile.php?profileID=' . $foundUser['UserID'] . '"><i class="fa-solid fa-user fa-xl px-4"></i></a>';
-            echo '<a href="#"><i class="fa-solid fa-envelope fa-xl px-4"></i></a>';
+            echo '<a href="#" data-bs-toggle="modal" data-bs-target="#newMessageModal' . $foundUser['UserID'] . '"><i class="fa-solid fa-envelope fa-xl px-4"></i></a>';
             if (in_array($foundUser['UserID'], $associationsArray)) {
               echo '<form action="associations.php" method="POST">';
               echo '<input type="hidden" name="query" value="' . $query . '">';
@@ -165,10 +203,43 @@
               echo '<button class="btn p-0" type="submit" name="update" value="add"><i class="fa-solid fa-plus fa-xl px-4"></i></button>';
               echo '</form>';
             }
-          } else {
-            echo '<a href="profile.php?profileID=' . $foundUser['UserID'] . '"><i class="fa-solid fa-user fa-xl px-4"></i></a>';
           }
+
           echo '</div></div></div>';
+
+          // Start New Message Modal
+          echo '<div class="modal fade" id="newMessageModal' . $foundUser['UserID'] . '" tabindex="-1" aria-labelledby="newMessageModalLabel' . $foundUser['UserID'] . '" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header modal-header-gradient">
+                    <h1 class="modal-title fs-5" id="newMessageModalLabel' . $foundUser['UserID'] . '">New Message</h1>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="new-message.php" method="POST">
+                      <div class="mb-3">
+                        <label for="recipientName" class="col-form-label">Recipient:</label>
+                        <div class="dropdown" id="newMessage">
+                          <input type="text" class="form-control" id="recipientName" placeholder="Search for a person" autocomplete="off" value="' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . '" disabled>
+                          <ul class="dropdown-menu" id="messageSearchResults"></ul>
+                          <input type="hidden" name="recipientID" value="' . $foundUser['UserID'] . '">
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="messageText" class="col-form-label">Message:</label>
+                        <textarea class="form-control" id="messageText" name="message"></textarea>
+                      </div>
+        
+                  </div>
+                  <div class="modal-footer d-flex justify-content-center">
+                    <button type="submit" class="btn main-button btn-std">Send</button>
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Cancel</button>
+                  </div>
+                  </form>
+                </div>
+              </div>
+            </div>';
+          // End New Message Modal
         }
       } else {
         echo '<div class="container-fluid pb-4 d-flex align-items-center">';
@@ -179,7 +250,6 @@
       mysqli_close($con);
     }
     ?>
-
   </section>
 
   <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>

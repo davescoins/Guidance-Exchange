@@ -50,5 +50,11 @@ mysqli_query($con, $sqlOther);
 
 mysqli_close($con);
 
-header("Location: search.php?query=" . $query);
-exit();
+if (isset($_POST['profile'])) {
+  $profile = $_POST['profile'];
+  header("Location: profile.php?profileID=" . $profile);
+  exit();
+} else {
+  header("Location: search.php?query=" . $query);
+  exit();
+}

@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if ($messageResult) {
     $messageID = mysqli_insert_id($con);
-    $messageRecipientQuery = "INSERT INTO `Message_Recipient_t` (`MessageID`, `RecipientID`, `IsRead`) VALUES ('$messageID', '$recipientID', 0)";
+    $messageRecipientQuery = "INSERT INTO `Message_Recipient_t` (`MessageID`, `RecipientID`, `IsRead`, `IsDeleted`) VALUES ('$messageID', '$recipientID', 0, 0)";
 
     $recipientResult = mysqli_query($con, $messageRecipientQuery);
 

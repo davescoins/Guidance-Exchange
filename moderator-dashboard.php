@@ -46,13 +46,28 @@
             <a class="nav-link highlight-link nav-text px-4" href="profile.php?profileID=<?php echo $userID ?>">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
+            <a class="nav-link highlight-link nav-text px-4" href="communities.php">Communities</a>
           </li>
         </ul>
         <ul class="navbar-nav d-flex flex-row me-1">
           <li class="nav-item me-3 me-lg-0 px-2 d-flex align-items-center">
             <form class="d-flex" role="search" action="search.php" method="GET">
-              <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
+              <div class="input-group">
+                <input class="form-control" name="query" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
+                <button type="button" class="btn main-button btn-drop dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end">
+                  <div class="my-2 ms-3">
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="mentorSearch" name="mentorSearch">
+                      <label class="form-check-label" for="mentorSearch">
+                        Mentors
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
             </form>
           </li>
@@ -129,7 +144,23 @@
   <!-- Photo Section -->
   <section class="moderator__photo-section pt-5 pb-3" style="background-image: url('img/<?php echo $profilePictureBackground; ?>'); background-attachment: fixed; background-size: cover;">
     <div class="container-fluid flex-column">
-      <img class="moderator__profile-photo mb-3" style="border-color: <?php echo $profilePictureBorder; ?>;" src="upload/<?php echo $profilePicture; ?>" alt="<?php echo $firstName . ' ' . $lastName; ?> Profile Photo">
+
+      <?php
+      if ($profilePictureBorder == null) {
+        if ($profilePicture == null) {
+          echo '<img class="moderator__profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+        } else {
+          echo '<img class="moderator__profile-photo mb-3" style="border-color: #008a0e;" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+        }
+      } else {
+        if ($profilePicture == null) {
+          echo '<img class="moderator__profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+        } else {
+          echo '<img class="moderator__profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+        }
+      }
+      ?>
+
       <div class="moderator__tag mb-2">
         <p class="py-1 px-3 m-0">Moderator</p>
       </div>

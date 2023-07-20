@@ -4,11 +4,11 @@ include('includes/session.inc.php');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $senderID = $_POST['senderID'];
 
-  $sql = "SELECT R.`RecipientID`, M.`SenderID`, M.`MessageBody`, M.`SendDate`, U.`FirstName`, U.`LastName`, U.`ProfilePicture` FROM `Message_Recipient_t` R JOIN `Messages_t` M ON R.`MessageID` = M.`MessageID` JOIN `UserData_t` U ON U.`UserID` = M.`SenderID` WHERE (`RecipientID` = $senderID AND `SenderID` = $userID) OR (`RecipientID` = $userID AND `SenderID` = $senderID) ORDER BY M.`SendDate`";
+  $sql = "SELECT R.`RecipientID`, R.`IsDeleted`, M.`MessageID`, M.`SenderID`, M.`MessageBody`, M.`SendDate`, U.`FirstName`, U.`LastName`, U.`ProfilePicture` FROM `Message_Recipient_t` R JOIN `Messages_t` M ON R.`MessageID` = M.`MessageID` JOIN `UserData_t` U ON U.`UserID` = M.`SenderID` WHERE (`RecipientID` = $senderID AND `SenderID` = $userID) OR (`RecipientID` = $userID AND `SenderID` = $senderID) ORDER BY M.`SendDate` DESC";
   $result = mysqli_query($con, $sql);
 
   // Get the all messages where user is recipient or sender
-  $sqlMessages = "SELECT R.`RecipientID`, M.`SenderID` FROM `Message_Recipient_t` R JOIN `Messages_t` M ON R.`MessageID` = M.`MessageID` WHERE `RecipientID` = $userID OR `SenderID` = $userID ORDER BY M.`SendDate`";
+  $sqlMessages = "SELECT R.`RecipientID`, M.`SenderID` FROM `Message_Recipient_t` R JOIN `Messages_t` M ON R.`MessageID` = M.`MessageID` WHERE `RecipientID` = $userID OR `SenderID` = $userID ORDER BY M.`SendDate` DESC";
   $resultMessages = mysqli_query($con, $sqlMessages);
 
   if (mysqli_num_rows($resultMessages) > 0) {
@@ -54,9 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $messageTitle .= '<div class="flex-grow-1 ps-3">';
         $messageTitle .= '<strong>' . $senderData[$senderID]['FirstName'] . ' ' . $senderData[$senderID]['LastName'] . '</strong>';
         $messageTitle .= '</div>';
-        $messageTitle .= '<div>';
-        $messageTitle .= '<button class="btn main-button me-3 btn-long" data-bs-toggle="modal" data-bs-target="#exampleModal">New Message</button>';
-        $messageTitle .= '</div>';
 
         $messageTitleSet = true;
       }
@@ -68,8 +65,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $messages .= '<div class="text-muted small text-nowrap mt-2">' . date_format(date_create($message['SendDate']), "g:i a") . '</div>';
         $messages .= '<div class="text-muted small text-nowrap mt-2">' . date_format(date_create($message['SendDate']), "n/j/y") . '</div>';
         $messages .= '</div>';
-        $messages .= '<div class="flex-shrink-1 bg-light rounded py-2 px-3 me-3">';
-        $messages .= $message['MessageBody'];
+        $messages .= '<div class="flex-shrink-1 bg-light rounded py-2 px-3 me-3 message-body-right">';
+        if ($message['IsDeleted']) {
+          $messages .= '<p class="deleted"><em>Message has been deleted!</em></p>';
+        } else {
+          $messages .= $message['MessageBody'];
+          $messages .= '<form action="delete-message.php" method="POST" class="d-flex justify-content-end delete-form">';
+          $messages .= '<input id="messageID" type="hidden" name="messageID" value="' . $message['MessageID'] . '">';
+          $messages .= '</form>';
+        }
         $messages .= '</div>';
         $messages .= '</div>';
       } else {
@@ -80,7 +84,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $messages .= '<div class="text-muted small text-nowrap mt-2">' . date_format(date_create($message['SendDate']), "n/j/y") . '</div>';
         $messages .= '</div>';
         $messages .= '<div class="flex-shrink-1 bg-light rounded py-2 px-3 ms-3">';
-        $messages .= $message['MessageBody'];
+        if ($message['IsDeleted']) {
+          $messages .= '<p class="deleted"><em>Message has been deleted!</em></p>';
+        } else {
+          $messages .= $message['MessageBody'];
+        }
         $messages .= '</div>';
         $messages .= '</div>';
       }

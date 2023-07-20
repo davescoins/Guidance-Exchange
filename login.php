@@ -105,7 +105,7 @@ if (isset($_POST['submit'])) {
     if ($user['ModeratorStatus'] == 1) {
       $url = 'moderator-dashboard.php?profileID=' . $_SESSION['UserID'];
     } elseif ($user['SystemAdministratorStatus'] == 1) {
-      $url = 'administrator-dashboard.php?profileID=' . $_SESSION['UserID'];
+      $url = 'admin-dashboard.php?profileID=' . $_SESSION['UserID'];
     } else {
       $url = 'profile.php?profileID=' . $_SESSION['UserID'];
     }
@@ -138,7 +138,7 @@ if (isset($_POST['submit'])) {
   <header>
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="home.php"><img src="img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>      
+        <a class="navbar-brand" href="home.php"><img src="img/logo_gradient.png" alt="Guidance Exchange Logo" height="70" /></a>
       </div>
     </nav>
   </header>

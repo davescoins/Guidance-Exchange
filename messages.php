@@ -46,13 +46,28 @@
             <a class="nav-link highlight-link nav-text px-4" href="profile.php?profileID=<?php echo $userID ?>">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link highlight-link nav-text px-4" href="#">Communities</a>
+            <a class="nav-link highlight-link nav-text px-4" href="communities.php">Communities</a>
           </li>
         </ul>
         <ul class="navbar-nav d-flex flex-row me-1">
           <li class="nav-item me-3 me-lg-0 px-2 d-flex align-items-center">
             <form class="d-flex" role="search" action="search.php" method="GET">
-              <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
+              <div class="input-group">
+                <input class="form-control" name="query" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
+                <button type="button" class="btn main-button btn-drop dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end">
+                  <div class="my-2 ms-3">
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="mentorSearch" name="mentorSearch">
+                      <label class="form-check-label" for="mentorSearch">
+                        Mentors
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
             </form>
           </li>
@@ -110,6 +125,7 @@
     array_multisort($senderDataColumns, SORT_ASC, $senderData);
   } else {
     $messagesArray = null;
+    $senderData = null;
   }
   ?>
 
@@ -125,16 +141,35 @@
     <div class="container p-0">
 
       <div class="card">
+        <div class="row g-0 messages__header-section">
+          <div class="col-12 col-lg-5 col-xl-3 border-bottom-heading">
+            <div class="px-4 d-none d-md-block">
+              <div class="d-flex align-items-center">
+                <div class="flex-grow-1">
+                  <!-- <h1 class="messages__header">Inbox</h1> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-7 col-xl-9">
+            <div class="py-2 px-4 border-bottom-heading d-none d-lg-block">
+              <div class="d-flex align-items-center py-1 justify-content-end">
+                <button class="btn main-button me-3 btn-long" data-bs-toggle="modal" data-bs-target="#newMessageModal">New Message</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="row g-0">
           <div class="col-12 col-lg-5 col-xl-3 border-right">
 
-            <div class="px-4 d-none d-md-block">
+            <!-- <div class="px-4 d-none d-md-block">
               <div class="d-flex align-items-center">
                 <div class="flex-grow-1">
                   <input type="text" class="form-control my-3" placeholder="Search...">
                 </div>
               </div>
-            </div>
+            </div> -->
 
 
             <div class="list-group">
@@ -182,17 +217,16 @@
               <div class="d-flex align-items-center py-1 message-title">
 
                 <?php
-                foreach ($senderData as $sender) {
-                  if ($sender['SenderID'] == $firstUser) {
-                    echo '<div class="position-relative">';
-                    echo '<img src="upload/' . $sender['ProfilePicture'] . '" class="rounded-circle me-1" alt="' . $sender['FirstName'] . ' ' . $sender['LastName'] . '" width="40" height="40">';
-                    echo '</div>';
-                    echo '<div class="flex-grow-1 ps-3">';
-                    echo '<strong>' . $sender['FirstName'] . ' ' . $sender['LastName'] . '</strong>';
-                    echo '</div>';
-                    echo '<div>';
-                    echo '<button class="btn main-button me-3 btn-long">New Message</button>';
-                    echo '</div>';
+                if ($senderData != null) {
+                  foreach ($senderData as $sender) {
+                    if ($sender['SenderID'] == $firstUser) {
+                      echo '<div class="position-relative">';
+                      echo '<img src="upload/' . $sender['ProfilePicture'] . '" class="rounded-circle me-1" alt="' . $sender['FirstName'] . ' ' . $sender['LastName'] . '" width="40" height="40">';
+                      echo '</div>';
+                      echo '<div class="flex-grow-1 ps-3">';
+                      echo '<strong>' . $sender['FirstName'] . ' ' . $sender['LastName'] . '</strong>';
+                      echo '</div>';
+                    }
                   }
                 }
                 ?>
@@ -200,12 +234,12 @@
               </div>
 
               <!-- New Message Modal -->
-              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal fade" id="newMessageModal" tabindex="-1" aria-labelledby="newMessageModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
-                    <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="exampleModalLabel">New Message</h1>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-header modal-header-gradient">
+                      <h1 class="modal-title fs-5" id="newMessageModalLabel">New Message</h1>
+                      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                       <form action="new-message.php" method="POST">
@@ -222,9 +256,9 @@
                         </div>
 
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer d-flex justify-content-center">
+                      <button type="submit" class="btn main-button btn-std">Send</button>
                       <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Cancel</button>
-                      <button type="submit" class="btn main-button">Send</button>
                     </div>
                     </form>
                   </div>
@@ -244,7 +278,7 @@
                 <div class="input-group">
                   <input type="hidden" name="recipientID" id="recipientID" value="<?php echo $firstUser; ?>">
                   <input type="text" class="form-control" placeholder="Type your message" name="message" autocomplete="off">
-                  <button class="btn main-button">Send</button>
+                  <button class="btn main-button btn-std">Send</button>
                 </div>
               </form>
             </div>
