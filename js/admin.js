@@ -38,12 +38,20 @@ $(document).ready(function () {
     var resultText = $(this).text();
     var userID = $(this).data('userid');
     $searchInput.val(resultText);
-    var hiddenInput = $('<input>').attr({
-      type: 'hidden',
-      name: 'userID',
-      value: userID,
-    });
-    $('#userSearch').append(hiddenInput);
+
+    var existingInput = $('#userID');
+    if (existingInput.length > 0) {
+      existingInput.val(userID);
+    } else {
+      var hiddenInput = $('<input>').attr({
+        type: 'hidden',
+        name: 'userID',
+        value: userID,
+        id: 'userID',
+      });
+      $('#userSearch').append(hiddenInput);
+    }
+
     $dropdown.empty().hide();
   });
 });

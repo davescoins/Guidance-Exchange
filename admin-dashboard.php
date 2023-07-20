@@ -166,7 +166,7 @@
 
         echo '</div>';
         echo '<div class="col d-flex align-items-center moderator-wrap">';
-        echo '<h3>' . $moderator['FirstName'] . ' ' . $moderator['LastName'] . '</h3>';
+        echo '<h3 class="m-0">' . $moderator['FirstName'] . ' ' . $moderator['LastName'] . '</h3>';
         echo '</div>';
 
         echo '<div class="col-auto d-flex align-items-center justify-content-center moderator-icons me-3">';
