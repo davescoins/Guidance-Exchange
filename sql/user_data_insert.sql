@@ -229,7 +229,7 @@ VALUES
     'András',
     'Arató',
     'andras-arato.png',
-    null,
+    '#ecfc04',
     'abstract-lines-pattern_trans.png',
     null,
     null,
