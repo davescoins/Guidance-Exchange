@@ -4,11 +4,11 @@ include('includes/session.inc.php');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $senderID = $_POST['senderID'];
 
-  $sql = "SELECT R.`RecipientID`, R.`IsDeleted`, M.`MessageID`, M.`SenderID`, M.`MessageBody`, M.`SendDate`, U.`FirstName`, U.`LastName`, U.`ProfilePicture` FROM `Message_Recipient_t` R JOIN `Messages_t` M ON R.`MessageID` = M.`MessageID` JOIN `UserData_t` U ON U.`UserID` = M.`SenderID` WHERE (`RecipientID` = $senderID AND `SenderID` = $userID) OR (`RecipientID` = $userID AND `SenderID` = $senderID) ORDER BY M.`SendDate`";
+  $sql = "SELECT R.`RecipientID`, R.`IsDeleted`, M.`MessageID`, M.`SenderID`, M.`MessageBody`, M.`SendDate`, U.`FirstName`, U.`LastName`, U.`ProfilePicture` FROM `Message_Recipient_t` R JOIN `Messages_t` M ON R.`MessageID` = M.`MessageID` JOIN `UserData_t` U ON U.`UserID` = M.`SenderID` WHERE (`RecipientID` = $senderID AND `SenderID` = $userID) OR (`RecipientID` = $userID AND `SenderID` = $senderID) ORDER BY M.`SendDate` DESC";
   $result = mysqli_query($con, $sql);
 
   // Get the all messages where user is recipient or sender
-  $sqlMessages = "SELECT R.`RecipientID`, M.`SenderID` FROM `Message_Recipient_t` R JOIN `Messages_t` M ON R.`MessageID` = M.`MessageID` WHERE `RecipientID` = $userID OR `SenderID` = $userID ORDER BY M.`SendDate`";
+  $sqlMessages = "SELECT R.`RecipientID`, M.`SenderID` FROM `Message_Recipient_t` R JOIN `Messages_t` M ON R.`MessageID` = M.`MessageID` WHERE `RecipientID` = $userID OR `SenderID` = $userID ORDER BY M.`SendDate` DESC";
   $resultMessages = mysqli_query($con, $sqlMessages);
 
   if (mysqli_num_rows($resultMessages) > 0) {

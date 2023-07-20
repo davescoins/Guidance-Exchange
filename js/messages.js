@@ -1,3 +1,12 @@
+function scrollToBottom() {
+  var chatContainer = $('.messages');
+  chatContainer.scrollTop(chatContainer.prop('scrollHeight'));
+}
+
+$(document).ready(function () {
+  scrollToBottom();
+});
+
 $(document).ready(function () {
   // Call fetchMessages() when the page loads
   var senderID = $('#firstUser').find('.userID').text();
@@ -25,6 +34,7 @@ $(document).ready(function () {
       sendMessage(message, recipientID);
       messageInput.val(''); // Clear the input field
     }
+    scrollToBottom();
   });
 
   // Delete message form
@@ -149,12 +159,20 @@ $(document).ready(function () {
     var resultText = $(this).text();
     var userID = $(this).data('userid');
     $searchInput.val(resultText);
-    var hiddenInput = $('<input>').attr({
-      type: 'hidden',
-      name: 'recipientID',
-      value: userID,
-    });
-    $('#newMessage').append(hiddenInput);
+
+    var existingInput = $('#userID');
+    if (existingInput.length > 0) {
+      existingInput.val(userID);
+    } else {
+      var hiddenInput = $('<input>').attr({
+        type: 'hidden',
+        name: 'recipientID',
+        value: userID,
+        id: 'userID',
+      });
+      $('#newMessage').append(hiddenInput);
+    }
+
     $dropdown.empty().hide();
   });
 });
