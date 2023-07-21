@@ -320,11 +320,7 @@
 
                 <div class="row my-5">
                     <div class="col text-center">
-                        <<<<<<< HEAD <input type="submit" name="Register" value="Register" class="btn main-button">
-                            =======
-                            <input type="submit" name="Register" value="Register" class="btn main-button btn-std">
-                            >>>>>>> userProfile
-                            </input>
+                        <input type="submit" name="Register" value="Register" class="btn main-button btn-std">
                     </div>
                 </div>
             </div>
