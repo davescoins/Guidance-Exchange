@@ -154,7 +154,7 @@
         }
       } else {
         if ($profilePicture == null) {
-          echo '<img class="moderator__profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+          echo '<img class="moderator__profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
         } else {
           echo '<img class="moderator__profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
         }
@@ -232,7 +232,11 @@
           echo '<button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#mentor_collapse' . $i . '" aria-expanded="false" aria-controls="mentor_collapse' . $i . '">';
           echo '<div class="d-flex align-items-center">';
           echo '<div class="d-flex align-items-center justify-content-center moderator__mentor-request-photo">';
-          echo '<img class="pe-4" src="/upload/' . $userDataArray[$i]['ProfilePicture'] . '" alt="' . $userDataArray[$i]['FirstName'] . ' ' . $userDataArray[$i]['LastName'] . 'Profile Photo">';
+          if ($userDataArray[$i]['ProfilePicture'] == null) {
+            echo '<img class="pe-4" src="img/blank-profile-image.png" alt="' . $userDataArray[$i]['FirstName'] . ' ' . $userDataArray[$i]['LastName'] . ' Profile Photo">';
+          } else {
+            echo '<img class="pe-4" src="/upload/' . $userDataArray[$i]['ProfilePicture'] . '" alt="' . $userDataArray[$i]['FirstName'] . ' ' . $userDataArray[$i]['LastName'] . 'Profile Photo">';
+          }
           echo '</div>';
           echo '<h4 class="moderator__request-header ps-4 mb-0">' . $userDataArray[$i]['FirstName'] . ' ' . $userDataArray[$i]['LastName'] . '</h4>';
           echo '</div>';
