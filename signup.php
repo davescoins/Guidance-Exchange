@@ -63,7 +63,7 @@
         }
         ?>
 
-        <form class="needs-validation" id="signupForm" method="POST" action="signup_process.php" role="form" data-toggle="validator" novalidate>
+        <form class="needs-validation" id="signupForm" method="POST" action="signup_process.php" role="form" data-toggle="validator" enctype="multipart/form-data" novalidate>
             <div class="container container-singupform py-4">
 
                 <div class="row py-2">
@@ -200,7 +200,7 @@
                     </div>
                     <div class="col">
                         <label for="userPhone" class="form-label text-signup-label">Phone number</label>
-                        <input type="tel" class="form-control" id="userPhone" name="userPhone" placeholder="(111)-111-1111">
+                        <input type="tel" class="form-control" id="userPhone" name="userPhone" placeholder="(111) 111-1111">
                     </div>
                 </div>
                 <div class="mx-auto my-3 w-75 border-bottom border border-secondary">
@@ -217,24 +217,37 @@
                     <div class="col-12 col-lg-6">
 
                         <label for="userLinkedIn" class="form-label text-signup-label">LinkedIn</label>
-                        <input type="text" class="form-control" id="userLinkedIn" name="userLinkedIn" placeholder="https://www.linkedin.com/in/user123">
+                        <div class="col-sm-10 input-group">
+                            <span class="input-group-text">https://www.linkedin.com/in/</span>
+                            <input type="text" class="form-control" name="userLinkedIn" id="userLinkedIn" placeholder="123">
+                        </div>
+
                     </div>
                     <div class="col">
 
                         <label for="userTwitter" class="form-label text-signup-label">Twitter</label>
-                        <input type="text" class="form-control" id="userTwitter" name="userTwitter" placeholder="https://twitter.com/123">
+                        <div class="col-sm-10 input-group">
+                            <span class="input-group-text">https://www.twitter.com/</span>
+                            <input type="text" class="form-control" name="userTwitter" id="userTwitter" placeholder="123">
+                        </div>
                     </div>
                 </div>
                 <div class="row py-2">
                     <div class="col-12 col-lg-6">
 
                         <label for="userFaceBook" class="form-label text-signup-label">Facebook</label>
-                        <input type="text" class="form-control" id="userFaceBook" name="userFaceBook" placeholder="https://www.facebook.com/123">
+                        <div class="col-sm-10 input-group">
+                            <span class="input-group-text">https://www.facebook.com/</span>
+                            <input type="text" class="form-control" name="userFaceBook" id="userFaceBook" placeholder="123">
+                        </div>
                     </div>
                     <div class="col">
 
                         <label for="userInstagram" class="form-label text-signup-label">Instagram</label>
-                        <input type="text" class="form-control" id="userInstagram" name="userInstagram" placeholder="https://www.instagram.com/123">
+                        <div class="col-sm-10 input-group">
+                            <span class="input-group-text">https://www.instagram.com/</span>
+                            <input type="text" class="form-control" name="userInstagram" id="userInstagram" placeholder="123">
+                        </div>
                     </div>
                 </div>
                 <div class="mx-auto my-3 w-75 border-bottom border border-secondary">
@@ -309,12 +322,12 @@
                 <div class="row py-2">
                     <div class="col-12">
                         <label for="aboutMe" class="form-label text-signup-label">About Me</label>
-                        <textarea rows="3" class="form-control" id="aboutMe" name="aboutMe" placeholder="Provide a short bio about your life/experience."> </textarea>
+                        <textarea rows="3" class="form-control" id="aboutMe" name="aboutMe" placeholder="Provide a short bio about your life/experience."></textarea>
                     </div>
                 </div>
 
                 <!-- Section below only for Mentors -->
-                <div class="row py-2" id="mentorOnlySection">
+                <div class="row" id="mentorOnlySection">
 
                 </div>
 
@@ -332,7 +345,7 @@
     <script src="assets\jquery\jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script src="https://kit.fontawesome.com/c5863419fe.js" crossorigin="anonymous"></script>
-    <script src="js/form_city_country.js"></script>
+    <!-- <script src="js/form_city_country.js"></script> -->
     <script src="js/signup.js" lang="javascript">
     </script>
     <script>

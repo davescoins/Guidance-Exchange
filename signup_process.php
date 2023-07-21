@@ -36,8 +36,9 @@ if (mysqli_ping($con)) {
         $userEducation = $_POST['userEducation'];
         $EducationFrom = $_POST['EducationFrom'];
         $EducationEnd = $_POST['EducationEnd'];
-        $mentoringUpload = null;
-        
+        $mentoringStatement = $_POST['mentoringStatement'];
+        $mentoringUpload = NULL;
+
 
         // $ModeratorStatus = 0;
         // $SystemAdministratorStatus = 0;
@@ -66,7 +67,7 @@ if (mysqli_ping($con)) {
         
         ";
 
-echo "<br> this is the auth query". $sql_auth; 
+        echo "<br> this is the auth query" . $sql_auth;
 
         $rStatus = $con->query($sql_auth);
         $user_id = $con->insert_id;
@@ -115,10 +116,10 @@ echo "<br> this is the auth query". $sql_auth;
 
 
 
-if($userType){
+        if ($userType) {
 
 
-    $sql_mentorrequests = "INSERT INTO mentorrequests_t
+            $sql_mentorrequests = "INSERT INTO mentorrequests_t
     ( 
         UserID, 
         ResumeLocation,
@@ -127,93 +128,112 @@ if($userType){
     )
 VALUES 
     ('" . $user_id . "', 
-    '" . $mentoringUpload. "', 
-    '" .  $mentoringDetails . "'
+    '" . $mentoringUpload . "', 
+    '" .  $mentoringStatement . "'
 
     );
 
 ";
 
-echo "<br> this is the auth query".  $sql_mentorrequests; 
+            echo "<br> this is the auth query" .  $sql_mentorrequests;
 
-$rStatus = $con->query($sql_mentorrequests);
+            $rStatus = $con->query($sql_mentorrequests);
 
+            if (isset($_FILES["mentoringUpload"])) {
+                $targetDir = "upload/"; // Directory where you want to store uploaded files
+                $fileName = "mentoringUpload_" . $user_id;
+                $uploadOk = 1;
+                $fileType = strtolower(pathinfo($_FILES["mentoringUpload"]["name"], PATHINFO_EXTENSION));
 
+                $targetFile = $targetDir . $fileName . '.' . $fileType;
+                $uploadPath = $fileName . '.' . $fileType;
 
+                // Remove the existing file if it exists
+                if (file_exists($targetFile)) {
+                    if (!unlink($targetFile)) {
+                        echo '<p style="color: red;"><em>Error: Cannot remove the existing file.</em></p>';
+                        $uploadOk = 0;
+                    }
+                }
 
-
-};
-
-
-
-
-        echo "<br> <br>this is for user table" .$sql_userT;
-            
-            if ($con->query($sql_userT) === TRUE) {
-                $last_id = $con->insert_id;
-                echo "New record created successfully. Last inserted ID is: " . $last_id;
-
-                    // Login
-                        $errors = array('uname' => '', 'pwd' => '');
-                        $uname = '';
-
-                        $uname = htmlspecialchars($loginUserName);
-                        $pwd = htmlspecialchars($loginPassword);
-
-
-                        $sql = 'SELECT * FROM Auth_t WHERE username = \'' . $uname . '\' ';
-
-                        //echo $sql;
-                  
-                        // run the query
-                  
-                        $results = mysqli_query($con, $sql);
-                  
-                  
-                        if (mysqli_num_rows($results) > 0) {
-                  
-                          $user = mysqli_fetch_assoc($results);
-                  
-                          if ($user['password'] != $pwd) {
-                  
-                            $errors['uname'] = 'Username or password is not correct. <br>';
-                          }
-                        } else {
-                  
-                          $errors['uname'] = 'Username or password is not correct. <br>';
-                        }
-    
-                        if (empty($errors['uname']) && empty($errors['pwd'])) {
-
-
-                            session_start();
-                        
-                            $_SESSION['uname'] = $uname;
-                        
-                            $_SESSION['UserID'] = $user['UserID'];
-                        
-                            header("Location:/home.php?signup=success");
-                            exit();
-
-                                       }
-
-                        
-            } else {
-                echo "Error: " . $sql_auth . "<br>" . $con->error;
+                // If no errors, move the file to the specified directory
+                if ($uploadOk == 1) {
+                    if (move_uploaded_file($_FILES["mentoringUpload"]["tmp_name"], $targetFile)) {
+                        $sqlResume = "UPDATE `MentorRequests_t` SET `ResumeLocation` = '$uploadPath' WHERE `UserID` = $user_id";
+                        mysqli_query($con, $sqlResume);
+                    } else {
+                        echo 'error';
+                    }
+                }
             }
-            
+        };
 
-            
 
-echo $sql_auth;
+
+
+        echo "<br> <br>this is for user table" . $sql_userT;
+
+        if ($con->query($sql_userT) === TRUE) {
+            $last_id = $con->insert_id;
+            echo "New record created successfully. Last inserted ID is: " . $last_id;
+
+            // Login
+            $errors = array('uname' => '', 'pwd' => '');
+            $uname = '';
+
+            $uname = htmlspecialchars($loginUserName);
+            $pwd = htmlspecialchars($loginPassword);
+
+
+            $sql = 'SELECT * FROM Auth_t WHERE username = \'' . $uname . '\' ';
+
+            //echo $sql;
+
+            // run the query
+
+            $results = mysqli_query($con, $sql);
+
+
+            if (mysqli_num_rows($results) > 0) {
+
+                $user = mysqli_fetch_assoc($results);
+
+                if ($user['password'] != $pwd) {
+
+                    $errors['uname'] = 'Username or password is not correct. <br>';
+                }
+            } else {
+
+                $errors['uname'] = 'Username or password is not correct. <br>';
+            }
+
+            if (empty($errors['uname']) && empty($errors['pwd'])) {
+
+
+                session_start();
+
+                $_SESSION['uname'] = $uname;
+
+                $_SESSION['UserID'] = $user['UserID'];
+
+                header("Location:/home.php?signup=success");
+                exit();
+            }
+        } else {
+            echo "Error: " . $sql_auth . "<br>" . $con->error;
+        }
+
+
+
+
+        echo $sql_auth;
 
         echo " <br>";
 
-echo  $sql_userT;
-// mysqli_query($con, $sql);
+        echo  $sql_userT;
+        // mysqli_query($con, $sql);
 
         header("Location:/home.php?signup=success");
-
     }
 } else {
     echo "Error: " . mysqli_error($con);
