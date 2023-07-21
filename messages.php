@@ -247,7 +247,7 @@
                           <label for="recipientName" class="col-form-label">Recipient:</label>
                           <div class="dropdown" id="newMessage">
                             <input type="text" class="form-control" id="recipientName" placeholder="Search for a person" autocomplete="off">
-                            <ul class="dropdown-menu" id="messageSearchResults"></ul>
+                            <ul class="dropdown-menu messages-dropdown-menu" id="messageSearchResults"></ul>
                           </div>
                         </div>
                         <div class="mb-3">

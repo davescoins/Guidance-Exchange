@@ -134,7 +134,7 @@ $(document).ready(function () {
 $(document).ready(function () {
   var $searchInput = $('#recipientName');
   var $dropdown = $(
-    '<ul class="dropdown-menu" id="messageSearchResults"></ul>'
+    '<ul class="dropdown-menu messages-dropdown-menu" id="messageSearchResults"></ul>'
   );
 
   $searchInput.after($dropdown);
