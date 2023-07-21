@@ -97,7 +97,7 @@
   </section>
 
   <!-- Content Section -->
-  <section class="content-section pt-4">
+  <section class="content-section content pt-4">
 
     <!-- User Search Results -->
     <?php

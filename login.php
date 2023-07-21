@@ -131,12 +131,12 @@ if (isset($_POST['submit'])) {
     <link rel="icon" type="image/png" sizes="180x180" href="favicon-180.png">
     <link rel="icon" type="image/png" sizes="128x128" href="favicon-128.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-    <link href="assets\fontawesome\css\fontawesome.css" rel="stylesheet">
-    <link href="assets\fontawesome\css\brands.css" rel="stylesheet">
-    <link href="assets\fontawesome\css\solid.css" rel="stylesheet">
-    <link href="assets\bootstrap\css\bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css\main.css" />
-    <link rel="stylesheet" href="css\loginPage.css" />
+    <link href="assets/fontawesome/css/fontawesome.css" rel="stylesheet">
+    <link href="assets/fontawesome/css/brands.css" rel="stylesheet">
+    <link href="assets/fontawesome/css/solid.css" rel="stylesheet">
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/loginPage.css" />
+    <link rel="stylesheet" href="css/main.css" />
   </head>
 
   <header>
@@ -149,25 +149,25 @@ if (isset($_POST['submit'])) {
 
   <body>
     <!-- Content Section -->
-    <section class="geColor">
+    <section class="geColor pb-3">
       <div class="geflex">
         <h1 class="geColorWhite">Welcome Back!</h1>
       </div>
       <div class="geflex">
-        <img src="./img/loginPicture.png" alt="loginPicture">
+        <img src="./img/loginPicture.png" alt="loginPicture" />
       </div>
 
     </section>
-    <div class="container">
+    <div class="container content">
       <form action="login.php" method="POST">
         <label for="uname"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="uname" required value="<?php echo $uname; ?>">
+        <input type="text" placeholder="Enter Username" name="uname" required value="<?php echo $uname; ?>" />
         <div class="error"> <?php echo $errors['uname']; ?> </div>
         <label for="pwd"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="pwd" required>
+        <input type="password" placeholder="Enter Password" name="pwd" required />
         <button type="submit" name="submit" value="login">Login</button>
+      </form>
     </div>
-    </form>
 
     <script src="assets\bootstrap\js\bootstrap.bundle.min.js"></script>
     <script src="assets\jquery\jquery-3.7.0.min.js"></script>
