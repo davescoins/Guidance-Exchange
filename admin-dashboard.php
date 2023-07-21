@@ -131,7 +131,7 @@
         }
       } else {
         if ($profilePicture == null) {
-          echo '<img class="administrator__profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+          echo '<img class="administrator__profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
         } else {
           echo '<img class="administrator__profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
         }
@@ -198,45 +198,12 @@
           <div class="mb-3">
             <label for="selection">New or Existing User?</label>
             <select class="form-select" name="selection" id="selection" aria-label="Moderator Account Creation">
-              <option value="new" selected>New User</option>
+              <option value="null" selected>Choose user type...</option>
+              <option value="new">New User</option>
               <option value="existing">Existing User</option>
             </select>
           </div>
-          <div id="new" style="display: block;">
-            <div class="mb-3">
-              <label for="firstName" class="form-label">First Name</label>
-              <input type="text" class="form-control" id="firstName" name="firstName" required>
-            </div>
-            <div class="mb-3">
-              <label for="lastName" class="form-label">Last Name</label>
-              <input type="text" class="form-control" id="lastName" name="lastName" required>
-            </div>
-            <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" name="username" required>
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" name="email" required>
-            </div>
-            <div class="mb-3">
-              <label for="tel" class="form-label">Phone Number</label>
-              <input type="tel" class="form-control" id="tel" name="tel" required>
-            </div>
-          </div>
-          <div id="existing" style="display: none;">
-            <div class="mb-3">
-              <label for="existingUser" class="col-form-label">User Search</label>
-              <div class="dropdown" id="userSearch">
-                <input type="text" class="form-control" id="existingUser" placeholder="Search for a user" autocomplete="off">
-                <ul class="dropdown-menu" id="userSearchResults"></ul>
-              </div>
-            </div>
-            <button type="submit" class="btn main-button">Create</button>
+          <div id="formDiv"></div>
         </form>
       </div>
     </div>

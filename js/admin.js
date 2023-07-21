@@ -1,18 +1,55 @@
 const selection = document.getElementById('selection');
-const existingUser = document.getElementById('existing');
-const newUser = document.getElementById('new');
+const formDiv = document.getElementById('formDiv');
 
 selection.addEventListener('change', function () {
+  var existingUser = `<div id="existing">
+  <div class="mb-3">
+    <label for="existingUser" class="col-form-label">User Search</label>
+    <div class="dropdown" id="userSearch">
+      <input type="text" class="form-control" id="existingUser" placeholder="Search for a user" name="existingUser" autocomplete="off" required>
+      <ul class="dropdown-menu" id="userSearchResults"></ul>
+    </div>
+  </div>
+</div>
+<button type="submit" class="btn main-button">Create</button>`;
+
+  var newUser = `<div id="new">
+<div class="mb-3">
+  <label for="firstName" class="form-label">First Name</label>
+  <input type="text" class="form-control" id="firstName" name="firstName" required>
+</div>
+<div class="mb-3">
+  <label for="lastName" class="form-label">Last Name</label>
+  <input type="text" class="form-control" id="lastName" name="lastName" required>
+</div>
+<div class="mb-3">
+  <label for="username" class="form-label">Username</label>
+  <input type="text" class="form-control" id="username" name="username" required>
+</div>
+<div class="mb-3">
+  <label for="password" class="form-label">Password</label>
+  <input type="password" class="form-control" id="password" name="password" required>
+</div>
+<div class="mb-3">
+  <label for="email" class="form-label">Email</label>
+  <input type="email" class="form-control" id="email" name="email" required>
+</div>
+<div class="mb-3">
+  <label for="tel" class="form-label">Phone Number</label>
+  <input type="tel" class="form-control" id="tel" name="tel" required>
+</div>
+</div>
+<button type="submit" class="btn main-button">Create</button>`;
   if (selection.value === 'existing') {
-    existingUser.style.display = 'block';
-    newUser.style.display = 'none';
+    formDiv.innerHTML = existingUser;
   } else if (selection.value === 'new') {
-    existingUser.style.display = 'none';
-    newUser.style.display = 'block';
+    formDiv.innerHTML = newUser;
+  } else if (selection.value === 'null') {
+    formDiv.innerHTML = '';
   }
 });
 
-$(document).ready(function () {
+$(document).on('keydown', '#existingUser', function () {
   var $searchInput = $('#existingUser');
   var $dropdown = $('<ul class="dropdown-menu" id="userSearchResults"></ul>');
 
