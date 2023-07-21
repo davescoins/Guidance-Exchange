@@ -223,7 +223,37 @@
       echo '<img class="profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
     }
   }
+  echo '<div class="mb-0">';
+  echo '<button type="button" class="btn main-button" data-bs-toggle="modal" data-bs-target="#changeProfilePictureModal"><i class="fa-solid fa-camera me-2"></i>Change Profile Picture</button>';
   echo '</div>';
+  echo '</div>';
+
+  // Profile Picture Modal
+  echo '<div class="modal fade" id="changeProfilePictureModal" tabindex="-1" aria-labelledby="changeProfilePictureModalLabel" aria-hidden="true">';
+  echo '<div class="modal-dialog">';
+  echo '<div class="modal-content">';
+  echo '<div class="modal-header modal-header-gradient">';
+  echo '<h1 class="modal-title fs-5" id="changeProfilePictureModalLabel">Change Profile Picture</h1>';
+  echo '<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>';
+  echo '</div>';
+  echo '<div class="modal-body">';
+  echo '<form action="profile-picture.php" method="POST" id="pictureUpload" enctype="multipart/form-data">';
+  echo '<div class="mb-3">';
+  echo '<label for="profilePicture" class="form-label">Upload new profile picture</label>';
+  echo '<input class="form-control mb-3" type="file" name="profilePicture" id="profilePicture">';
+  echo '<div id="response"></div>';
+  echo '</div>';
+  echo '</div>';
+  echo '<div class="modal-footer">';
+  echo '<button type="button" class="btn cancel-button" data-bs-dismiss="modal">Cancel</button>';
+  echo '<button type="submit" class="btn main-button" value="Upload Picture" id="uploadButton">Save</button>';
+  echo '</form>';
+  echo '</div>';
+  echo '</div>';
+  echo '</div>';
+  echo '</div>';
+  // End Profile Picture Modal
+
   echo '</section>';
 
   // *** Content Section ***

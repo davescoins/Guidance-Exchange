@@ -10,3 +10,28 @@ $(document).ready(function () {
     renderChoiceLimit: 5,
   });
 });
+
+$(document).ready(function () {
+  $('#uploadButton').click(function () {
+    var formData = new FormData($('#pictureUpload')[0]);
+
+    $.ajax({
+      url: 'profile-picture.php',
+      type: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (data) {
+        $('#response').html(data);
+      },
+      error: function (xhr, status, error) {
+        console.error(error);
+      },
+    });
+  });
+
+  // Prevent form submission and page reload
+  $('#pictureUpload').submit(function (event) {
+    event.preventDefault();
+  });
+});
