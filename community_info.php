@@ -142,7 +142,7 @@
     <h1 style="color: white;"><?php echo $community['community_desc']; ?></h1>
     <div class="row my-5">
         <div class="col text-center">
-            <a class="btn btn-primary" href="new_discussion.php?community_id=<?php echo $communityId; ?>&profileID=<?php echo $profileID; ?>">Start a Discussion</a>
+            <a class="btn btn-primary" href="new_discussion.php?community_id=<?php echo $communityId; ?>&profileID=<?php echo $userID; ?>">Start a Discussion</a>
         </div>
     </div>
 </div>
