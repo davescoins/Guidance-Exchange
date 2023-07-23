@@ -726,7 +726,13 @@
       <div class="row mb-3 align-items-center">
         <label for="profilePictureBorder" class="col-sm-4 form-label m-0">Profile Picture Border</label>
         <div class="col-sm-8">
-          <input type="color" class="form-control form-control-color" id="profilePictureBorder" name="profilePictureBorder" value="<?php echo $profilePictureBorder; ?>" title="Choose your color">
+          <?php
+          if ($profilePictureBorder != null) {
+            echo '<input type="color" class="form-control form-control-color" id="profilePictureBorder" name="profilePictureBorder" value="' . $profilePictureBorder . '" title="Choose your color">';
+          } else {
+            echo '<input type="color" class="form-control form-control-color" id="profilePictureBorder" name="profilePictureBorder" value="#008a0e" title="Choose your color">';
+          }
+          ?>
         </div>
       </div>
       <div class="d-flex justify-content-center my-5">

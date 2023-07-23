@@ -212,9 +212,15 @@ VALUES
 
                 session_start();
 
-                $_SESSION['uname'] = $uname;
+                // $_SESSION['uname'] = $uname;
 
                 $_SESSION['UserID'] = $user['UserID'];
+
+                $_SESSION['MentorStatus'] = $user['MentorStatus'];
+
+                $_SESSION['ModeratorStatus'] = $user['ModeratorStatus'];
+
+                $_SESSION['SystemAdministratorStatus'] = $user['SystemAdministratorStatus'];
 
                 header("Location:/home.php?signup=success");
                 exit();

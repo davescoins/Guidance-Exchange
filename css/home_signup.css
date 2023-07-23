@@ -100,3 +100,13 @@
 .choices[data-type*='text'] .choices__button {
   border-left: 1px solid #892a35;
 }
+
+.dropdown-item {
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  width: 100%;
+  max-height: 150px;
+  overflow-y: scroll;
+}

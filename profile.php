@@ -370,7 +370,7 @@
   // *** Content Section ***
 
   echo '<section class="content-section pt-4">';
-  if ($mentoring != null) {
+  if ($mentoring != null && $userMentorStatus == 1) {
     echo '<div class="container-fluid pb-4">';
     echo '<div class="row align-items-start profile-section pt-2">';
     echo '<div class="col-1 d-flex align-items-center justify-content-center profile-icon">';
