@@ -75,13 +75,17 @@ if (isset($_POST['submit'])) {
     $sqlAssociations = "SELECT `Associations` FROM `UserData_t` WHERE `UserID` = $userID";
     $resultAssociations = mysqli_query($con, $sqlAssociations);
 
-    if (mysqli_num_rows($resultAssociations) > 0) {
-      while ($profile = mysqli_fetch_assoc($resultAssociations)) {
-        $associations = $profile['Associations'];
+    if ($resultAssociations) {
+      $associationRow = mysqli_fetch_assoc($resultAssociations);
+
+      if (!empty($associationRow['Associations'])) {
+        $associations = $associationRow['Associations'];
         $associationsArray = explode(";", $associations ?? '');
+      } else {
+        $associationsArray = array();
       }
     } else {
-      $associationsArray = null;
+      echo 'Query execution failed.';
     }
 
     $_SESSION['Associations'] = $associationsArray;
