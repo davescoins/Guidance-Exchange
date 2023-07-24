@@ -11,9 +11,7 @@
 }
 
 .photo-section .profile-photo {
-  width: 13rem;
   border: 5px solid;
-  border-radius: 100%;
 }
 
 .photo-section .profile-name {

@@ -212,15 +212,15 @@
   echo '<div class="container-fluid flex-column">';
   if ($profilePictureBorder == null) {
     if ($profilePicture == null) {
-      echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+      echo '<img class="profile-photo mb-3 rounded-circle" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo" width="210" height="210">';
     } else {
-      echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+      echo '<img class="profile-photo mb-3 rounded-circle" style="border-color: #008a0e;" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo" width="210" height="210">';
     }
   } else {
     if ($profilePicture == null) {
-      echo '<img class="profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+      echo '<img class="profile-photo mb-3 rounded-circle" style="border-color: ' . $profilePictureBorder . ';" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo" width="210" height="210">';
     } else {
-      echo '<img class="profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+      echo '<img class="profile-photo mb-3 rounded-circle" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo" width="210" height="210">';
     }
   }
   echo '<div class="mb-0">';
@@ -356,7 +356,7 @@
       if ($userMentorStatus == 1) {
         echo '<h2 class="edit__section-subHeading mb-3 mt-4">Mentoring</h2>';
         echo '<div class="mb-3 text-left">';
-        echo '<textarea class="form-control" name="mentoring" id="mentoring" rows="3"><' . $mentoring . '></textarea>';
+        echo '<textarea class="form-control" name="mentoring" id="mentoring" rows="3">' . $mentoring . '</textarea>';
         echo '</div>';
       }
       ?>

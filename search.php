@@ -157,9 +157,9 @@
             echo '<div class="col-auto d-flex align-items-center justify-content-center result-picture">';
 
             if ($foundUser['ProfilePicture'] == null) {
-              echo '<img class="px-2" src="/img/blank-profile-image.png" alt="' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . ' Profile Photo">';
+              echo '<img class="rounded-circle mx-2" src="/img/blank-profile-image.png" alt="' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . ' Profile Photo" width="50" height="50">';
             } else {
-              echo '<img class="px-2" src="upload/' . $foundUser['ProfilePicture'] . '" alt="' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . ' Profile Photo">';
+              echo '<img class="rounded-circle mx-2" src="upload/' . $foundUser['ProfilePicture'] . '" alt="' . $foundUser['FirstName'] . ' ' . $foundUser['LastName'] . ' Profile Photo" width="50" height="50">';
             }
 
             echo '</div>';

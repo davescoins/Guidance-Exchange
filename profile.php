@@ -220,15 +220,15 @@
   echo '<div class="container-fluid flex-column">';
   if ($profilePictureBorder == null) {
     if ($profilePicture == null) {
-      echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+      echo '<img class="profile-photo mb-3 rounded-circle" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo" width="210" height="210">';
     } else {
-      echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+      echo '<img class="profile-photo mb-3 rounded-circle" style="border-color: #008a0e;" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo" width="210" height="210">';
     }
   } else {
     if ($profilePicture == null) {
-      echo '<img class="profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+      echo '<img class="profile-photo mb-3 rounded-circle" style="border-color: ' . $profilePictureBorder . ';" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo" width="210" height="210">';
     } else {
-      echo '<img class="profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+      echo '<img class="profile-photo mb-3 rounded-circle" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo" width="210" height="210">';
     }
   }
   if ($mentorStatus == true) {
