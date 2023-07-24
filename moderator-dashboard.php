@@ -217,7 +217,7 @@
   </section>
 
   <!-- Content Section -->
-  <section class="content-section pt-4">
+  <section class="content-section pt-4 content">
     <div class="container-fluid w-50 pb-4 flex-column">
 
       <?php
@@ -277,7 +277,11 @@
           echo '<button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#community_collapse' . $x . '" aria-expanded="false" aria-controls="community_collapse' . $x . '">';
           echo '<div class="d-flex align-items-center">';
           echo '<div class="d-flex align-items-center justify-content-center moderator__mentor-request-photo">';
-          echo '<img class="me-4 rounded-circle" src="/upload/' . $communityDataArray[$x]['CommunityPicture'] . '" alt="' . $communityDataArray[$x]['CommunityName'] . ' Profile Photo" width="40" height="40">';
+          if ($communityDataArray[$x]['CommunityPicture'] != null) {
+            echo '<img class="me-4 rounded-circle" src="/upload/' . $communityDataArray[$x]['CommunityPicture'] . '" alt="' . $communityDataArray[$x]['CommunityName'] . ' Profile Photo" width="40" height="40">';
+          } else {
+            echo '<img class="me-4 rounded-circle" src="/img/logo_gradient.png" alt="GE Logo" width="40" height="40">';
+          }
           echo '</div>';
           echo '<div class="moderator__request-header ps-4 mb-0 d-flex align-items-center">';
           echo '<h4 class="m-0">' . $communityDataArray[$x]['CommunityName'] . '</h4>';
