@@ -333,15 +333,15 @@
   echo '<div class="container-fluid flex-column">';
   if ($profilePictureBorder == null) {
     if ($profilePicture == null) {
-      echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+      echo '<img class="profile-photo mb-3 rounded-circle" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo" width="210" height="210">';
     } else {
-      echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+      echo '<img class="profile-photo mb-3 rounded-circle" style="border-color: #008a0e;" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo" width="210" height="210">';
     }
   } else {
     if ($profilePicture == null) {
-      echo '<img class="profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+      echo '<img class="profile-photo mb-3 rounded-circle" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo" width="210" height="210">';
     } else {
-      echo '<img class="profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+      echo '<img class="profile-photo mb-3 rounded-circle" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo" width="210" height="210">';
     }
   }
   if ($userMentorStatus == true) {
@@ -468,7 +468,7 @@
               echo '<p class="scheduler-name m-0">' . date_format(date_create($time), "g:i A") . '</p>';
               echo '</div>';
               echo '<div class="col-2 mb-3">';
-              echo '<a href="profile.php?profileID=' . $schedulerID . '"><img class="schedule-photo" src="upload/' . $schedulerData[$schedulerID]['ProfilePicture'] . '" alt="' . $schedulerData[$schedulerID]['FirstName'] . ' ' . $schedulerData[$schedulerID]['LastName'] . ' Profile Picture"></a>';
+              echo '<a href="profile.php?profileID=' . $schedulerID . '"><img class="schedule-photo rounded-circle" src="upload/' . $schedulerData[$schedulerID]['ProfilePicture'] . '" alt="' . $schedulerData[$schedulerID]['FirstName'] . ' ' . $schedulerData[$schedulerID]['LastName'] . ' Profile Picture width="60" height="60""></a>';
               echo '</div>';
               echo '<div class="col-3 d-flex align-items-center mb-3">';
               echo '<p class="scheduler-name m-0">' . $schedulerData[$schedulerID]['FirstName'] . ' ' . $schedulerData[$schedulerID]['LastName'] . '</p>';
@@ -479,7 +479,7 @@
               echo '<p class="scheduler-name m-0">' . date_format(date_create($time), "g:i A") . '</p>';
               echo '</div>';
               echo '<div class="col-2 mb-3">';
-              echo '<a href="profile.php?profileID=' . $mentorID . '"><img class="schedule-photo" src="upload/' . $mentorData[$mentorID]['ProfilePicture'] . '" alt="' . $mentorData[$mentorID]['FirstName'] . ' ' . $mentorData[$mentorID]['LastName'] . ' Profile Picture"></a>';
+              echo '<a href="profile.php?profileID=' . $mentorID . '"><img class="schedule-photo rounded-circle" src="upload/' . $mentorData[$mentorID]['ProfilePicture'] . '" alt="' . $mentorData[$mentorID]['FirstName'] . ' ' . $mentorData[$mentorID]['LastName'] . ' Profile Picture" width="60" height="60"></a>';
               echo '</div>';
               echo '<div class="col-3 d-flex align-items-center mb-3">';
               echo '<p class="scheduler-name m-0">' . $mentorData[$mentorID]['FirstName'] . ' ' . $mentorData[$mentorID]['LastName'] . '</p>';
@@ -563,7 +563,7 @@
               echo '<p class="scheduler-name m-0">' . date_format(date_create($time), "g:i A") . '</p>';
               echo '</div>';
               echo '<div class="col-2 mb-3">';
-              echo '<a href="profile.php?profileID=' . $schedulerID . '"><img class="schedule-photo" src="upload/' . $schedulerData[$schedulerID]['ProfilePicture'] . '" alt="' . $schedulerData[$schedulerID]['FirstName'] . ' ' . $schedulerData[$schedulerID]['LastName'] . ' Profile Picture"></a>';
+              echo '<a href="profile.php?profileID=' . $schedulerID . '"><img class="schedule-photo rounded-circle" src="upload/' . $schedulerData[$schedulerID]['ProfilePicture'] . '" alt="' . $schedulerData[$schedulerID]['FirstName'] . ' ' . $schedulerData[$schedulerID]['LastName'] . ' Profile Picture" width="60" height="60"></a>';
               echo '</div>';
               echo '<div class="col-4 d-flex align-items-center mb-3">';
               echo '<p class="scheduler-name m-0">' . $schedulerData[$schedulerID]['FirstName'] . ' ' . $schedulerData[$schedulerID]['LastName'] . '</p>';
@@ -574,7 +574,7 @@
               echo '<p class="scheduler-name m-0">' . date_format(date_create($time), "g:i A") . '</p>';
               echo '</div>';
               echo '<div class="col-2 mb-3">';
-              echo '<a href="profile.php?profileID=' . $mentorID . '"><img class="schedule-photo" src="upload/' . $mentorData[$mentorID]['ProfilePicture'] . '" alt="' . $mentorData[$mentorID]['FirstName'] . ' ' . $mentorData[$mentorID]['LastName'] . ' Profile Picture"></a>';
+              echo '<a href="profile.php?profileID=' . $mentorID . '"><img class="schedule-photo rounded-circle" src="upload/' . $mentorData[$mentorID]['ProfilePicture'] . '" alt="' . $mentorData[$mentorID]['FirstName'] . ' ' . $mentorData[$mentorID]['LastName'] . ' Profile Picture" width="60" height="60"></a>';
               echo '</div>';
               echo '<div class="col-4 d-flex align-items-center mb-3">';
               echo '<p class="scheduler-name m-0">' . $mentorData[$mentorID]['FirstName'] . ' ' . $mentorData[$mentorID]['LastName'] . '</p>';
