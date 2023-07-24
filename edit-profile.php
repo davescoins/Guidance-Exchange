@@ -352,6 +352,14 @@
       <div class="mb-3 text-left">
         <textarea class="form-control" name="aboutMe" id="aboutMe" rows="3"><?php echo $aboutMe; ?></textarea>
       </div>
+      <?php
+      if ($userMentorStatus == 1) {
+        echo '<h2 class="edit__section-subHeading mb-3 mt-4">Mentoring</h2>';
+        echo '<div class="mb-3 text-left">';
+        echo '<textarea class="form-control" name="mentoring" id="mentoring" rows="3"><' . $mentoring . '></textarea>';
+        echo '</div>';
+      }
+      ?>
       <h2 class="edit__section-subHeading mb-3 mt-4">Work</h2>
       <div class="row mb-3 align-items-center">
         <label for="jobTitle" class="col-sm-2 form-label m-0">Job Title</label>

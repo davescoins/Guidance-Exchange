@@ -128,7 +128,7 @@
     $workTitle = $profile['WorkTitle'];
     $workTitleArray = explode(";", $workTitle ?? '');
     $workLocation = $profile['WorkLocation'];
-    $workLocationArray = explode(";", $workTitle ?? '');
+    $workLocationArray = explode(";", $workLocation ?? '');
     $workStartDate = $profile['WorkStartDate'];
     $workStartDateArray = explode(";", $workStartDate ?? '');
     $workEndDate = $profile['WorkEndDate'];
@@ -465,7 +465,11 @@
     echo '<h3>Work</h3>';
     foreach ($workLocationArray as $location) {
       $wl = 0;
-      echo '<p class="mb-0"><strong>' . $workTitleArray[$wl] . ' at ' . $location . '</strong></p>';
+      if ($workTitleArray[$wl] != null) {
+        echo '<p class="mb-0"><strong>' . $workTitleArray[$wl] . ' at ' . $location . '</strong></p>';
+      } else {
+        echo '<p class="mb-0"><strong>' . $location . '</strong></p>';
+      }
       if ($workEndDateArray[$wl] != null) {
         echo '<p class="profile-date mb-0">(' . date_format(date_create($workStartDateArray[$wl]), "Y") . ' - ' . date_format(date_create($workEndDateArray[$wl]), "Y") . ')</p>';
       } else {
@@ -489,7 +493,11 @@
     echo '<h3>Education</h3>';
     foreach ($educationLocationArray as $location) {
       $el = 0;
-      echo '<p class="mb-0"><strong>' . $educationDegreeArray[$el] . ', ' . $location . '</strong></p>';
+      if ($educationDegreeArray[$el] != null) {
+        echo '<p class="mb-0"><strong>' . $educationDegreeArray[$el] . ', ' . $location . '</strong></p>';
+      } else {
+        echo '<p class="mb-0"><strong>' . $location . '</strong></p>';
+      }
       if ($educationEndDateArray[$el] != null) {
         echo '<p class="profile-date mb-0">(' . date_format(date_create($educationStartDateArray[$el]), "Y") . ' - ' . date_format(date_create($educationEndDateArray[$el]), "Y") . ')</p>';
       } else {

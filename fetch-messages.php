@@ -49,7 +49,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     while ($message = mysqli_fetch_assoc($result)) {
       if (!$messageTitleSet) {
         $messageTitle .= '<div class="position-relative">';
-        $messageTitle .= '<img src="upload/' . $senderData[$senderID]['ProfilePicture'] . '" class="rounded-circle mr-1" alt="' . $senderData[$senderID]['FirstName'] . ' ' . $senderData[$senderID]['LastName'] . '" width="40" height="40">';
+        if ($senderData[$senderID]['ProfilePicture'] != null) {
+          $messageTitle .= '<img src="upload/' . $senderData[$senderID]['ProfilePicture'] . '" class="rounded-circle mr-1" alt="' . $senderData[$senderID]['FirstName'] . ' ' . $senderData[$senderID]['LastName'] . '" width="40" height="40">';
+        } else {
+          $messageTitle .= '<img src="img/blank-profile-image.png" class="rounded-circle mr-1" alt="' . $senderData[$senderID]['FirstName'] . ' ' . $senderData[$senderID]['LastName'] . '" width="40" height="40">';
+        }
         $messageTitle .= '</div>';
         $messageTitle .= '<div class="flex-grow-1 ps-3">';
         $messageTitle .= '<strong>' . $senderData[$senderID]['FirstName'] . ' ' . $senderData[$senderID]['LastName'] . '</strong>';
@@ -61,7 +65,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if ($message['SenderID'] == $userID) {
         $messages .= '<div class="message-right pb-4">';
         $messages .= '<div>';
-        $messages .= '<img src="upload/' . $message['ProfilePicture'] . '" class="rounded-circle me-1" alt="' . $message['FirstName'] . ' ' . $message['LastName'] . '" width="40" height="40">';
+        if ($message['ProfilePicture']) {
+          $messages .= '<img src="upload/' . $message['ProfilePicture'] . '" class="rounded-circle me-1" alt="' . $message['FirstName'] . ' ' . $message['LastName'] . '" width="40" height="40">';
+        } else {
+          $messages .= '<img src="img/blank-profile-image.png" class="rounded-circle me-1" alt="' . $message['FirstName'] . ' ' . $message['LastName'] . '" width="40" height="40">';
+        }
         $messages .= '<div class="text-muted small text-nowrap mt-2">' . date_format(date_create($message['SendDate']), "g:i a") . '</div>';
         $messages .= '<div class="text-muted small text-nowrap mt-2">' . date_format(date_create($message['SendDate']), "n/j/y") . '</div>';
         $messages .= '</div>';

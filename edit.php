@@ -51,6 +51,11 @@ if (isset($_POST['aboutMe']) && $_POST['aboutMe'] !== "") {
 } else {
   $aboutMe = null;
 }
+if (isset($_POST['mentoring']) && $_POST['mentoring'] !== "") {
+  $mentoring = mysqli_real_escape_string($con, $_POST['mentoring']);
+} else {
+  $mentoring = null;
+}
 if (isset($_POST['jobTitle']) && $_POST['jobTitle'] !== "") {
   $jobTitle = mysqli_real_escape_string($con, $_POST['jobTitle']);
 } else {
@@ -224,6 +229,11 @@ if ($aboutMe === null) {
   $sqlUserDataUpdate .= "AboutMe = NULL, ";
 } else {
   $sqlUserDataUpdate .= "AboutMe = '$aboutMe', ";
+}
+if ($mentoring === null) {
+  $sqlUserDataUpdate .= "Mentoring = NULL, ";
+} else {
+  $sqlUserDataUpdate .= "Mentoring = '$mentoring', ";
 }
 if ($jobTitle === null) {
   $sqlUserDataUpdate .= "WorkTitle = NULL, ";
