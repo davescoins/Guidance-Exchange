@@ -206,27 +206,27 @@ IF the user is logged in
           <h3 class="color-home-header">Meet The Team</h3>
         </div>
         <div class="col text-center">
-          <img class="rounded-circle img-team" src="img/adamjawarishpic.jpg" alt="profile">
+          <img class="rounded-circle img-team mb-3" src="img/adamjawarishpic.jpg" alt="profile">
           <h6>Adam Jawarish</h6>
           <p> Database Developer</p>
         </div>
         <div class="col text-center">
-          <img class="rounded-circle img-team" src="img/berineyanpic.jpg" alt="profile">
+          <img class="rounded-circle img-team mb-3" src="img/berineyanpic.jpg" alt="profile">
           <h6>Bernie Yanos</h6>
           <p>Software Developer</p>
         </div>
         <div class="col text-center">
-          <img class="rounded-circle img-team" src="img/Beza.jpg" alt="profile">
+          <img class="rounded-circle img-team mb-3" src="img/Beza.jpg" alt="profile">
           <h6>Bezawit Teferi</h6>
           <p> Software Developer</p>
         </div>
         <div class="col text-center">
-          <img class="rounded-circle img-team" src="img/David.jpg" alt="profile">
+          <img class="rounded-circle img-team mb-3" src="img/David.jpg" alt="profile">
           <h6>David Miller</h6>
           <p>Project Manager</p>
         </div>
         <div class="col text-center">
-          <img class="rounded-circle img-team" src="img/Juliet.jpg" alt="profile">
+          <img class="rounded-circle img-team mb-3" src="img/Juliet.jpg" alt="profile">
           <h6>Juliet Walizai</h6>
           <p>Project Manager</p>
         </div>
