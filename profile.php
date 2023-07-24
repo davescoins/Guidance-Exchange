@@ -417,9 +417,8 @@
       foreach ($appointments as $appointment) {
         $formattedTime = date('g:i A', strtotime($appointment['AppointmentTime']));
         echo '<div class="form-check form-check-inline me-0 ps-1 pb-2 col-4 d-flex align-items-center justify-content-center profile__appointments">';
-        echo '<input type="checkbox" name="time" id="appointmentID' . $appointment['AppointmentID'] . '" value="" />';
+        echo '<input type="checkbox" name="appointmentID" id="appointmentID' . $appointment['AppointmentID'] . '" value="' . $appointment['AppointmentID'] . '" />';
         echo '<label class="btn main-button btn-std my-1" for="appointmentID' . $appointment['AppointmentID'] . '">' . $formattedTime . '</label>';
-        echo '<input type="hidden" name="appointmentID" value="' . $appointment['AppointmentID'] . '"/>';
         echo '<input type="hidden" name="schedulerID" value="' . $userID . '"/>';
         echo '</div>';
       }
