@@ -39,6 +39,13 @@ if (mysqli_ping($con)) {
         $mentoringStatement = $_POST['mentoringStatement'];
         $mentoringUpload = NULL;
 
+        if (isset($_POST['skills'])) {
+            $skills = array();
+            $skills = $_POST['skills'];
+        } else {
+            $skills = null;
+        }
+
 
         // $ModeratorStatus = 0;
         // $SystemAdministratorStatus = 0;
@@ -114,7 +121,12 @@ if (mysqli_ping($con)) {
             );
             ";
 
-
+        if ($skills != null) {
+            foreach ($skills as $skillData) {
+                $skillsSQL = "INSERT INTO `Qualifications_t` (`UserID`, `SkillID`) VALUES ('$user_id', '$skillData')";
+                mysqli_query($con, $skillsSQL);
+            }
+        }
 
         if ($userType) {
 
