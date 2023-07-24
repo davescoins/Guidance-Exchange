@@ -38,14 +38,15 @@ if ($communityApproval != null) {
 
 if ($communityApprovalArray != null) {
   if ($communityApprovalArray[0] === "approve") {
-
-    // insert code to create community
-
-    $requestRemoveQuery = "DELETE FROM `MentorRequests_t` WHERE `UserID` = $communityApprovalArray[1]";
+    $requestRemoveQuery = "DELETE FROM `CommunityRequests_t` WHERE `CommunityRequestID` = $communityApprovalArray[1]";
+    $communityAddQuery = "UPDATE `community_data` SET `active_flg` = 1 WHERE `community_id` = $communityApprovalArray[2]";
     mysqli_query($con, $requestRemoveQuery);
+    mysqli_query($con, $communityAddQuery);
   } else {
-    $requestRemoveQuery = "DELETE FROM `MentorRequests_t` WHERE `UserID` = $communityApprovalArray[1]";
+    $requestRemoveQuery = "DELETE FROM `CommunityRequests_t` WHERE `CommunityRequestID` = $communityApprovalArray[1]";
+    $communityRemoveQuery = "DELETE FROM `community_data` WHERE `community_id` = $communityApprovalArray[2]";
     mysqli_query($con, $requestRemoveQuery);
+    mysqli_query($con, $communityRemoveQuery);
   }
 }
 

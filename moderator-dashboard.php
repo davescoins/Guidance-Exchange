@@ -126,7 +126,7 @@
 
   $communityRequestsArray = array();
   while ($communityRequests = mysqli_fetch_assoc($resultCommunityRequests)) {
-    $communityRequestsArray[] = array('CommunityRequestID' => $communityRequests['CommunityRequestID'], 'UserID' => $communityRequests['UserID'], 'CommunityName' => $communityRequests['CommunityName'], 'CommunityDescription' => $communityRequests['CommunityDescription'], 'CommunityPicture' => $communityRequests['CommunityPicture']);
+    $communityRequestsArray[] = array('CommunityRequestID' => $communityRequests['CommunityRequestID'], 'CommunityID' => $communityRequests['CommunityID'], 'UserID' => $communityRequests['UserID'], 'CommunityName' => $communityRequests['CommunityName'], 'CommunityDescription' => $communityRequests['CommunityDescription'], 'CommunityPicture' => $communityRequests['CommunityPicture']);
   }
 
   foreach ($communityRequestsArray as $request) {
@@ -134,7 +134,7 @@
     $sqlUser = "SELECT `FirstName`, `LastName`, `ProfilePicture` FROM `UserData_t` WHERE `UserID` = $user";
     $resultUser = mysqli_query($con, $sqlUser);
     while ($communityData = mysqli_fetch_assoc($resultUser)) {
-      $communityDataArray[] = array('UserID' => $request['UserID'], 'FirstName' => $communityData['FirstName'], 'LastName' => $communityData['LastName'], 'ProfilePicture' => $communityData['ProfilePicture'], 'CommunityRequestID' => $request['CommunityRequestID'], 'CommunityName' => $request['CommunityName'], 'CommunityDescription' => $request['CommunityDescription'], 'CommunityPicture' => $request['CommunityPicture']);
+      $communityDataArray[] = array('UserID' => $request['UserID'], 'FirstName' => $communityData['FirstName'], 'LastName' => $communityData['LastName'], 'ProfilePicture' => $communityData['ProfilePicture'], 'CommunityRequestID' => $request['CommunityRequestID'], 'CommunityID' => $request['CommunityID'], 'CommunityName' => $request['CommunityName'], 'CommunityDescription' => $request['CommunityDescription'], 'CommunityPicture' => $request['CommunityPicture']);
     }
   }
 
@@ -292,8 +292,8 @@
           echo $communityDataArray[$x]['CommunityDescription'];
           echo '<div class="container-fluid pt-3">';
           echo '<form action="moderator-action.php" method="POST">';
-          echo '<button type="submit" name="community" value="approve-' . $communityDataArray[$x]['UserID'] . '-' . $communityDataArray[$x]['CommunityRequestID'] . '" class="btn btn-success mx-4">Approve</button>';
-          echo '<button type="submit" name="community" value="deny-' . $communityDataArray[$x]['UserID'] . '-' . $communityDataArray[$x]['CommunityRequestID'] . '" class="btn btn-danger mx-4">Deny</button>';
+          echo '<button type="submit" name="community" value="approve-' . $communityDataArray[$x]['CommunityRequestID'] . '-' . $communityDataArray[$x]['CommunityID'] . '" class="btn btn-success mx-4">Approve</button>';
+          echo '<button type="submit" name="community" value="deny-' . $communityDataArray[$x]['CommunityRequestID'] . '-' . $communityDataArray[$x]['CommunityID'] . '" class="btn btn-danger mx-4">Deny</button>';
           echo '</form>';
           echo '</div></div></div></div>';
         }
