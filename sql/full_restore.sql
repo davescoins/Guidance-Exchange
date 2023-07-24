@@ -59,16 +59,6 @@ CREATE TABLE Appointments_t (
   CONSTRAINT Appointments_t_FK2 FOREIGN KEY (SchedulerID) REFERENCES Auth_t(UserID)
 ) Auto_Increment = 1;
 
-CREATE TABLE CommunityRequests_t (
-  CommunityRequestID INT(9) NOT NULL Auto_Increment,
-  UserID INT(9) NOT NULL,
-  CommunityName VARCHAR(255),
-  CommunityDescription LONGTEXT,
-  CommunityPicture VARCHAR(255),
-  CONSTRAINT CommunityRequests_t_PK PRIMARY KEY (CommunityRequestID),
-  CONSTRAINT CommunityRequests_t_FK FOREIGN KEY (UserID) REFERENCES Auth_t(UserID)
-) Auto_Increment = 1;
-
 CREATE TABLE MentorRequests_t (
   MentorRequestID INT(9) NOT NULL Auto_Increment,
   UserID INT(9) NOT NULL,
@@ -117,9 +107,21 @@ CREATE TABLE Qualifications_t (
 CREATE TABLE community_data (
   community_id INT(11) NOT NULL Auto_Increment,
   community_name VARCHAR(255),
-  community_desc VARCHAR(255),
+  community_desc LONGTEXT,
   active_flg tinyint(1),
   CONSTRAINT community_data_PK PRIMARY KEY (community_id)
+) Auto_Increment = 1;
+
+CREATE TABLE CommunityRequests_t (
+  CommunityRequestID INT(9) NOT NULL Auto_Increment,
+  CommunityID INT(11) NOT NULL,
+  UserID INT(9) NOT NULL,
+  CommunityName VARCHAR(255),
+  CommunityDescription LONGTEXT,
+  CommunityPicture VARCHAR(255),
+  CONSTRAINT CommunityRequests_t_PK PRIMARY KEY (CommunityRequestID),
+  CONSTRAINT CommunityRequests_t_FK1 FOREIGN KEY (UserID) REFERENCES Auth_t(UserID),
+  CONSTRAINT CommunityRequests_t_FK2 FOREIGN KEY (CommunityID) REFERENCES community_data(community_id)
 ) Auto_Increment = 1;
 
 CREATE TABLE community_data_info (
@@ -129,14 +131,16 @@ CREATE TABLE community_data_info (
   active_flg TINYINT(1),
   user_id INT(9),
   community_id INT(11) NOT NULL,
-  CONSTRAINT community_data_info_PK PRIMARY KEY (post_id)
+  CONSTRAINT community_data_info_PK PRIMARY KEY (post_id),
+  CONSTRAINT community_data_info_FK FOREIGN KEY (community_id) REFERENCES community_data(community_id)
 ) Auto_Increment = 1;
 
 CREATE TABLE post_comments (
   post_comment_id INT(9) NOT NULL Auto_Increment,
   comment_text LONGTEXT,
   post_id INT(9),
-  CONSTRAINT post_comments_PK PRIMARY KEY (post_comment_id)
+  CONSTRAINT post_comments_PK PRIMARY KEY (post_comment_id),
+  CONSTRAINT community_data_info_t_FK FOREIGN KEY (post_id) REFERENCES community_data_info(post_id)
 ) Auto_Increment = 1;
 
 INSERT INTO
@@ -524,33 +528,6 @@ VALUES
   (1, null, "2023-07-30 18:30");
 
 INSERT INTO
-  CommunityRequests_t (
-    `UserID`,
-    `CommunityName`,
-    `CommunityDescription`,
-    `CommunityPicture`
-  )
-VALUES
-  (
-    6,
-    'Java Programming',
-    'I\'m thrilled to propose the creation of a fantastic forum community for Java programming enthusiasts. I\'m looking for a place where passionate programmers can come together to discuss, learn, and share knowledge about Java. Imagine a space brimming with like-minded individuals who are just as eager as you are to delve into the intricacies of Java programming. I want a Java community where you can initiate and participate in stimulating conversations, exchange valuable code snippets, seek advice on troubleshooting, and connect with seasoned professionals ready to mentor. Whether you\'re a beginner seeking guidance or a seasoned expert eager to contribute, the Java community would be a supportive environment where growth and collaboration thrive. Thank you for considering creating this exciting space for Java enthusiasts, and let\'s unlock endless possibilities for learning and networking within the Java community.',
-    'java_icon.png'
-  ),
-  (
-    5,
-    'Stock Trading',
-    'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi omnis, quod odio praesentium rem cupiditate soluta laborum aspernatur, explicabo temporibus veritatis a cumque quas dolor libero corrupti vero dolorum consequatur! Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae voluptatem ipsam libero iure fugit facere omnis, consequuntur dolor? In aperiam pariatur ex aut vel vitae reprehenderit sunt vero modi deleniti. ',
-    'stocks_circle.png'
-  ),
-  (
-    4,
-    'Coin Collecting',
-    'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi omnis, quod odio praesentium rem cupiditate soluta laborum aspernatur, explicabo temporibus veritatis a cumque quas dolor libero corrupti vero dolorum consequatur! Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae voluptatem ipsam libero iure fugit facere omnis, consequuntur dolor? In aperiam pariatur ex aut vel vitae reprehenderit sunt vero modi deleniti. ',
-    'coins_circle.png'
-  );
-
-INSERT INTO
   MentorRequests_t (
     `UserID`,
     `ResumeLocation`,
@@ -894,3 +871,57 @@ VALUES
   (6, 8),
   (6, 14),
   (6, 13);
+
+INSERT INTO
+  community_data (
+    `community_name`,
+    `community_desc`,
+    `active_flg`
+  )
+VALUES
+  (
+    'Java Programming',
+    'Welcome to the ultimate online community forum for Java Programming enthusiasts! Join a vibrant community of developers and learners from all levels, where you can share your knowledge, ask questions, and engage in discussions about Java-related topics. Whether you\'re a seasoned programmer or just starting your coding journey, Guidance Exchange is the perfect place to connect, collaborate, and grow together in the world of Java Programming.',
+    0
+  ),
+  (
+    'Stock Trading',
+    'Step into the world of stock trading with the premier online community forum for traders and investors! Discover a dynamic platform where traders of all backgrounds come together to exchange ideas, strategies, and market insights. Whether you\'re a seasoned Wall Street pro or a novice exploring the markets, Guidance Exchange offers a supportive space to discuss stocks, analyze trends, and stay informed on the latest financial developments.',
+    0
+  ),
+  (
+    'Coin Collecting',
+    'Welcome to the ultimate online community forum for passionate numismatists! Immerse yourself in the fascinating world of coin collecting, where enthusiasts gather to share their expertise, showcase rare finds, and discuss the rich history behind these treasured pieces. Whether you\'re a seasoned collector or a newcomer with a growing interest, Guidance Exchange provides a welcoming environment to connect with like-minded individuals, expand your knowledge, and embark on a captivating journey through the realm of coins.',
+    0
+  );
+
+INSERT INTO
+  CommunityRequests_t (
+    `UserID`,
+    `CommunityID`,
+    `CommunityName`,
+    `CommunityDescription`,
+    `CommunityPicture`
+  )
+VALUES
+  (
+    6,
+    1,
+    'Java Programming',
+    'I\'m thrilled to propose the creation of a fantastic forum community for Java programming enthusiasts. I\'m looking for a place where passionate programmers can come together to discuss, learn, and share knowledge about Java. Imagine a space brimming with like-minded individuals who are just as eager as you are to delve into the intricacies of Java programming. I want a Java community where you can initiate and participate in stimulating conversations, exchange valuable code snippets, seek advice on troubleshooting, and connect with seasoned professionals ready to mentor. Whether you\'re a beginner seeking guidance or a seasoned expert eager to contribute, the Java community would be a supportive environment where growth and collaboration thrive. Thank you for considering creating this exciting space for Java enthusiasts, and let\'s unlock endless possibilities for learning and networking within the Java community.',
+    'java_icon.png'
+  ),
+  (
+    5,
+    2,
+    'Stock Trading',
+    'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi omnis, quod odio praesentium rem cupiditate soluta laborum aspernatur, explicabo temporibus veritatis a cumque quas dolor libero corrupti vero dolorum consequatur! Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae voluptatem ipsam libero iure fugit facere omnis, consequuntur dolor? In aperiam pariatur ex aut vel vitae reprehenderit sunt vero modi deleniti. ',
+    'stocks_circle.png'
+  ),
+  (
+    4,
+    3,
+    'Coin Collecting',
+    'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi omnis, quod odio praesentium rem cupiditate soluta laborum aspernatur, explicabo temporibus veritatis a cumque quas dolor libero corrupti vero dolorum consequatur! Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae voluptatem ipsam libero iure fugit facere omnis, consequuntur dolor? In aperiam pariatur ex aut vel vitae reprehenderit sunt vero modi deleniti. ',
+    'coins_circle.png'
+  );
