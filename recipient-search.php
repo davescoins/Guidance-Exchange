@@ -24,7 +24,7 @@ if (isset($_POST['query'])) {
 
   if (mysqli_num_rows($userQueryResult) > 0) {
     while ($row = mysqli_fetch_assoc($userQueryResult)) {
-      echo '<li><a class="dropdown-item" data-userid="' . $row['UserID'] . '"><img class="me-2" src="upload/' . $row['ProfilePicture'] . '" alt="' . $row['FirstName'] . ' ' . $row['LastName'] . '" width="40" height="40">' . $row['FirstName'] . ' ' . $row['LastName'] . '</a></li>';
+      echo '<li><a class="dropdown-item" data-userid="' . $row['UserID'] . '"><img class="me-2 rounded-circle" src="upload/' . $row['ProfilePicture'] . '" alt="' . $row['FirstName'] . ' ' . $row['LastName'] . '" width="40" height="40">' . $row['FirstName'] . ' ' . $row['LastName'] . '</a></li>';
     }
   } else {
     echo '<li><a class="dropdown-item">No results found</a></li>';

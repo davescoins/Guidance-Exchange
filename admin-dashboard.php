@@ -161,7 +161,7 @@
         if ($moderator['ProfilePicture'] == null) {
           echo '<img class="px-2" src="/img/blank-profile-image.png" alt="' . $moderator['FirstName'] . ' ' . $moderator['LastName'] . ' Profile Photo">';
         } else {
-          echo '<img class="px-2" src="upload/' . $moderator['ProfilePicture'] . '" alt="' . $moderator['FirstName'] . ' ' . $moderator['LastName'] . ' Profile Photo">';
+          echo '<img class="mx-2 rounded-circle" src="upload/' . $moderator['ProfilePicture'] . '" alt="' . $moderator['FirstName'] . ' ' . $moderator['LastName'] . ' Profile Photo" width="50" height="50">';
         }
 
         echo '</div>';

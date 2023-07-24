@@ -11,9 +11,7 @@
 }
 
 .moderator__photo-section .moderator__profile-photo {
-  width: 13rem;
   border: 5px solid;
-  border-radius: 100%;
 }
 
 .moderator__photo-section .moderator__profile-name {
@@ -85,13 +83,16 @@
   padding: 0;
 }
 
-.moderator__mentor-request-photo img {
-  height: 40px;
-  width: auto;
-  border-right: #b0b0b0 1px solid;
+.moderator__mentor-request-border h4 {
+  border-left: #b0b0b0 1px solid;
 }
 
 .moderator__request-header {
+  height: 40px;
+  border-left: #b0b0b0 1px solid;
+}
+
+.moderator__request-header h4 {
   font-size: 20px;
 }
 

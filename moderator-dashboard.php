@@ -148,15 +148,15 @@
       <?php
       if ($profilePictureBorder == null) {
         if ($profilePicture == null) {
-          echo '<img class="moderator__profile-photo mb-3" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+          echo '<img class="moderator__profile-photo mb-3 rounded-circle" style="border-color: #008a0e;" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo" width="210" height="210">';
         } else {
-          echo '<img class="moderator__profile-photo mb-3" style="border-color: #008a0e;" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+          echo '<img class="moderator__profile-photo mb-3 rounded-circle" style="border-color: #008a0e;" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo" width="210" height="210">';
         }
       } else {
         if ($profilePicture == null) {
-          echo '<img class="moderator__profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+          echo '<img class="moderator__profile-photo mb-3 rounded-circle" style="border-color: ' . $profilePictureBorder . ';" src="img/blank-profile-image.png" alt="' . $firstName . ' ' . $lastName . ' Profile Photo" width="210" height="210">';
         } else {
-          echo '<img class="moderator__profile-photo mb-3" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo">';
+          echo '<img class="moderator__profile-photo mb-3 rounded-circle" style="border-color: ' . $profilePictureBorder . ';" src="upload/' . $profilePicture . '" alt="' . $firstName . ' ' . $lastName . ' Profile Photo" width="210" height="210">';
         }
       }
       ?>
@@ -231,14 +231,16 @@
           echo '<div class="accordion-header">';
           echo '<button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#mentor_collapse' . $i . '" aria-expanded="false" aria-controls="mentor_collapse' . $i . '">';
           echo '<div class="d-flex align-items-center">';
-          echo '<div class="d-flex align-items-center justify-content-center moderator__mentor-request-photo">';
+          echo '<div class="d-flex align-items-center justify-content-center">';
           if ($userDataArray[$i]['ProfilePicture'] == null) {
-            echo '<img class="pe-4" src="img/blank-profile-image.png" alt="' . $userDataArray[$i]['FirstName'] . ' ' . $userDataArray[$i]['LastName'] . ' Profile Photo">';
+            echo '<img class="me-4 rounded-circle" src="img/blank-profile-image.png" alt="' . $userDataArray[$i]['FirstName'] . ' ' . $userDataArray[$i]['LastName'] . ' Profile Photo" width="40" height="40">';
           } else {
-            echo '<img class="pe-4" src="/upload/' . $userDataArray[$i]['ProfilePicture'] . '" alt="' . $userDataArray[$i]['FirstName'] . ' ' . $userDataArray[$i]['LastName'] . 'Profile Photo">';
+            echo '<img class="me-4 rounded-circle" src="/upload/' . $userDataArray[$i]['ProfilePicture'] . '" alt="' . $userDataArray[$i]['FirstName'] . ' ' . $userDataArray[$i]['LastName'] . ' Profile Photo" width="40" height="40">';
           }
           echo '</div>';
-          echo '<h4 class="moderator__request-header ps-4 mb-0">' . $userDataArray[$i]['FirstName'] . ' ' . $userDataArray[$i]['LastName'] . '</h4>';
+          echo '<div class="moderator__request-header ps-4 mb-0 d-flex align-items-center">';
+          echo '<h4 class="m-0">' . $userDataArray[$i]['FirstName'] . ' ' . $userDataArray[$i]['LastName'] . '</h4>';
+          echo '</div>';
           echo '</div>';
           echo '</button>';
           echo '</div>';
@@ -275,9 +277,11 @@
           echo '<button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#community_collapse' . $x . '" aria-expanded="false" aria-controls="community_collapse' . $x . '">';
           echo '<div class="d-flex align-items-center">';
           echo '<div class="d-flex align-items-center justify-content-center moderator__mentor-request-photo">';
-          echo '<img class="pe-4" src="/upload/' . $communityDataArray[$x]['CommunityPicture'] . '" alt="' . $communityDataArray[$x]['CommunityName'] . ' Profile Photo">';
+          echo '<img class="me-4 rounded-circle" src="/upload/' . $communityDataArray[$x]['CommunityPicture'] . '" alt="' . $communityDataArray[$x]['CommunityName'] . ' Profile Photo" width="40" height="40">';
           echo '</div>';
-          echo '<h4 class="moderator__request-header ps-4 mb-0">' . $communityDataArray[$x]['CommunityName'] . '</h4>';
+          echo '<div class="moderator__request-header ps-4 mb-0 d-flex align-items-center">';
+          echo '<h4 class="m-0">' . $communityDataArray[$x]['CommunityName'] . '</h4>';
+          echo '</div>';
           echo '</div>';
           echo '</button>';
           echo '</div>';
