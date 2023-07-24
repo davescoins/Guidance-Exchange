@@ -106,11 +106,38 @@ CREATE TABLE Skills_t (
 ) Auto_Increment = 1;
 
 CREATE TABLE Qualifications_t (
+  QualificationID INT(9) NOT NULL Auto_Increment,
   UserID INT(9) NOT NULL,
   SkillID INT(9) NOT NULL,
+  CONSTRAINT Qualifications_t_PK PRIMARY KEY (QualificationID),
   CONSTRAINT Qualifications_t_FK1 FOREIGN KEY (UserID) REFERENCES Auth_t(UserID),
   CONSTRAINT Qualifications_t_FK2 FOREIGN KEY (SkillID) REFERENCES Skills_t(SkillID)
-);
+) Auto_Increment = 1;
+
+CREATE TABLE community_data (
+  community_id INT(11) NOT NULL Auto_Increment,
+  community_name VARCHAR(255),
+  community_desc VARCHAR(255),
+  active_flg tinyint(1),
+  CONSTRAINT community_data_PK PRIMARY KEY (community_id)
+) Auto_Increment = 1;
+
+CREATE TABLE community_data_info (
+  post_id INT(9) NOT NULL Auto_Increment,
+  title VARCHAR(255) NOT NULL,
+  content TEXT NOT NULL,
+  active_flg TINYINT(1),
+  user_id INT(9),
+  community_id INT(11) NOT NULL,
+  CONSTRAINT community_data_info_PK PRIMARY KEY (post_id)
+) Auto_Increment = 1;
+
+CREATE TABLE post_comments (
+  post_comment_id INT(9) NOT NULL Auto_Increment,
+  comment_text LONGTEXT,
+  post_id INT(9),
+  CONSTRAINT post_comments_PK PRIMARY KEY (post_comment_id)
+) Auto_Increment = 1;
 
 INSERT INTO
   Auth_t (
