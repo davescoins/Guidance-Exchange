@@ -13,10 +13,20 @@ VALUES
   (
     'Stock Trading',
     'Step into the world of stock trading with the premier online community forum for traders and investors! Discover a dynamic platform where traders of all backgrounds come together to exchange ideas, strategies, and market insights. Whether you\'re a seasoned Wall Street pro or a novice exploring the markets, Guidance Exchange offers a supportive space to discuss stocks, analyze trends, and stay informed on the latest financial developments.',
-    0
+    1
   ),
   (
     'Coin Collecting',
     'Welcome to the ultimate online community forum for passionate numismatists! Immerse yourself in the fascinating world of coin collecting, where enthusiasts gather to share their expertise, showcase rare finds, and discuss the rich history behind these treasured pieces. Whether you\'re a seasoned collector or a newcomer with a growing interest, Guidance Exchange provides a welcoming environment to connect with like-minded individuals, expand your knowledge, and embark on a captivating journey through the realm of coins.',
     0
+  ),
+  (
+    'Streaming Shows',
+    'Netflix, Hulu, MAX, Disney+, what best shows are out right now, and who has the classics? Lets talk about whats being offered on all the different streaming outlets',
+    '1'
+  ),
+  (
+    'Careers in Tech',
+    'Different careers in tech, what are the career paths and how to get there, lets talk about it here!',
+    '1'
   );
