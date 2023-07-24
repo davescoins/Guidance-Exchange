@@ -1,5 +1,6 @@
 INSERT INTO
   CommunityRequests_t (
+    `CommunityID`,
     `UserID`,
     `CommunityName`,
     `CommunityDescription`,
@@ -9,7 +10,7 @@ VALUES
   (
     1,
     6,
-    ' Java Programming ',
+    'Java Programming',
     'Welcome to the ultimate online community forum for Java Programming enthusiasts! Join a vibrant community of developers and learners from all levels, where you can share your knowledge, ask questions, and engage in discussions about Java-related topics. Whether you\'re a seasoned programmer or just starting your coding journey, Guidance Exchange is the perfect place to connect, collaborate, and grow together in the world of Java Programming.',
     'java_icon.png'
   ),
